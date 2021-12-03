@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "../../42s_2Circle/pipex"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"stdio.h": "c"
+		}
+	}
+}
