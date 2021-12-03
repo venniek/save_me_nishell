@@ -1,0 +1,8 @@
+# Ignore target files
+minishell
+
+# Ignore object, archive and testfile files
+*.o
+*.a
+test*
+exer*
