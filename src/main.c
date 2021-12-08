@@ -1,6 +1,5 @@
 #include "../header/minishell.h"
 
-
 void sighandler_sigint(int signo) {
 	printf("\n"); // Move to a new line
     rl_replace_line("", 0); // Clear the previous text
