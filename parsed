@@ -1,0 +1,90 @@
+{
+  "type": "Script",
+  "commands": [
+    {
+      "type": "Pipeline",
+      "commands": [
+        {
+          "type": "Command",
+          "name": {
+            "text": "t.txt",
+            "type": "Word"
+          },
+          "prefix": [
+            {
+              "text": "<<",
+              "type": "dless"
+            }
+          ]
+        },
+        {
+          "type": "Command",
+          "name": {
+            "text": "cat",
+            "type": "Word"
+          },
+          "suffix": [
+            {
+              "type": "Redirect",
+              "op": {
+                "text": ">>",
+                "type": "dgreat"
+              },
+              "file": {
+                "text": "tt.txt",
+                "type": "Word"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Command",
+      "name": {
+        "text": "ls",
+        "type": "Word"
+      },
+      "suffix": [
+        {
+          "text": "-al",
+          "type": "Word"
+        },
+        {
+          "type": "Redirect",
+          "op": {
+            "text": ">>",
+            "type": "dgreat"
+          },
+          "file": {
+            "text": "here.txt",
+            "type": "Word"
+          }
+        }
+      ]
+    },
+    {
+      "type": "Command",
+      "name": {
+        "text": "pwd",
+        "type": "Word"
+      },
+      "suffix": [
+        {
+          "text": "\"hi $PATH\"",
+          "expansion": [
+            {
+              "loc": {
+                "start": 4,
+                "end": 8
+              },
+              "parameter": "PATH",
+              "type": "ParameterExpansion"
+            }
+          ],
+          "type": "Word"
+        }
+      ]
+    }
+  ]
+}
