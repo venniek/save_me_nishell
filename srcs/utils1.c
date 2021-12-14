@@ -37,3 +37,32 @@ char	**ft_addonestring(char **origin, char *newline)
 	origin = 0;
 	return (new);
 }
+
+//
+char	**sstrncat(char **origin, char *newline, int n)
+{
+	int		idx;
+	int		idx_newline;
+	int		len_str;
+	char	*temp;
+	char	*ptr_str;
+
+	if (n < 0)
+		return ft_addonestring(origin, newline);
+	if (ft_sstrlen(origin) == 0)
+		ft_addonestring(origin, "");
+	ptr_str = origin[ft_sstrlen(origin) - 1];
+	if (n > ft_strlen(newline))
+		n = ft_strlen(newline);
+	len_str = ft_strlen(ptr_str);
+	temp = excep_malloc(len_str + n + 1);
+	idx = 0;
+	while (idx < len_str) {
+		temp[idx] = ptr_str[idx];
+		++idx;
+	}
+	idx_newline = 0;
+	while (idx < len_str + n)
+		temp[idx++] = newline[idx_newline++];
+	return origin;
+}

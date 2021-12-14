@@ -47,6 +47,6 @@ size_t	ft_sstrlen(char **strstr);
 void	err_malloc();
 t_list	*parse_line(char *line);
 char	**ft_addonestring(char **origin, char *newline);
-
+char	**sstrncat(char **origin, char *newline, int n);
 
 #endif
