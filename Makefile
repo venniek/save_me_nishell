@@ -3,9 +3,11 @@ LIBFT = libft.a
 GCC = gcc
 FLGS = -g #-Wall -Wextra -Werror
 DIR_SRC = ./src/
+DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
-SRCS = G_main.c G_parse.c
+SRC = G_main.c G_parse.c 
+SRCS = b_export.c
 
 all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_SRC), $(SRCS:.c=.o)) $(addprefix $(DIR_LIBFT), $(LIBFT))

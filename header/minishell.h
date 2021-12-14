@@ -46,5 +46,7 @@ void	*excep_malloc(int leng);
 size_t	ft_sstrlen(char **strstr);
 void	err_malloc();
 t_list	*parse_line(char *line);
+char	**ft_addonestring(char **origin, char *newline);
+
 
 #endif
