@@ -20,9 +20,4 @@ void	*excep_malloc(int leng);
 size_t	ft_sstrlen(char **strstr);
 void	err_malloc();
 
-
-void b_cd(char *path);
-void b_pwd();
-
-
 #endif
