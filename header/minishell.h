@@ -27,7 +27,7 @@ typedef struct s_name {
 typedef struct s_file {
     int     fd;
     char    *name;
-};
+} t_file;
 
 typedef struct s_ast {
     char            type;
@@ -45,7 +45,7 @@ typedef struct s_ast {
 void	*excep_malloc(int leng);
 size_t	ft_sstrlen(char **strstr);
 void	err_malloc();
-t_list	*parse_line(char *line);
+t_ast	*paser(char *line);
 char	**ft_addonestring(char **origin, char *newline);
 char	**sstrncat(char **origin, char *newline, int n);
 

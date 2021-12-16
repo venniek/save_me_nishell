@@ -12,7 +12,7 @@ void	sighandler_sigint(int signo) {
 
 int	main(int ac, char **av, char **PATH) {
 	char	*read;
-	t_ast	input;
+	t_ast	*input;
 
 	signal(SIGQUIT, sighandler_sigint);
 	signal(SIGINT, sighandler_sigint);
@@ -22,6 +22,7 @@ int	main(int ac, char **av, char **PATH) {
 		if (read == NULL)
 			break ;
 		printf("input : %s\n", read);
+		input = paser(read);
 		free(read);
 	}
 }
