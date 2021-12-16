@@ -27,7 +27,7 @@ char	**ft_addonestring(char **origin, char *newline)
 	idxlen = 0;
 	while (origin[idxlen])
 		idxlen++;
-	new = (char **)malloc(sizeof(char *) * (idxlen + 1));
+	new = (char **)malloc(sizeof(char *) * (idxlen + 2));
 	i = -1;
 	while (++i < idxlen)
 		new[i] = origin[i];
