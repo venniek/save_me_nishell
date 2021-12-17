@@ -32,6 +32,7 @@ t_ast	*paser(char *line) {
 	result = excep_malloc(sizeof(t_ast));
 	ptr_result = result;
 	ptr_result->type = TYPE_UNDEFINED;
+	ptr_result->text = NULL;
 	// 밑에 구분은 gnl처럼 더 읽을게 없을때까지 NULL을 반환하는...?
 	// 아니다 차라리 반환에만 쓰이는 struct를 만들어서
 	// 상태정보 + 변환된 문자열을 계속출력하게

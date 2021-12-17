@@ -4,11 +4,12 @@
 #define	FLG_ON 1
 #define	FLG_OFF 0
 #define FLG_NQ	0b0000	// No Quotes FLG ON
-#define MSK_NQ	0b1111	// Mask for checking single quotes
+#define MSK_NQ	0b0011	// Mask for checking single/double quotes
 #define	FLG_SQ	0b0001	// Single Quotes / Single Quotes FLG ON
 #define	FLG_DQ	0b0010	// Double Quotes / Double Quotes FLG ON
 #define FLG_BS	0b0100	// Backslash / Backslash FLG ON
 #define FLG_DL	0b1000	// Dolloar sign / Dolloar sign FLG ON
+#define MSK_DL	0b1000
 
 #define TYPE_UNDEFINED	0
 #define TYPE_CMDS		1
@@ -92,6 +93,46 @@ int 	get_type(char *str) {
 		return (TYPE_CMDS);
 }
 
+// 입력된 문자를 바탕으로, 플래그를 세팅하는 함수.
+// flg의 변화가 생기면, 그전까지 입력된 것을 전부 문자열로 보낸다.(플래그가 ON되게 한 문자는 제외.)
+int		set_flgs(char c, char *flgs) {
+	// c가 '인경우
+	if (c == '\'') {
+		if ((*flgs & MSK_NQ) == FLG_NQ)
+			*flgs = *flgs | FLG_SQ;
+		else if ((*flgs & MSK_NQ) == FLG_SQ)
+			*flgs = *flgs & !FLG_SQ;
+		else
+			return 0;	
+	}
+	else if (c == '\"') {
+		if ((*flgs & MSK_NQ) == FLG_NQ)
+			*flgs = *flgs | FLG_DQ;
+		else if ((*flgs & MSK_NQ) == FLG_DQ)
+			*flgs = *flgs & !FLG_DQ;
+		else
+			return 0;
+	}
+	/* $는 '가 아닌 상태에서만 유효하다.
+	 * $가 끝나는 조건은 화이트스페이스, "가 끝나거나 시작, '시작되는 시점
+	 * 
+	 * 
+	*/
+	/*
+	else if (c == '$') {
+		
+		if ((*flgs & MSK_DL) == FLG_DL)
+			*flgs = *flgs | FLG_DL;
+		else if ((*flgs & MSK_DL) == FLG_DL)
+			*flgs = *flgs & !FLG_DL;
+	}
+	else if (ft_isWhite(c) == true && )
+	*/
+	else
+		return 0;
+	return 1;
+}
+
 // flgs[0] : '', flg[1] : ""
 // flg[3] : \, flg[4] : $
 t_ast	*paser(char *line) {
@@ -118,15 +159,20 @@ t_ast	*paser(char *line) {
 		while (1)
 		{
 			// ", '에 따라서 flg를 끄고 켠다. -> 함수로?
-			if (line[idx + slide] == '\"')
-				flg
+			if (set_flgs(line[idx + slide], &fls)) {
+				// add_nstring(ptr_result->text, &line[idx], slide);
+				sstrncat(ptr_result->text, &line[idx], slide);
+				// cat해주어야 할듯
+				++slide;
+				break ;
+			}
 			if (((flgs & MSK_NQ) == FLG_NQ && line[idx + slide] == ' ') || line[idx + slide] == '\0') {
 				add_nstring(ptr_result->text, &line[idx], slide);
 				++slide;
 				break ;
 			}
 			// 파이프 -> |가 있기만 하면 됨. 띄어쓰니는 상관 없음.
-			if ((flgs& MSK_NQ) == FLG_NQ && line[idx + slide] == '|') {
+	 		if ((flgs& MSK_NQ) == FLG_NQ && line[idx + slide] == '|') {
 				if (slide != 0)
 					add_nstring(ptr_result->text, &line[idx], slide);
 				ptr_result->next = init_ast();
