@@ -12,6 +12,11 @@
 
 #define TYPE_UNDEFINED	0
 #define TYPE_CMDS		1
+#define TYPE_LREDIR		2
+#define TYPE_RREDIR		3
+#define TYPE_LRREDIR	4
+#define TYPE_RRREDIR	5
+#define TYPE_ERROR		-1
 
 int ft_isWhite(char c) {
 	return ((c >= 9 && c <= 13) || c == 32);
@@ -41,6 +46,10 @@ int ft_isWhite(char c) {
  * '플래그가 있으면 '만날때까지 길이를 재고 strlcat하되, \를 만나고 특정 조건을 만족하면 \전까지 끊어서 strlcat한 다음,
  */
 
+void	set_flg() {
+
+}
+
 // 새 ast를 init하고, 그것을 반환
 t_ast	*init_ast() {
 	t_ast* result;
@@ -50,6 +59,37 @@ t_ast	*init_ast() {
 	result->text = (char **) excep_malloc(sizeof(char *) * 1);
 	result->text[0] = NULL;
 	return (result);
+}
+
+char	**add_nstring(char **old, char *line, int n) {
+	char	**result;
+	char 	*new_line;
+
+	new_line = ft_strndup(line, n);
+	result = ft_addonestring(old, new_line);
+	free(new_line);
+	return(result);
+}
+
+int 	get_type(char *str) {
+	if (*str == '>') {
+		if (*(++str) == '>')
+			return (TYPE_RRREDIR);
+		else if (*(++str) == '<')
+			return (TYPE_ERROR);
+		else
+			return (TYPE_RREDIR);
+	}
+	else if (*str == '<') {
+		if (*(++str) == '>')
+			return (TYPE_ERROR);
+		else if (*(++str) == '<')
+			return (TYPE_LRREDIR);
+		else
+			return (TYPE_LREDIR);
+	}
+	else
+		return (TYPE_CMDS);
 }
 
 // flgs[0] : '', flg[1] : ""
@@ -69,22 +109,26 @@ t_ast	*paser(char *line) {
 	while (line[idx + slide]) {
 		while (ft_isWhite(line[idx]))
 			++idx;
-		if (line[idx] != '<' && line[idx] != '>')
-			ptr_result->type = TYPE_CMDS;
-		while (1) {
+		// 리다리렉션 ->
+		result->type = get_type(line[idx]);
+		if (result->type == TYPE_ERROR)
+			return (NULL);	// 별도 처리 방법 만들어야 할듯
+		else if (result->type != TYPE_CMDS)
+			idx++;
+		while (1)
+		{
+			// ", '에 따라서 flg를 끄고 켠다. -> 함수로?
+			if (line[idx + slide] == '\"')
+				flg
 			if (((flgs & MSK_NQ) == FLG_NQ && line[idx + slide] == ' ') || line[idx + slide] == '\0') {
-				char *temp = ft_strndup(&line[idx], slide);
-				ptr_result->text = ft_addonestring(ptr_result->text, temp);
-				free(temp);
+				add_nstring(ptr_result->text, &line[idx], slide);
 				++slide;
 				break ;
 			}
-			if ((flgs & MSK_NQ) == FLG_NQ && line[idx + slide] == '|') {
-				if (slide != 0) {
-					char *temp = ft_strndup(&line[idx], slide);
-					ptr_result->text = ft_addonestring(ptr_result->text, temp);
-					free(temp);
-				}
+			// 파이프 -> |가 있기만 하면 됨. 띄어쓰니는 상관 없음.
+			if ((flgs& MSK_NQ) == FLG_NQ && line[idx + slide] == '|') {
+				if (slide != 0)
+					add_nstring(ptr_result->text, &line[idx], slide);
 				ptr_result->next = init_ast();
 				ptr_result = ptr_result->next;
 				++slide;
