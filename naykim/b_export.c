@@ -2,7 +2,7 @@
 
 void b_export(char **env, char *new)
 {
-	//error handle
-
+	if (!env || !new)
+		return ;
 	env = ft_addonestring(env, new);
 }

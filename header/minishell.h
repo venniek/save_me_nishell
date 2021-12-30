@@ -27,7 +27,7 @@ typedef struct s_name {
 typedef struct s_file {
     int     fd;
     char    *name;
-};
+} t_file;
 
 typedef struct s_ast {
     char            type;

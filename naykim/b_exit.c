@@ -2,6 +2,6 @@
 
 int b_exit()
 {
-	//free before exit??
+	//free_all 같은 함수?
 	exit(0);
 }

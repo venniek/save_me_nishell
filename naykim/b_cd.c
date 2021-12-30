@@ -6,5 +6,4 @@ void b_cd(char *path)
 		return (NULL);
 	if (!chdir(path))
 		printf("error during cd\n");
-
 }
