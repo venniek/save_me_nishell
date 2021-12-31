@@ -31,9 +31,7 @@ typedef struct s_file {
 
 typedef struct s_ast {
     char            type;
-    // 밑에, s_ast, text, file은 union으로 묶기.
-    // pipe, redirection시 사용
-    struct s_ast    *commands;
+	char 			*cursor;
     // exec에 들어갈 프로그램 + 옵션 입력 char**
     // -> exec함수에 바로 입력 가능한 형태로.
     char            **text;
