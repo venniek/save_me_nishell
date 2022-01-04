@@ -93,10 +93,19 @@ t_ast	*init_ast() {
 	t_ast* result;
 
 	result = excep_malloc(sizeof(t_ast));
-	result->type = TYPE_UNDEFINED;
+	result->type = TYPE_CMDS;
 	result->text = (char **) excep_malloc(sizeof(char *) * 1);
 	result->text[0] = NULL;
 	return (result);
+}
+
+t_ast	*add_ast(t_ast *front, char type) {
+	while ((front)->next != NULL)
+		++front;
+	front->next = init_ast();
+	front->next->type = type;
+	// front->next->text = ft_addonestring(front->next->text, "");
+	return (front->next);
 }
 
 // 입력된 문자열을 확인해서 확인해봐야하는 문자를 보내는 함수.
@@ -139,7 +148,8 @@ char *lookup_value(char *start, size_t leng, char **env) {
 		temp = ft_strndup(start, leng);
 		while (env[idx] != NULL) {
 			if (ft_strncmp(env[idx], temp, ft_strlen(temp)) == 0) {
-				result = ft_strdup(&env[idx][ft_strlen(temp)]);
+				if (env[idx][ft_strlen(temp)] == '=')
+					result = ft_strdup(&env[idx][ft_strlen(temp) + 1]);
 			}
 			++idx;
 		}
@@ -174,11 +184,12 @@ t_ast	*paser(char *line, char **env) {
 		}
 		else if (act == JUMP)
 			++slide;
-		else if (act == PIPE) {
-			idx += slide + 1;
-			slide = 0;
-		}
-		else if (act == RR || act == RRR || act == LR || act == LRR) {
+		else if (act == PIPE || act == RR || act == RRR || act == LR || act == LRR) {
+			if (slide != 0)
+				ft_strlcat(cursor, &line[idx], slide + ft_strlen(cursor) + 1);
+			ptr_result = add_ast(ptr_result, PIPE);
+			ptr_result->text = ft_addonestring(ptr_result->text, "");
+			cursor = (ptr_result->text)[ft_sstrlen(ptr_result->text) - 1];
 			idx += slide + 1;
 			slide = 0;
 		}
@@ -198,17 +209,17 @@ t_ast	*paser(char *line, char **env) {
 		else if (act == ENV) {
 			if (slide != 0) {
 				env_value = lookup_value(&line[idx], slide, env);
-				ft_strlcat(cursor, env_value, ft_strlen(cursor) + ft_strlen(env_value) + 1);
+				if (env_value != NULL) {
+					ft_strlcat(cursor, env_value, ft_strlen(cursor) + ft_strlen(env_value) + 1);
+					free(env_value);
+				}
 			}
-			
-
-			free(env_value);
 			idx += slide + 1;
 			slide = 0;
 		}
 	}
 	if (slide != 0)
-
+		ft_strlcat(cursor, &line[idx], slide + ft_strlen(cursor) + 1);
 	return (result);
 }
 
