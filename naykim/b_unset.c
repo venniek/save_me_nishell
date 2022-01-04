@@ -1,6 +1,6 @@
 #include "../header/minishell.h"
 
-int find_remove_str(char **origin, char *remove, int len)
+static int find_remove_str(char **origin, char *remove, int len)
 {
 	int i;
 
