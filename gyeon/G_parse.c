@@ -156,6 +156,7 @@ t_ast	*paser(char *line, char **env) {
 	int 	slide;
 	char 	act;
 	char	*cursor;
+	char	*env_value;
 
 	idx = 0;
 	slide = 0;
@@ -195,6 +196,13 @@ t_ast	*paser(char *line, char **env) {
 			cursor = (ptr_result->text)[ft_sstrlen(ptr_result->text) - 1];
 		}
 		else if (act == ENV) {
+			if (slide != 0) {
+				env_value = lookup_value(&line[idx], slide, env);
+				ft_strlcat(cursor, env_value, ft_strlen(cursor) + ft_strlen(env_value) + 1);
+			}
+			
+
+			free(env_value);
 			idx += slide + 1;
 			slide = 0;
 		}
