@@ -8,5 +8,5 @@ void b_cd(char *path)
 		return ;
 	// 에러 종류 따라 출력문 다르게
 	if (chdir(path))
-		printf("bash: cd: %s: %s\n", path, strerror(errno));
+		printf("minishell: cd: %s: %s\n", path, strerror(errno));
 }
