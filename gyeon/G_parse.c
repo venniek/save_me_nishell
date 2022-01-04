@@ -129,23 +129,45 @@ char	get_action(char *str) {
 	return (JUMP);
 }
 
+char *lookup_value(char *start, size_t leng, char **env) {
+		size_t 	idx;
+		char	*temp;
+		char 	*result;
+
+		idx = 0;
+		result = NULL;
+		temp = ft_strndup(start, leng);
+		while (env[idx] != NULL) {
+			if (ft_strncmp(env[idx], temp, ft_strlen(temp)) == 0) {
+				result = ft_strdup(&env[idx][ft_strlen(temp)]);
+			}
+			++idx;
+		}
+		free(temp);
+		return (result);
+}
+
 // flgs[0] : '', flg[1] : ""
 // flg[3] : \, flg[4] : $
-t_ast	*paser(char *line) {
+t_ast	*paser(char *line, char **env) {
 	t_ast 	*result;
 	t_ast	*ptr_result;
 	int		idx;
 	int 	slide;
 	char 	act;
+	char	*cursor;
 
 	idx = 0;
 	slide = 0;
 	result = init_ast();
 	ptr_result = result;
-
+	ptr_result->text = ft_addonestring(ptr_result->text, "");
+	cursor = (ptr_result->text)[ft_sstrlen(ptr_result->text) - 1];
 	while (line[idx + slide] != '\0') {
 		act = get_action(&line[idx + slide]);
 		if (act == CAT) {
+			if (slide != 0)
+				ft_strlcat(cursor, &line[idx], slide + ft_strlen(cursor) + 1);
 			idx += slide + 1;
 			slide = 0;
 		}
@@ -160,6 +182,8 @@ t_ast	*paser(char *line) {
 			slide = 0;
 		}
 		else if (act == WHITE) {
+			if (slide != 0)
+				ft_strlcat(cursor, &line[idx], slide + ft_strlen(cursor) + 1);
 			idx += slide + 1;
 			slide = 0;
 			while (1) {
@@ -167,12 +191,16 @@ t_ast	*paser(char *line) {
 					break;
 				++idx;
 			}
+			ptr_result->text = ft_addonestring(ptr_result->text, "");
+			cursor = (ptr_result->text)[ft_sstrlen(ptr_result->text) - 1];
 		}
 		else if (act == ENV) {
 			idx += slide + 1;
 			slide = 0;
 		}
 	}
+	if (slide != 0)
+
 	return (result);
 }
 

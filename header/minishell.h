@@ -43,7 +43,7 @@ typedef struct s_ast {
 void	*excep_malloc(int leng);
 size_t	ft_sstrlen(char **strstr);
 void	err_malloc();
-t_ast	*paser(char *line);
+t_ast	*paser(char *line, char **env);
 char	**ft_addonestring(char **origin, char *newline);
 char	**sstrncat(char **origin, char *newline, int n);
 
