@@ -1,112 +1,225 @@
 #include "../header/minishell.h"
 #include <string.h>
 
-#define	FLG_ON 1
-#define	FLG_OFF 0
-#define FLG_NQ	0b0000	// No Quotes FLG ON
-#define MSK_NQ	0b1111	// Mask for checking single quotes
-#define	FLG_SQ	0b0001	// Single Quotes / Single Quotes FLG ON
-#define	FLG_DQ	0b0010	// Double Quotes / Double Quotes FLG ON
-#define FLG_BS 0b0100	// Backslash / Backslash FLG ON
-#define FLG_DL 0b1000	// Dolloar sign / Dolloar sign FLG ON
+#define TRUE 1
+#define FALSE 0
+
+#define FLG_SQ 0b00000001
+#define FLG_DQ 0b00000010
+#define FLG_DL 0b00000100
+#define WHITE 'W'
+#define PIPE 'P'
+#define RR 'r'
+#define RRR 'R'
+#define LR 'l'
+#define LRR 'L'
+#define CAT 'C'
+#define ENV 'E'
+#define JUMP 'J'
+#define ALNUM 'A'
 
 #define TYPE_UNDEFINED	0
 #define TYPE_CMDS		1
+#define TYPE_LREDIR		2
+#define TYPE_RREDIR		3
+#define TYPE_LRREDIR	4
+#define TYPE_RRREDIR	5
+#define TYPE_ERROR		-1
 
 int ft_isWhite(char c) {
 	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-t_ast	*paser(char *line) {
-	// flgs[0] : '', flg[1] : ""
-	// flg[3] : \, flg[4] : $
-	char 	flgs;
+// 특정 bit만 뒤집는다. ON -> oFF = 0, OFF -> ON = 1
+int	rev_flg(char *flgs, char flg) {
+	// ON -> OFF
+	if ((*flgs & flg) == flg) {
+		*flgs &= ~flg;
+		return 1;
+	}
+	else {
+		*flgs |= flg;
+		return 0;
+	}
+}
+
+// 확인해봐야하는 동작을 받아서 어떤 동작을할지 제어하는 함수.
+// 0 : 무시, 1 : cat, 2 : 환경변수cat
+char set_flg(char flg) {
+	static	char flgs = 0;
+	char		result;
+
+	result = JUMP;
+	// SQ flg
+	if ((flgs & FLG_SQ) == FLG_SQ) {
+		// SQ빼고 전부 무시
+		if (flg == FLG_SQ) {
+			// cat 신호
+			result = CAT;
+			flgs &= ~FLG_SQ;
+		}
+	}
+	else if ((flgs & FLG_DL) == FLG_DL) {
+		// 알파벳, 숫자 이외에게 오면(공백, 특수, 한글) $를 끝낸다.
+		if (flg != ALNUM) {
+			result = ENV;
+			if ((flgs & FLG_DQ) == FLG_DQ && flg == FLG_DQ)
+				rev_flg(&flgs, flg);
+			rev_flg(&flgs, FLG_DL);
+		}
+	}
+	//
+	else if ((flgs & FLG_DQ) == FLG_DQ) {
+		// DL, DQ 유효. 이때 뭐가 오던간에 플래그를 반전시키고, 이전까지의 들을 cat한다.
+		if (flg == FLG_DQ || flg == FLG_DL) {
+			result = CAT;
+			rev_flg(&flgs, flg);
+			// DL를 cat하고
+		}
+	}
+	else {
+		if (flg == FLG_DQ || flg == FLG_SQ || flg == FLG_DL) {
+			result = CAT;
+			rev_flg(&flgs, flg);
+		}
+		else
+			result = flg;
+	}
+	return result;
+}
+
+// 새 ast를 init하고, 그것을 반환
+t_ast	*init_ast() {
+	t_ast* result;
+
+	result = excep_malloc(sizeof(t_ast));
+	result->type = TYPE_CMDS;
+	result->text = (char **) excep_malloc(sizeof(char *) * 1);
+	result->text[0] = NULL;
+	return (result);
+}
+
+t_ast	*add_ast(t_ast *front, char type) {
+	while ((front)->next != NULL)
+		++front;
+	front->next = init_ast();
+	front->next->type = type;
+	// front->next->text = ft_addonestring(front->next->text, "");
+	return (front->next);
+}
+
+// 입력된 문자열을 확인해서 확인해봐야하는 문자를 보내는 함수.
+char	get_action(char *str) {
+	// '플래그 상태
+	if (*str == '\'')
+		return set_flg(FLG_SQ);
+	// " 플래그 상태
+	else if (*str == '"')
+		return set_flg(FLG_DQ);
+	// $플래그 상태
+	else if (*str == '$')
+		return set_flg(FLG_DL);
+	else if (ft_isWhite(*str))
+		return set_flg(WHITE);
+	else if (*str == '|')
+		return set_flg(PIPE);
+	else if (*str == '>') {
+		if (*(str + 1) == '>')
+			return set_flg(RRR);
+		else
+			return set_flg(RR);
+	}
+	else if (*str == '<') {
+		if (*(str + 1) == '<')
+			return set_flg(LRR);
+		else
+			return set_flg(LR);
+	}
+	return (JUMP);
+}
+
+char *lookup_value(char *start, size_t leng, char **env) {
+		size_t 	idx;
+		char	*temp;
+		char 	*result;
+
+		idx = 0;
+		result = NULL;
+		temp = ft_strndup(start, leng);
+		while (env[idx] != NULL) {
+			if (ft_strncmp(env[idx], temp, ft_strlen(temp)) == 0) {
+				if (env[idx][ft_strlen(temp)] == '=')
+					result = ft_strdup(&env[idx][ft_strlen(temp) + 1]);
+			}
+			++idx;
+		}
+		free(temp);
+		return (result);
+}
+
+// flgs[0] : '', flg[1] : ""
+// flg[3] : \, flg[4] : $
+t_ast	*paser(char *line, char **env) {
 	t_ast 	*result;
 	t_ast	*ptr_result;
-	char	*
 	int		idx;
 	int 	slide;
+	char 	act;
+	char	*cursor;
+	char	*env_value;
 
 	idx = 0;
 	slide = 0;
-	flgs = 0;
-	result = excep_malloc(sizeof(t_ast));
+	result = init_ast();
 	ptr_result = result;
-	ptr_result->type = TYPE_UNDEFINED;
-	// 밑에 구분은 gnl처럼 더 읽을게 없을때까지 NULL을 반환하는...?
-	// 아니다 차라리 반환에만 쓰이는 struct를 만들어서
-	// 상태정보 + 변환된 문자열을 계속출력하게
-	/* Case1. qutos가 아무것도 ON 되지 않았을 때
-	*		qutos가 아닐때	: slide를 하나 올리고 다음 글자로.
-	*			이때, |, ;가 오면 끊어줘야한다...
-	* 		signle quote일때	: flg[0]을 ON으로 만들고 다음 글자.
-	* 		double quote일때	: flg[1]을 ON으로 만들고 다음 글자.
-	* 			이때, $, \가 오면 이를 치환해주여야한다. -> 일단
-	* Case2. signle quote가 ON 되었을 때
-	* 		qutos가 아닐때	: slide를 하나 올리고 다음 글자로, 이때 모든 특수문자는 무시.
-	* 		signle quote일때 : flg[0]을 OFF으로 만들고 다음 글자.
-	* 		double quote일때	: 일반문자로 인식하여 다음문자.
-	* Case3. double quote가 ON 되었을 때
-	* 		qutos가 아닐때	: slide를 하나 올리고 다음 글자로
-	* 		signle quote일때	: 일반문자로 인식하여 다음문자.
-	* 		double quote일때 : flg[1]을 OFF으로 만들고 다음 글자.
-	*/
-	/*
-	 * strlcat을 사용하는 방법
-	 * ', "플래그가 없으면 space,',"가 나올때까지 길이를 잰 다음에 "\0"만 있는 문자열에 strlcat(빈문자열, 시작위치, 길이)을 한다.
-	 * '플래그가 있으면 '만날때까지 길이를 재고 strlcat하되, \를 만나고 특정 조건을 만족하면 \전까지 끊어서 strlcat한 다음,
-	 */
-	// white space 전부 날리기
-	while (ft_isWhite(line[idx]))
-		++idx;
-	while (line[idx + slide]) {
-		// 한 글자씩 처리
-		if (line[idx] != '<' || line[idx] != '>')
-			ptr_result->type = TYPE_CMDS;
-		while (line[idx + slide]) {
-			if ((flgs & MSK_NQ) == FLG_NQ && line[idx + slide] == ' ') {
-				// 여기까지 읽은걸 strlcat하고
-				(ptr_result->text, )	
-			}
-			++slide;
+	ptr_result->text = ft_addonestring(ptr_result->text, "");
+	cursor = (ptr_result->text)[ft_sstrlen(ptr_result->text) - 1];
+	while (line[idx + slide] != '\0') {
+		act = get_action(&line[idx + slide]);
+		if (act == CAT) {
+			if (slide != 0)
+				ft_strlcat(cursor, &line[idx], slide + ft_strlen(cursor) + 1);
+			idx += slide + 1;
+			slide = 0;
 		}
-		idx++;
+		else if (act == JUMP)
+			++slide;
+		else if (act == PIPE || act == RR || act == RRR || act == LR || act == LRR) {
+			if (slide != 0)
+				ft_strlcat(cursor, &line[idx], slide + ft_strlen(cursor) + 1);
+			ptr_result = add_ast(ptr_result, PIPE);
+			ptr_result->text = ft_addonestring(ptr_result->text, "");
+			cursor = (ptr_result->text)[ft_sstrlen(ptr_result->text) - 1];
+			idx += slide + 1;
+			slide = 0;
+		}
+		else if (act == WHITE) {
+			if (slide != 0)
+				ft_strlcat(cursor, &line[idx], slide + ft_strlen(cursor) + 1);
+			idx += slide + 1;
+			slide = 0;
+			while (1) {
+				if (line[idx + slide] == '\0' || !ft_isWhite(line[idx + slide]))
+					break;
+				++idx;
+			}
+			ptr_result->text = ft_addonestring(ptr_result->text, "");
+			cursor = (ptr_result->text)[ft_sstrlen(ptr_result->text) - 1];
+		}
+		else if (act == ENV) {
+			if (slide != 0) {
+				env_value = lookup_value(&line[idx], slide, env);
+				if (env_value != NULL) {
+					ft_strlcat(cursor, env_value, ft_strlen(cursor) + ft_strlen(env_value) + 1);
+					free(env_value);
+				}
+			}
+			idx += slide + 1;
+			slide = 0;
+		}
 	}
-
+	if (slide != 0)
+		ft_strlcat(cursor, &line[idx], slide + ft_strlen(cursor) + 1);
 	return (result);
 }
 
-
-t_list	*parser_sep(char *line, char sep) {
-	int		i;
-	t_list	*result;
-	char	**string_set;
-
-	i = 0;
-	string_set = ft_split(line, sep);
-	result = ft_lstnew(ft_strtrim(string_set[i++], " "));
-	while (string_set[i] != NULL) {
-		ft_lstadd_back(&result, ft_lstnew(ft_strtrim(string_set[i++], " ")   ));
-	}
-	free(string_set);
-	return (result);
-}
-
-t_list	*parse_line(char *line) {
-	char	**comm_set;
-	t_list	*result;
-	t_list	*temp_list;
-	char	*temp;
-	// 일단 ;별로 나누어서 t_list를 만들고,
-	result = parser_sep(ft_strtrim(line, " ") , ';');
-	// result를 순회하면서 각 content를 |기준의
-	temp_list = result;
-	while (temp_list != NULL) {
-		temp = temp_list->content;
-		temp_list->content = parser_sep(ft_strtrim((char *)temp, " "), '|');
-//		char *what = ((t_list *)(temp_list->content))->content;
-		free(temp);
-		temp_list = temp_list->next;
-	}
-	return (result);
-}

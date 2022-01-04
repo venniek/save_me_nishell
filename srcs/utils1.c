@@ -27,14 +27,13 @@ char	**ft_addonestring(char **origin, char *newline)
 	idxlen = 0;
 	while (origin[idxlen])
 		idxlen++;
-	new = (char **)malloc(sizeof(char *) * (idxlen + 1));
+	new = (char **)malloc(sizeof(char *) * (idxlen + 2));
 	i = -1;
-	while (++i <= idxlen)
+	while (++i < idxlen)
 		new[i] = origin[i];
-	new[idxlen + 1] = ft_strdup(newline);
-	i = -1;
+	new[idxlen] = ft_strdup(newline);
+	new[idxlen + 1] = NULL;
 	free(origin);
-	origin = 0;
 	return (new);
 }
 
@@ -50,7 +49,7 @@ char	**sstrncat(char **origin, char *newline, int n)
 	if (n < 0)
 		return ft_addonestring(origin, newline);
 	if (ft_sstrlen(origin) == 0)
-		ft_addonestring(origin, "");
+		origin = ft_addonestring(origin, "");
 	ptr_str = origin[ft_sstrlen(origin) - 1];
 	if (n > ft_strlen(newline))
 		n = ft_strlen(newline);
@@ -64,5 +63,8 @@ char	**sstrncat(char **origin, char *newline, int n)
 	idx_newline = 0;
 	while (idx < len_str + n)
 		temp[idx++] = newline[idx_newline++];
+	temp[len_str + n] = '\0';
+	origin[ft_sstrlen(origin) - 1] = temp;
+	free(ptr_str);
 	return origin;
 }

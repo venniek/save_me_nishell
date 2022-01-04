@@ -2,20 +2,21 @@ TARGET = minishell
 LIBFT = libft.a
 GCC = gcc
 FLGS = -g #-Wall -Wextra -Werror
-DIR_SRC = ./src/
+DIR_GYEON = ./gyeon/
 DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
-SRC = G_main.c G_parse.c 
-SRCS = b_export.c
+GYEON = G_main.c G_parse.c G_handle_error.c
+SRCS = utils1.c
 
 all : $(TARGET)
-$(TARGET) : $(addprefix $(DIR_SRC), $(SRCS:.c=.o)) $(addprefix $(DIR_LIBFT), $(LIBFT))
+$(TARGET) : $(addprefix $(DIR_GYEON), $(GYEON:.c=.o)) $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
 	$(GCC) $(FLGS) $^ -o $@ -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
-
-$(addprefix $(DIR_SRC), %.o) : $(addprefix $(DIR_SRC), %.c)
-	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
 	stty -echoctl
+
+%.o : %.c
+	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
+
 
 $(addprefix $(DIR_LIBFT), $(LIBFT)) : 
 	make -C $(DIR_LIBFT)
