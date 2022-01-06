@@ -13,6 +13,7 @@ void	sighandler_sigint(int signo) {
 int	main(int ac, char **av, char **env) {
 	char	*read;
 	t_ast	*input;
+	t_ast	*ptr;
 
 	signal(SIGQUIT, sighandler_sigint);
 	signal(SIGINT, sighandler_sigint);
@@ -21,8 +22,24 @@ int	main(int ac, char **av, char **env) {
 		read = readline("Test_Shell> ");
 		if (read == NULL)
 			break ;
-		printf("input : %s\n", read);
+		// printf("input : %s\n", read);
 		input = paser(read, env);
+		ptr = input;
+		int cnt = 0;
+		while (ptr != NULL) {
+			int i = 0;
+			printf("-------[%d list]-------\n", cnt);
+			while (ptr->text[i] != NULL) {
+				printf("%s\n", ptr->text[i]);
+				free(ptr->text[i++]);
+			}
+			t_ast *temp;
+			temp = ptr;
+			ptr = ptr->next;
+			free(temp);
+			printf("-----------------------\n");
+			cnt++;
+		}
 		free(read);
 	}
 }
