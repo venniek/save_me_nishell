@@ -47,4 +47,14 @@ t_ast	*paser(char *line, char **env);
 char	**ft_addonestring(char **origin, char *newline);
 char	**sstrncat(char **origin, char *newline, int n);
 
+
+//=========naykim=========//
+void b_env(char **our_env);
+void b_cd(char *cmd);
+void b_pwd();
+void b_export(char ***env, char *new);
+char **b_unset(char **origin, char *remove);
+void b_echo(char *str);
+int b_exit();
+
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   b_env.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/06 15:09:07 by naykim            #+#    #+#             */
+/*   Updated: 2022/01/06 17:44:52 by naykim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 void b_env(char **our_env)
@@ -7,6 +19,6 @@ void b_env(char **our_env)
 	if (!our_env)
 		return ;
 	i = -1;
-	while (our_env[++i])
-		printf("%s\n", our_env[i]);
+	while (++i < ft_sstrlen(our_env))
+		printf("%d: %s\n", i, our_env[i]);
 }
