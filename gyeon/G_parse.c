@@ -16,6 +16,7 @@
 #define LRR 'L'
 #define CAT 'C'
 #define ENV 'E'
+#define ENV2 'e'
 #define JUMP 'J'
 #define ALNUM 'A'
 #define FIN 'F'
@@ -72,13 +73,26 @@ char set_flg(char flg) {
 	else if ((flgs & FLG_DL) == FLG_DL) {
 		// 알파벳, 숫자 이외에게 오면(공백, 특수, 한글) $를 끝낸다.
 		if (flg != ALNUM) {
-			result = ENV;
-			if ((flgs & FLG_DQ) == FLG_DQ && flg == FLG_DQ)
-				rev_flg(&flgs, flg);
-			else if (flg == FLG_DL)
-				;
+			if ((flgs & FLG_DQ) == FLG_DQ) {
+				result = ENV;
+				if (flg == FLG_DQ)
+					rev_flg(&flgs, flg);
+				else if (flg == FLG_DL)
+					;
+				else
+					rev_flg(&flgs, FLG_DL);
+			}
 			else
-				rev_flg(&flgs, FLG_DL);
+			{
+				result = ENV2;
+				if (flg == FLG_SQ || flg == FLG_DQ)
+					rev_flg(&flgs, flg);
+				else if (flg == FLG_DL)
+					;
+				else
+					rev_flg(&flgs, FLG_DL);
+			}
+
 		}
 	}
 	//
@@ -263,7 +277,7 @@ t_ast	*paser(char *line, char **env) {
 			}
 //			ptr_result->text = ft_addonestring(ptr_result->text, "");
 //			cursor = (ptr_result->text)[ft_sstrlen(ptr_result->text) - 1];
-		} else if (act == ENV) {
+		} else if (act == ENV || act == ENV2) {
 			if (slide != 0) {
 				env_value = lookup_value(&line[idx], slide, env);
 				if (env_value != NULL) {
@@ -272,6 +286,17 @@ t_ast	*paser(char *line, char **env) {
 					free(cursor);
 					cursor = temp_cursor;
 					free(env_value);
+					if (act == ENV)
+					{
+						temp_cursor = malloc_n_lcat(cursor, &line[idx + slide], ft_strlen(cursor) + 2);
+						free(cursor);
+						cursor = temp_cursor;
+					}
+					else if (line[idx + slide]) {
+						ptr_result->text = ft_addonestring(ptr_result->text, cursor);
+						cursor = (char *) excep_malloc(1);
+						cursor[0] = '\0';
+					}
 				}
 			}
 			idx += slide + 1;
