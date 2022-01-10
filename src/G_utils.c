@@ -17,3 +17,8 @@ size_t ft_sstrlen(char **strstr) {
 		++leng;
 	return (leng);
 }
+
+void ft_print_charchar(char **strstr) {   // 지울거예요! 테스트용
+	for (int i = 0; i < ft_sstrlen(strstr); i++)
+		printf("%s\n", strstr[i]);
+}
