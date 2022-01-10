@@ -19,11 +19,13 @@
 #define ENV2 'e'
 #define JUMP 'J'
 #define ALNUM 'A'
+#define EXCL '~'
 #define FIN 'F'
 
 #define J 		0
 #define CJI		1
 #define EJI		2
+#define HJI		18
 #define EIJ		3
 #define CJINP	4
 #define CJINR	5
@@ -144,10 +146,12 @@ size_t	set_flg(char flg)
 			result = CJJINR;
 		else if (flg == LRR )
 			result = CJJINL;
+		else if (flg == EXCL)
+			result = HJI;
+		else if (flg == WHITE)
+			result = CJIAW;
 		else
 			result = CJI;
-		if (flg == WHITE)
-			result = CJIAW;
 	}
 	return result;
 }
@@ -178,9 +182,11 @@ t_ast	*add_ast(t_ast *front, char type) {
 }
 
 // 입력된 문자열을 확인해서 확인해봐야하는 문자를 보내는 함수.
-size_t	get_action(const char *str) {
+size_t	get_action(const char *str, const char state) {
 	if (*str == '\0')
 		return (set_flg(FIN));
+	else if (*str == '~' && state == 's')
+		return set_flg(EXCL);
 	else if (*str == '\'')
 		return set_flg(FLG_SQ);
 	else if (*str == '"')
@@ -264,7 +270,8 @@ char	**make_actset()
 	result[EJIAW] = ft_strdup("EJIAW");
 	result[CAF] = ft_strdup("CAF");
 	result[EAF] = ft_strdup("EAF");
-	result[18] = NULL;
+	result[HJI] = ft_strdup("HJI");
+	result[19] = NULL;
 	return (result);
 }
 
@@ -280,19 +287,22 @@ t_ast	*parser(char *line, char **env) {
 	char	*env_value;
 	char	**actset;
 	char	f;
+	char 	state;
 
 	idx = 0;
 	slide = 0;
-	idx_act = 0;
 	f = 0;
+	state = 's';
 	result = init_ast();
 	ptr_result = result;
 	cursor = (char *) excep_malloc(1);
 	cursor[0] = '\0';
 	actset = make_actset();
 	while (f != 'F') {
-		act = actset[get_action(&line[idx + slide])];
+		act = actset[get_action(&line[idx + slide], state)];
 		idx_act = 0;
+		if (state != 'm')
+			state = 'm';
 		while (act[idx_act] != '\0')
 		{
 			if (act[idx_act] == 'J')
@@ -337,12 +347,25 @@ t_ast	*parser(char *line, char **env) {
 						break;
 					++idx;
 				}
+				state = 's';
 			}
 			else if (act[idx_act] == 'P' || act[idx_act] == 'R' || act[idx_act] == 'r' || act[idx_act] == 'L' || act[idx_act] == 'l')
 			{
 				ptr_result = add_ast(result, act[idx_act]);
 				cursor = (char *) excep_malloc(1);
 				cursor[0] = '\0';
+				state = 's';
+			}
+			else if (act[idx_act] == 'H')
+			{
+				env_value = lookup_value("HOME", 4, env);
+				if (env_value != NULL)
+				{
+					temp_cursor = malloc_n_lcat(cursor, env_value, ft_strlen(cursor) + ft_strlen(env_value) + 1);
+					free(cursor);
+					cursor = temp_cursor;
+					free(env_value);
+				}
 			}
 			else if (act[idx_act] == 'F')
 			{
