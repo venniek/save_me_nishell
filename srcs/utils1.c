@@ -33,6 +33,7 @@ char	**ft_addonestring(char **origin, char *newline)
 		new[i] = origin[i];
 	new[idxlen] = ft_strdup(newline);
 	new[idxlen + 1] = NULL;
+	idxlen = 0;
 	free(origin);
 	return (new);
 }
