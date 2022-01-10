@@ -46,9 +46,10 @@ int	main(int argc, char **argv, char **env) {
 // 	signal(SIGQUIT, sighandler_sigint);
 	argc = 10;
 	argv = 0;
-	our_env = (char **)malloc(sizeof(char *) * ft_sstrlen(env));
+	our_env = (char **)malloc(sizeof(char *) * (ft_sstrlen(env) + 1));
 	for (int i = 0; i < ft_sstrlen(env); i++)
 		our_env[i] = ft_strdup(env[i]);
+	our_env[ft_sstrlen(env)] = 0;
 	while (1) {
 		read = readline("Test_Shell> ");
 		if (read == NULL)
@@ -60,7 +61,7 @@ int	main(int argc, char **argv, char **env) {
 			b_pwd();
 		else if (!ft_strncmp(read, "cd", 2))
 			b_cd(ft_substr(read, 3, ft_strlen(read) - 3));
-		else if (!ft_strncmp(read, "export", 6))  // 여기서 반복문 돌릴지, 함수 안에서 반복문 돌릴지 결정
+		else if (!ft_strncmp(read, "export", 6))  // 함수 안에서 반복문 돌리기
 			b_export(&our_env, ft_substr(read, 7, ft_strlen(read) - 7));
 		else if (!ft_strncmp(read, "unset", 5))
 			our_env = b_unset(our_env, ft_substr(read, 6, ft_strlen(read) - 6));
