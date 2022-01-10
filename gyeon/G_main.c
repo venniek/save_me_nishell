@@ -23,12 +23,13 @@ int	main(int ac, char **av, char **env) {
 		if (read == NULL)
 			break ;
 		// printf("input : %s\n", read);
-		input = paser(read, env);
+		input = parser(read, env);
 		ptr = input;
 		int cnt = 0;
 		while (ptr != NULL) {
 			int i = 0;
 			printf("-------[%d list]-------\n", cnt);
+			printf("type : %c\n", ptr->type);
 			while (ptr->text[i] != NULL) {
 				printf("%s\n", ptr->text[i]);
 				free(ptr->text[i++]);
