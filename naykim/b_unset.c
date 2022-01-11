@@ -6,7 +6,7 @@
 /*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:55:37 by nayeon            #+#    #+#             */
-/*   Updated: 2022/01/11 17:55:38 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/11 22:28:59 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,13 @@ static int	find_remove_str(char **origin, char *remove, int len)
 	return (-1);
 }
 
-static char	**ft_removeonestring(char **origin, char *remove)
+static char	**ft_removeonestring(char **origin, char *remove, int origin_len)
 {
 	char	**new;
-	int		origin_len;
 	int		i;
 	int		newi;
 	int		flag;
 
-	origin_len = ft_sstrlen(origin);
 	flag = find_remove_str(origin, remove, origin_len);
 	if (flag != -1)
 		new = (char **)malloc(sizeof(char *) * (origin_len));
@@ -55,16 +53,25 @@ static char	**ft_removeonestring(char **origin, char *remove)
 	return (new);
 }
 
-void	b_unset(char ***our_env, char **cmd)
+char	**b_unset(char **our_env, char **cmd)
 {
-	int	i;
+	int		i;
+	int		env_len;
+	char	**new_env;
 
-	if (!(*our_env) || !cmd)
+	if (!our_env || !cmd)
 		return (NULL);
+	env_len = ft_sstrlen(our_env);
+	new_env = (char **)malloc(sizeof(char *) * (env_len + 1));
+	i = -1;
+	while (++i < env_len)
+		new_env[i] = ft_strdup(our_env[i]);
+	new_env[i] = NULL;
 	i = 1;
 	while (i < ft_sstrlen(cmd))
 	{
-		*our_env = ft_removeonestring(*our_env, cmd[i]);
+		new_env = ft_removeonestring(new_env, cmd[i], ft_sstrlen(new_env));
 		i++;
 	}
+	return (new_env);
 }

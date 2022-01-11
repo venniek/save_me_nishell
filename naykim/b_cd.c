@@ -6,12 +6,11 @@
 /*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:09:21 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/11 17:12:12 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/12 03:00:00 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-#include <errno.h>
 
 void	b_cd(char **cmd)
 {
