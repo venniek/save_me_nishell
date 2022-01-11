@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   b_pwd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 15:09:44 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/06 18:46:03 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/11 17:55:19 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void b_pwd()
+void	b_pwd(void)
 {
-	// 뒤에 적힌 인자들 전부 무시. 함수 들어오기 전에 처리
-	char *buf;
+	char	*buf;
 
 	buf = getcwd(0, 100);
 	printf("%s\n", buf);
