@@ -20,6 +20,11 @@ typedef struct s_ast {
     struct s_ast    *next;
 } t_ast;
 
+typedef struct s_var {
+	t_ast ast;
+	char **our_env;
+} t_var;
+
 void	*excep_malloc(int leng);
 size_t	ft_sstrlen(char **strstr);
 void	err_malloc();
@@ -29,12 +34,12 @@ char	**sstrncat(char **origin, char *newline, int n);
 
 
 //=========naykim=========//
-void b_env(char **our_env);
-void b_cd(char **cmd);
-void b_pwd(void);
-char **b_export(char **our_env, char **cmd);
-char **b_unset(char **our_env, char **cmd);
-void b_echo(char *str);
-int b_exit(void);
+void	b_env(char **our_env);
+void	b_cd(char **cmd);
+void	b_pwd(void);
+void	b_export(char ***our_env, char **cmd);
+char	**b_unset(char **our_env, char **cmd);
+void	b_echo(char **cmd);
+int		b_exit(void);
 
 #endif

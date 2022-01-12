@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   b_export.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 15:09:13 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/12 02:59:17 by nayeon           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../header/minishell.h"
 
 char	**ft_sstrdup(char **origin)
@@ -36,7 +24,7 @@ char	**ft_export(char **env, char *new)
 	char	**new_env;
 
 	if (!env || !new)
-		return ;
+		return (NULL);
 	new_env = ft_sstrdup(env);
 	if (!ft_strrchr(new, '='))
 		return (env);
@@ -62,7 +50,7 @@ void	b_export(char ***our_env, char **cmd)
 	char	**new_env;
 
 	if (!(*our_env) || !cmd)
-		return (NULL);
+		return ;
 	new_env = ft_sstrdup(*our_env);
 	i = 1;
 	while (i < ft_sstrlen(cmd))
