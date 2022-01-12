@@ -36,30 +36,26 @@ static char	**ft_removeonestring(char **origin, char *remove, int origin_len)
 	new[newi] = 0;
 	i = -1;
 	while (++i < origin_len)
+	{
 		free(origin[i]);
+		origin[i] = 0;
+	}	
 	free(origin);
 	return (new);
 }
 
-char	**b_unset(char **our_env, char **cmd)
+void	b_unset(t_var *var, char **cmd)
 {
 	int		i;
 	int		env_len;
 	char	**new_env;
 
-	if (!our_env || !cmd)
-		return (NULL);
-	env_len = ft_sstrlen(our_env);
-	new_env = (char **)malloc(sizeof(char *) * (env_len + 1));
-	i = -1;
-	while (++i < env_len)
-		new_env[i] = ft_strdup(our_env[i]);
-	new_env[i] = NULL;
+	if (!var->our_env || !cmd)
+		return ;
 	i = 1;
 	while (i < ft_sstrlen(cmd))
 	{
-		new_env = ft_removeonestring(new_env, cmd[i], ft_sstrlen(new_env));
+		var->our_env = ft_removeonestring(var->our_env, cmd[i], ft_sstrlen(var->our_env));
 		i++;
 	}
-	return (new_env);
 }
