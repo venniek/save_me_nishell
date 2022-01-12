@@ -9,6 +9,15 @@ void *excep_malloc(int leng) {
 	return (result);
 }
 
+void *excep_calloc(size_t count, size_t size) {
+	void	*result;
+
+	result = ft_calloc(count, size);
+	if (result == NULL)
+		err_malloc();
+	return (result);
+}
+
 size_t ft_sstrlen(char **strstr) {
 	size_t leng;
 

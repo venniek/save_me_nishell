@@ -1,7 +1,7 @@
 TARGET = minishell
 LIBFT = libft.a
 GCC = gcc
-FLGS = -g #-Wall -Wextra -Werror
+FLGS = -g3 -fsanitize=address #-Wall -Wextra -Werror
 DIR_GYEON = ./gyeon/
 DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/

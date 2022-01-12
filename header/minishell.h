@@ -20,6 +20,7 @@ typedef struct s_ast {
 } t_ast;
 
 void	*excep_malloc(int leng);
+void	*excep_calloc(size_t count, size_t size);
 size_t	ft_sstrlen(char **strstr);
 void	err_malloc();
 t_ast	*parser(char *line, char **env);

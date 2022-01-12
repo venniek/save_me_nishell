@@ -4,7 +4,6 @@
 #define TRUE 1
 #define FALSE 0
 
-#define FLG_RESET 0
 #define FLG_SQ 0b00000001
 #define FLG_DQ 0b00000010
 #define FLG_DL 0b00000100
@@ -14,10 +13,6 @@
 #define RRR 'R'
 #define LR 'l'
 #define LRR 'L'
-#define CAT 'C'
-#define ENV 'E'
-#define ENV2 'e'
-#define JUMP 'J'
 #define ALNUM 'A'
 #define EXCL '~'
 #define FIN 'F'
@@ -42,14 +37,6 @@
 #define CAF		16
 #define EAF		17
 
-#define TYPE_UNDEFINED	0
-#define TYPE_CMDS		1
-#define TYPE_LREDIR		2
-#define TYPE_RREDIR		3
-#define TYPE_LRREDIR	4
-#define TYPE_RRREDIR	5
-#define TYPE_ERROR		-1
-
 int ft_isWhite(char c) {
 	return ((c >= 9 && c <= 13) || c == 32);
 }
@@ -67,6 +54,82 @@ int	rev_flg(char *flgs, char flg) {
 	}
 }
 
+size_t	actset_fin(char *flgs)
+{
+	size_t	result;
+
+	if ((*flgs & FLG_DL) == FLG_DL)
+		result = EAF;
+	else
+		result = CAF;
+	*flgs = 0;
+	return (result);
+}
+
+size_t actset_siglequotes(char *flgs, char flg)
+{
+		*flgs &= ~FLG_SQ;
+		return (CJI);
+}
+
+size_t actset_dollar(char *flgs, char flg)
+{
+	size_t result;
+
+	result = J;
+	if (flg != ALNUM)
+	{
+		if ((*flgs & FLG_DQ) == FLG_DQ && flg != FLG_DQ)
+			result = EIJ;
+		else if (flg == PIPE)
+			result = EJINP;
+		else if (flg == RR)
+			result = EJINR;
+		else if (flg == LR)
+			result = EJINL;
+		else if (flg == RRR)
+			result = EJJINR;
+		else if (flg == LRR )
+			result = EJJINL;
+		else if (flg == WHITE)
+			result = EJIAW;
+		else
+			result = EJI;
+		if (((*flgs & FLG_DQ) != FLG_DQ && flg == FLG_SQ) || flg == FLG_DQ)
+			rev_flg(flgs, flg);
+		if (flg != FLG_DL)
+			rev_flg(flgs, FLG_DL);
+	}
+	return (result);
+}
+
+size_t	actset_noflgs(char *flgs, char flg)
+{
+	size_t	result;
+
+	if (flg == FLG_DQ || flg == FLG_SQ || flg == FLG_DL)
+	{
+		result = CJI;
+		rev_flg(flgs, flg);
+	}
+	else if (flg == PIPE)
+		result = CJINP;
+	else if (flg == RR)
+		result = CJINR;
+	else if (flg == LR)
+		result = CJINL;
+	else if (flg == RRR)
+		result = CJJINR;
+	else if (flg == LRR )
+		result = CJJINL;
+	else if (flg == EXCL)
+		result = HJI;
+	else if (flg == WHITE)
+		result = CJIAW;
+	else
+		result = CJI;
+	return (result);
+}
 
 // 확인해봐야하는 동작을 받아서 어떤 동작을할지 제어하는 함수.
 /*
@@ -76,52 +139,21 @@ int	rev_flg(char *flgs, char flg) {
  * A(Addnewline)	: text에 한줄 추가하고 버퍼를 변경한다.
  * N(Newlist)		: 새로운 list를 추가하고, 버퍼 및 리스트 커서를 옮긴다.
  */
-size_t	set_flg(char flg)
+size_t	assort_actset(char flg)
 {
 	static char	flgs = 0;
-	char		result;
+	size_t		result;
 
 	result = J;
 	if (flg == FIN)
-	{
-		if ((flgs & FLG_DL) == FLG_DL)
-			result = EAF;
-		else
-			result = CAF;
-		flgs = 0;
-	}
+		result = actset_fin(&flgs);
 	else if ((flgs & FLG_SQ) == FLG_SQ)
 	{
 		if (flg == FLG_SQ)
-		{
-			result = CJI;
-			flgs &= ~FLG_SQ;
-		}
+			result = actset_siglequotes(&flgs, flg);
 	}
 	else if ((flgs & FLG_DL) == FLG_DL)
-	{
-		if (flg != ALNUM)
-		{
-			if ((flgs & FLG_DQ) == FLG_DQ && flg != FLG_DQ)
-				result = EIJ;
-			else if (flg == PIPE)
-				result = EJINP;
-			else if (flg == RR)
-				result = EJINR;
-			else if (flg == LR)
-				result = EJINL;
-			else if (flg == RRR)
-				result = EJJINR;
-			else if (flg == LRR )
-				result = EJJINL;
-			else
-				result = EJI;
-			if (((flgs & FLG_DQ) != FLG_DQ && flg == FLG_SQ) || flg == FLG_DQ)
-				rev_flg(&flgs, flg);
-			if (flg != FLG_DL)
-				rev_flg(&flgs, FLG_DL);
-		}
-	}
+		result = actset_dollar(&flgs, flg);
 	else if ((flgs & FLG_DQ) == FLG_DQ)
 	{
 		if (flg == FLG_DQ || flg == FLG_DL)
@@ -130,29 +162,8 @@ size_t	set_flg(char flg)
 			rev_flg(&flgs, flg);
 		}
 	}
-	else {
-		if (flg == FLG_DQ || flg == FLG_SQ || flg == FLG_DL)
-		{
-			result = CJI;
-			rev_flg(&flgs, flg);
-		}
-		else if (flg == PIPE)
-			result = CJINP;
-		else if (flg == RR)
-			result = CJINR;
-		else if (flg == LR)
-			result = CJINL;
-		else if (flg == RRR)
-			result = CJJINR;
-		else if (flg == LRR )
-			result = CJJINL;
-		else if (flg == EXCL)
-			result = HJI;
-		else if (flg == WHITE)
-			result = CJIAW;
-		else
-			result = CJI;
-	}
+	else
+		result = actset_noflgs(&flgs, flg);
 	return result;
 }
 
@@ -169,46 +180,47 @@ t_ast	*init_ast() {
 	return (result);
 }
 
-t_ast	*add_ast(t_ast *front, char type) {
-	while (front->next != NULL) {
-		front = front->next;
+void add_ast(t_ast *front, char type) {
+	t_ast *cursor;
+
+	cursor = front;
+	while (cursor->next != NULL) {
+		cursor = cursor->next;
 	}
-	front->next = init_ast();
+
+	cursor->next = init_ast();
 	if (type == PIPE)
-		front->next->type = 'c';
+		cursor->next->type = 'c';
 	else
-		front->next->type = type;
-	return (front->next);
+		cursor->next->type = type;
+	//return (cursor->next);
 }
 
 // 입력된 문자열을 확인해서 확인해봐야하는 문자를 보내는 함수.
-size_t	get_action(const char *str, const char state) {
+size_t	get_action(const char *str, const char state)
+{
 	if (*str == '\0')
-		return (set_flg(FIN));
+		return (assort_actset(FIN));
 	else if (*str == '~' && state == 's')
-		return set_flg(EXCL);
+		return assort_actset(EXCL);
 	else if (*str == '\'')
-		return set_flg(FLG_SQ);
+		return assort_actset(FLG_SQ);
 	else if (*str == '"')
-		return set_flg(FLG_DQ);
+		return assort_actset(FLG_DQ);
 	else if (*str == '$')
-		return set_flg(FLG_DL);
+		return assort_actset(FLG_DL);
 	else if (ft_isWhite(*str))
-		return set_flg(WHITE);
+		return assort_actset(WHITE);
 	else if (*str == '|')
-		return set_flg(PIPE);
-	else if (*str == '>') {
-		if (*(str + 1) == '>')
-			return set_flg(RRR);
-		else
-			return set_flg(RR);
-	}
-	else if (*str == '<') {
-		if (*(str + 1) == '<')
-			return set_flg(LRR);
-		else
-			return set_flg(LR);
-	}
+		return assort_actset(PIPE);
+	else if ((*str == '>') && *(str + 1) == '>')
+		return assort_actset(RRR);
+	else if (*str == '>')
+		return assort_actset(RR);
+	else if ((*str == '<') && *(str + 1) == '<')
+		return assort_actset(LRR);
+	else if (*str == '<')
+		return assort_actset(LR);
 	return (J);
 }
 
@@ -247,133 +259,182 @@ char	*malloc_n_lcat(char *dst, char *src, size_t leng) {
 	return (result);
 }
 
-char	**make_actset()
-{
-	char	**result;
+//char	**make_actset()
+//{
+//	char	**result;
+//
+//	result = (char **) excep_malloc(sizeof(char *) * 19);
+//	result[J] = ft_strdup("J");
+//	result[CJI] = ft_strdup("CJI");
+//	result[EJI] = ft_strdup("EJI");
+//	result[EIJ] = ft_strdup("EIJ");
+//	result[CJINP] = ft_strdup("CJIAP");
+//	result[CJINR] = ft_strdup("CJIAR");
+//	result[CJINL] = ft_strdup("CJIAL");
+//	result[EJINP] = ft_strdup("EJIAP");
+//	result[EJINR] = ft_strdup("EJIAR");
+//	result[EJINL] = ft_strdup("EJIAL");
+//	result[CJJINR] = ft_strdup("CJJIAr");
+//	result[CJJINL] = ft_strdup("CJJIAl");
+//	result[EJJINR] = ft_strdup("EJJIAr");
+//	result[EJJINL] = ft_strdup("EJJIAl");
+//	result[CJIAW] = ft_strdup("CJIAW");
+//	result[EJIAW] = ft_strdup("EJIAW");
+//	result[CAF] = ft_strdup("CAF");
+//	result[EAF] = ft_strdup("EAF");
+//	result[HJI] = ft_strdup("HJI");
+//	result[19] = NULL;
+//	return (result);
+//}
 
-	result = (char **) excep_malloc(sizeof(char *) * 19);
-	result[J] = ft_strdup("J");
-	result[CJI] = ft_strdup("CJI");
-	result[EJI] = ft_strdup("EJI");
-	result[EIJ] = ft_strdup("EIJ");
-	result[CJINP] = ft_strdup("CJIAP");
-	result[CJINR] = ft_strdup("CJIAR");
-	result[CJINL] = ft_strdup("CJIAL");
-	result[EJINP] = ft_strdup("EJIAP");
-	result[EJINR] = ft_strdup("EJIAR");
-	result[EJINL] = ft_strdup("EJIAL");
-	result[CJJINR] = ft_strdup("CJJIAr");
-	result[CJJINL] = ft_strdup("CJJIAl");
-	result[EJJINR] = ft_strdup("EJJIAr");
-	result[EJJINL] = ft_strdup("EJJIAl");
-	result[CJIAW] = ft_strdup("CJIAW");
-	result[EJIAW] = ft_strdup("EJIAW");
-	result[CAF] = ft_strdup("CAF");
-	result[EAF] = ft_strdup("EAF");
-	result[HJI] = ft_strdup("HJI");
-	result[19] = NULL;
+void	action_idx(char **line, size_t *slide)
+{
+	*line += *slide;
+	*slide = 0;
+}
+
+char	*action_cat(char *dst, char *src, size_t slide)
+{
+	char	*result;
+
+	if (dst == NULL)
+		result = ft_strndup(src, slide);
+	else
+	{
+		result = malloc_n_lcat(dst, src, slide + ft_strlen(dst) + 1);
+		free(dst);
+	}
 	return (result);
 }
 
-t_ast	*parser(char *line, char **env) {
+char	*action_env(char *dst, char *src, char **env, size_t slide)
+{
+	char	*result;
+	char	*env_value;
+
+	env_value = lookup_value(src, slide, env);
+	if (env_value != NULL)
+	{
+		result = action_cat(dst, env_value, ft_strlen(env_value));
+		free(env_value);
+	}
+	else
+		return (NULL);
+	return (result);
+}
+
+t_ast	*get_last(t_ast	*start)
+{
+	while (start->next != NULL)
+		start = start->next;
+	return start;
+}
+
+char	action_addonestring(t_ast *lst, char **cursor)
+{
+	if ((*cursor)[0] != '\0')
+	{
+		lst = get_last(lst);
+		lst->text = ft_addonestring(lst->text, *cursor);
+		free(*cursor);
+	}
+	*cursor = NULL;
+	return ('s');
+}
+
+void action_white(char **line, const size_t *slide)
+{
+	*line += *slide;
+	slide = 0;
+	while (1) {
+		if (**line == '\0' || !ft_isWhite(**line))
+			break;
+		++(*line);
+	}
+}
+
+char action_appendlist(t_ast *result, char **cursor, const char *act)
+{
+	free(*cursor);
+	add_ast(result, *act);
+	cursor = NULL;
+	return 's';
+}
+
+char action_fin(char *cursor)
+{
+	free(cursor);
+	return ('F');
+}
+
+char	*get_actset(size_t idx)
+{
+	static char *actset[20] =
+			{"J", "CJI", "EJI", "EIJ", "CJIAP",
+			 "CJIAR", "CJIAL", "EJIAP", "EJIAR", "EJIAL",
+			 "CJJIAr", "CJJIAl", "EJJIAr", "EJJIAl", "CJIAW",
+			 "EJIAW", "CAF", "EAF", "HJI", NULL};
+	return (actset[idx]);
+}
+
+char	c_to_h(char **cursor, const char *act, char **line, char **env, const size_t *slide)
+{
+	char		state;
+
+	state = 'm';
+	if (*act == 'C')
+		*cursor = action_cat(*cursor, *line, *slide);
+	else if (*act == 'E')
+		*cursor = action_env(*cursor, *line, env, *slide);
+	else if (*act == 'H')
+		*cursor = action_env(*cursor, "HOME", env, 4);
+	else if (*act == 'F')
+		state = action_fin(*cursor);
+	return (state);
+}
+
+char	i_to_w(t_ast *result, char **cursor, const char *act, char **line, size_t *slide)
+{
+	char		state;
+
+	state = 'm';
+	if (*act == 'J')
+		++(*slide);
+	else if (*act == 'I')
+		action_idx(line, slide);
+	else if (*act == 'W')
+		action_white(line, slide);
+	else if (*act == 'P' || *act == 'R' ||
+			 *act == 'r' || *act == 'L' || *act == 'l')
+		state = action_appendlist(result, cursor, act);
+	return (state);
+}
+
+t_ast	*parser(char *line, char **env)
+{
 	t_ast 	*result;
-	t_ast	*ptr_result;
-	size_t	idx;
 	size_t 	slide;
-	size_t	idx_act;
 	char 	*act;
 	char	*cursor;
-	char	*temp_cursor;
-	char	*env_value;
-	char	**actset;
-	char	f;
 	char 	state;
 
-	idx = 0;
 	slide = 0;
-	f = 0;
 	state = 's';
 	result = init_ast();
-	ptr_result = result;
-	cursor = (char *) excep_malloc(1);
-	cursor[0] = '\0';
-	actset = make_actset();
-	while (f != 'F') {
-		act = actset[get_action(&line[idx + slide], state)];
-		idx_act = 0;
-		if (state != 'm')
-			state = 'm';
-		while (act[idx_act] != '\0')
+	cursor = NULL;
+	while (state != 'F')
+	{
+		act = get_actset(get_action(&line[slide], state));
+		state = 'm';
+		while (*act != '\0')
 		{
-			if (act[idx_act] == 'J')
-				++slide;
-			else if (act[idx_act] == 'I')
-			{
-				idx += slide;
-				slide = 0;
-			}
-			else if (act[idx_act] == 'C')
-			{
-				temp_cursor = malloc_n_lcat(cursor, &line[idx], slide + ft_strlen(cursor) + 1);
-				free(cursor);
-				cursor = temp_cursor;
-			}
-			else if (act[idx_act] == 'E')
-			{
-				env_value = lookup_value(&line[idx], slide, env);
-				if (env_value != NULL)
-				{
-					temp_cursor = malloc_n_lcat(cursor, env_value, ft_strlen(cursor) + ft_strlen(env_value) + 1);
-					free(cursor);
-					cursor = temp_cursor;
-					free(env_value);
-				}
-			}
-			else if (act[idx_act] == 'A')
-			{
-				if (cursor[0] != '\0')
-				{
-					ptr_result->text = ft_addonestring(ptr_result->text, cursor);
-					cursor = (char *) excep_malloc(1);
-					cursor[0] = '\0';
-				}
-			}
-			else if (act[idx_act] == 'W')
-			{
-				idx += slide;
-				slide = 0;
-				while (1) {
-					if (line[idx + slide] == '\0' || !ft_isWhite(line[idx + slide]))
-						break;
-					++idx;
-				}
-				state = 's';
-			}
-			else if (act[idx_act] == 'P' || act[idx_act] == 'R' || act[idx_act] == 'r' || act[idx_act] == 'L' || act[idx_act] == 'l')
-			{
-				ptr_result = add_ast(result, act[idx_act]);
-				cursor = (char *) excep_malloc(1);
-				cursor[0] = '\0';
-				state = 's';
-			}
-			else if (act[idx_act] == 'H')
-			{
-				env_value = lookup_value("HOME", 4, env);
-				if (env_value != NULL)
-				{
-					temp_cursor = malloc_n_lcat(cursor, env_value, ft_strlen(cursor) + ft_strlen(env_value) + 1);
-					free(cursor);
-					cursor = temp_cursor;
-					free(env_value);
-				}
-			}
-			else if (act[idx_act] == 'F')
-			{
-				f = 'F';
-				free(cursor);
-				break ;
-			}
-			++idx_act;
+			if (*act == 'A')
+				state = action_addonestring(result, &cursor);
+			else if (*act <= 'H')
+				state = c_to_h(&cursor, act, &line, env, &slide);
+			else
+				i_to_w(result, &cursor, act, &line, &slide);
+			++act;
 		}
 	}
 	return (result);
