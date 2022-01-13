@@ -47,12 +47,10 @@ char	action_appendlist(t_ast *result, char **cursor, const char *act);
 char	action_fin(char *cursor);
 t_ast	*init_ast();
 void	add_ast(t_ast *front, char type);
-size_t	actset_fin(char *flgs);
-size_t	actset_siglequotes(char *flgs);
-size_t	actset_dollar(char *flgs, char flg);
-size_t	actset_noflgs(char *flgs, char flg);
 size_t	decide_actset(char flg);
 int		rev_flg(char *flgs, char flg);
+t_ast	*parser(char *line, char **env);
+size_t	get_actindex(const char *str, const char state);
 
 //=========naykim=========//
 void	b_env(char **our_env);

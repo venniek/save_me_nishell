@@ -6,8 +6,8 @@ DIR_GYEON = ./gyeon/
 DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
-GYEON = G_main.c G_parse.c G_handle_error.c
-SRCS = utils1.c
+GYEON = G_main.c p_parse.c p_actions1.c p_actions2.c p_utils.c action_decider.c
+SRCS = utils1.c handle_error.c
 
 all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_GYEON), $(GYEON:.c=.o)) $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))

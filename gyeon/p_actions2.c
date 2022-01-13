@@ -6,13 +6,16 @@
 
 char	action_addonestring(t_ast *lst, char **cursor)
 {
-	if ((*cursor)[0] != '\0')
+	if (*cursor != NULL)
 	{
-		lst = get_last(lst);
-		lst->text = ft_addonestring(lst->text, *cursor);
-		free(*cursor);
+		if ((*cursor)[0] != '\0')
+		{
+			lst = get_last(lst);
+			lst->text = ft_addonestring(lst->text, *cursor);
+			free(*cursor);
+		}
+		*cursor = NULL;
 	}
-	*cursor = NULL;
 	return ('s');
 }
 

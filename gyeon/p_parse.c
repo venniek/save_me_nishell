@@ -153,33 +153,33 @@
 //		cursor->next->type = type;
 //}
 
-// 입력된 문자열을 확인해서 확인해봐야하는 문자를 보내는 함수.
-size_t	get_actindex(const char *str, const char state)
-{
-	if (*str == '\0')
-		return (decide_actset(FIN));
-	else if (*str == '~' && state == 's')
-		return decide_actset(EXCL);
-	else if (*str == '\'')
-		return decide_actset(FLG_SQ);
-	else if (*str == '"')
-		return decide_actset(FLG_DQ);
-	else if (*str == '$')
-		return decide_actset(FLG_DL);
-	else if (ft_isWhite(*str))
-		return decide_actset(WHITE);
-	else if (*str == '|')
-		return decide_actset(PIPE);
-	else if ((*str == '>') && *(str + 1) == '>')
-		return decide_actset(RRR);
-	else if (*str == '>')
-		return decide_actset(RR);
-	else if ((*str == '<') && *(str + 1) == '<')
-		return decide_actset(LRR);
-	else if (*str == '<')
-		return decide_actset(LR);
-	return (J);
-}
+//// 입력된 문자열을 확인해서 확인해봐야하는 문자를 보내는 함수.
+//size_t	get_actindex(const char *str, const char state)
+//{
+//	if (*str == '\0')
+//		return (decide_actset(FIN));
+//	else if (*str == '~' && state == 's')
+//		return decide_actset(EXCL);
+//	else if (*str == '\'')
+//		return decide_actset(FLG_SQ);
+//	else if (*str == '"')
+//		return decide_actset(FLG_DQ);
+//	else if (*str == '$')
+//		return decide_actset(FLG_DL);
+//	else if (ft_isWhite(*str))
+//		return decide_actset(WHITE);
+//	else if (*str == '|')
+//		return decide_actset(PIPE);
+//	else if ((*str == '>') && *(str + 1) == '>')
+//		return decide_actset(RRR);
+//	else if (*str == '>')
+//		return decide_actset(RR);
+//	else if ((*str == '<') && *(str + 1) == '<')
+//		return decide_actset(LRR);
+//	else if (*str == '<')
+//		return decide_actset(LR);
+//	return (J);
+//}
 //
 //char *lookup_value(char *start, size_t leng, char **env) {
 //		size_t 	idx;
