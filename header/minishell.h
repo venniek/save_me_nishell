@@ -43,10 +43,10 @@ void	b_unset(t_var *var, char **cmd);
 void	b_echo(char **cmd);
 int		b_exit(t_var *var);
 
-void 	call_pwd(t_var *var);
-char	**ft_sstrdup(char **origin);
 
 //=========srcs=========//
+char	**ft_sstrdup(char **origin);
+void 	call_pwd(t_var *var);
 void	free_sstr(char **sstr);
 void	free_ast(t_ast *ast);
 
