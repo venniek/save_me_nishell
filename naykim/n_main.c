@@ -41,15 +41,14 @@ int	main(int argc, char **argv, char **env) {
 	t_var var;
 	char *cmd_echo[5] = {"echo", "echotest", "test for echo", "last echo"};
 	char *cmd_export[5] = {"export", "a=3", "b=", "c"};
-	char *cmd_unset[4] = {"unset", "b", "c"};
-	char *cmd_cd[3] = {"cd", "../srcs"};
+	char *cmd_unset[4] = {"unset", "b=", "c"};
+	char *cmd_cd[3] = {"cd"};
 	var.ast = 0;
 	var.our_env = ft_sstrdup(env);
 	var.pwd_now = 0;
 
 	printf("-----pwd----\n");
 	b_pwd();
-
 	printf("\n-----env----\n");
 	b_env(var.our_env);
 	printf("\n-----echo----\n");

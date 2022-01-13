@@ -12,7 +12,7 @@ void	b_echo(char **cmd)
 		printf("error - \n");
 		return ;
 	}
-	if (ft_strncmp(cmd[idx], "-n", 2) == 0 && ft_strlen(cmd[idx]) == 2)
+	if (ft_strlen(cmd[idx]) == 2 && ft_strncmp(cmd[idx], "-n", 2) == 0)
 	{
 		n_option = 1;
 		idx++;
