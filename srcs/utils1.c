@@ -81,11 +81,15 @@ char	**sstrncat(char **origin, char *newline, int n)
 
 void	free_ast(t_ast *ast)
 {
+	t_ast *next_node;
+
 	while (ast)
 	{
+		next_node = ast->next;
 		free_sstr(ast->text);
 		ast->text = 0;
-		ast = ast->next;
+		free(ast);
+		ast = next_node;
 	}
 }
 
@@ -105,7 +109,6 @@ void	free_sstr(char **sstr)
 	sstr = 0;
 }
 
-
 void	call_pwd(t_var *var)
 {
 	char *str;
@@ -117,7 +120,9 @@ void	call_pwd(t_var *var)
 	tmp_str = ft_strdup(ft_strrchr(str, '/'));
 	free(str);
 	str = ft_substr(tmp_str, 1, ft_strlen(tmp_str) - 1);
-	var->pwd_now = ft_strjoin(str, "> ");
+	free(tmp_str);
+	tmp_str = ft_strjoin(str, "> ");
+	var->pwd_now = ft_strjoin("minishell: ", tmp_str);
 	free(str);
 	str = 0;
 	free(tmp_str);

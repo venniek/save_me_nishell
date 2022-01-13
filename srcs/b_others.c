@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/13 18:00:11 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/13 19:09:16 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ void	b_echo(char **cmd)
 	if (!cmd)
 	{
 		printf("error - \n");
+		return ;
+	}
+	if (!cmd[1])
+	{
+		printf("\n");
 		return ;
 	}
 	if (ft_strlen(cmd[idx]) == 2 && ft_strncmp(cmd[idx], "-n", 2) == 0)

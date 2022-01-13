@@ -33,6 +33,8 @@ void run_func(t_var *var, t_ast *ptr)
 		b_unset(var, cmds);
 	else if (!ft_strncmp(cmd, "exit", 4))
 		b_exit(var);
+	else
+		execve(cmd, cmds, var->our_env);
 }
 
 int	main(int ac, char **av, char **env) {
@@ -52,7 +54,7 @@ int	main(int ac, char **av, char **env) {
 			break ;
 		input = parser(read, env);
 		var.ast = input;
-		ptr = input;
+		ptr = var.ast;
 		while (ptr != NULL) {
 			run_func(&var, ptr);
 			ptr = ptr->next;
@@ -60,5 +62,8 @@ int	main(int ac, char **av, char **env) {
 		}
 		free(read);
 		read = 0;
+		free_ast(var.ast);
+		var.ast = 0;
 	}
+	b_exit(&var);
 }
