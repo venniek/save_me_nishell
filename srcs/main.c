@@ -47,7 +47,7 @@ int	main(int ac, char **av, char **env) {
 
 	while (1) {
 		call_pwd(&var);
-		read = readline(ft_strjoin(, ">  "));
+		read = readline(var.pwd_now);
 		if (read == NULL)
 			break ;
 		input = parser(read, env);

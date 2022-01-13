@@ -105,10 +105,12 @@ void	call_pwd(t_var *var)
 	if (var->pwd_now)
 		free(var->pwd_now);
 	str = getcwd(0, 100);
-	tmp_str = ft_strrchr(str, '/');
+	tmp_str = ft_strdup(ft_strrchr(str, '/'));
 	free(str);
 	str = ft_substr(tmp_str, 1, ft_strlen(tmp_str) - 1);
+	var->pwd_now = ft_strjoin(str, "> ");
+	free(str);
+	str = 0;
 	free(tmp_str);
 	tmp_str = 0;
-	var->pwd_now = str;
 }
