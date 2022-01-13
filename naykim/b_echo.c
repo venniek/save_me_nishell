@@ -1,21 +1,29 @@
 #include "../header/minishell.h"
 
-void b_echo(char **str)
+void	b_echo(char **cmd)
 {
-	int n_option = 0;
+	int	n_option;
+	int	idx;
 
-	if (!str)
+	n_option = 0;
+	idx = 1;
+	if (!cmd)
 	{
 		printf("error - \n");
 		return ;
 	}
-	if (ft_strncmp(str[1], "-n", 2) == 0)
+	if (ft_strncmp(cmd[idx], "-n", 2) == 0 && ft_strlen(cmd[idx]) == 2)
 	{
 		n_option = 1;
-		printf("%s", str[2]);
-	}	
-	else
-		printf("%s", str[1]);
+		idx++;
+	}
+	while (idx < ft_sstrlen(cmd))
+	{
+		printf("%s", cmd[idx]);
+		idx++;
+		if (idx != ft_sstrlen(cmd))
+			printf(" ");
+	}
 	if (n_option == 0)
 		printf("\n");
 }

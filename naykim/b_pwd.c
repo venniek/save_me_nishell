@@ -1,11 +1,18 @@
 #include "../header/minishell.h"
 
-void b_pwd()
+void	b_pwd(void)
 {
-	// 뒤에 적힌 인자들 전부 무시. 함수 들어오기 전에 처리
-	char *buf;
+	char	*buf;
 
 	buf = getcwd(0, 100);
 	printf("%s\n", buf);
 	free(buf);
+}
+
+void call_pwd(t_var *var)
+{
+	if (var->pwd_now)
+		free(var->pwd_now);
+	var->pwd_now = getcwd(0, 100);
+	
 }
