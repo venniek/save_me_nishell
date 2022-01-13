@@ -5,14 +5,7 @@ FLGS = -g #-Wall -Wextra -Werror
 DIR_NAYKIM = ./
 DIR_HEADER = ../header/
 DIR_LIBFT = ../libft/
-NAYKIM = n_main.c \
-		b_env.c \
-		b_cd.c \
-		b_pwd.c \
-		b_export.c\
-		b_unset.c\
-		b_echo.c \
-		b_exit.c
+NAYKIM = b_export.c b_unset.c b_others.c
 
 all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_NAYKIM), $(NAYKIM:.c=.o)) $(addprefix $(DIR_LIBFT), $(LIBFT))

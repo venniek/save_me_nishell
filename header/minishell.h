@@ -26,13 +26,13 @@ typedef struct s_var {
 	char	**our_env;
 } t_var;
 
+//=========gyeon=========//
 void	*excep_malloc(int leng);
 size_t	ft_sstrlen(char **strstr);
 void	err_malloc();
 t_ast	*parser(char *line, char **env);
 char	**ft_addonestring(char **origin, char *newline);
 char	**sstrncat(char **origin, char *newline, int n);
-
 
 //=========naykim=========//
 void	b_env(char **our_env);
@@ -45,6 +45,12 @@ int		b_exit(t_var *var);
 
 void 	call_pwd(t_var *var);
 char	**ft_sstrdup(char **origin);
+
+//=========srcs=========//
 void	free_sstr(char **sstr);
+void	free_ast(t_ast *ast);
+
+
+
 
 #endif
