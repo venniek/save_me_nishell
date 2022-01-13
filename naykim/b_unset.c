@@ -1,53 +1,58 @@
 #include "../header/minishell.h"
 
-static int find_remove_str(char **origin, char *remove, int len)
+static int	find_remove_str(char **origin, char *remove, int len)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < len)
 	{
-		if (ft_strncmp(origin[i], remove, ft_strlen(remove)))
+		if (!ft_strncmp(origin[i], remove, ft_strlen(remove)))
 			return (i);
 		i++;
 	}
 	return (-1);
 }
 
-char **b_unset(char **origin, char *remove)
+static char	**ft_removeonestring(char **origin, char *remove, int origin_len)
 {
 	char	**new;
-	int		idxlen;
 	int		i;
 	int		newi;
 	int		flag;
 
-	if (!origin || !remove)
-		return (NULL);
-	idxlen = ft_sstrlen(origin);
-	flag = find_remove_str(origin, remove, idxlen);
+	flag = find_remove_str(origin, remove, origin_len);
 	if (flag != -1)
-		new = (char **)malloc(sizeof(char *) * idxlen);
+		new = (char **)malloc(sizeof(char *) * (origin_len));
 	else
 		return (origin);
 	i = -1;
 	newi = 0;
-	while (++i < idxlen)
+	while (++i < origin_len)
 	{
 		if (i != flag)
 			new[newi++] = ft_strdup(origin[i]);
 	}
-	new[idxlen] = 0;
-	free(origin);
-	origin = 0;
+	new[newi] = 0;
+	free_sstr(origin);
 	return (new);
 }
 
+void	b_unset(t_var *var, char **cmd)
+{
+	int		i;
+	char	***env;
 
-// int main(int ac, char **av, char **env)
-// {
-// 	char **new = b_unset(env, "PATH");
-// 	for (int i = 0; i < ft_sstrlen(new); i++)
-// 		printf("%s\n", new[i]);
-// 	return 0;
-// }
+	if (!var->our_env || !cmd)
+		return ;
+	env = &var->our_env;
+	i = 1;
+	while (i < ft_sstrlen(cmd))
+	{
+		if (ft_strrchr(cmd[i], '='))
+			printf("unset: %s: invalid parameter name\n", cmd[i]);
+		else
+			*env = ft_removeonestring(*env, cmd[i], ft_sstrlen(*env));
+		i++;
+	}
+}

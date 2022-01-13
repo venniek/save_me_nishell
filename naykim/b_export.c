@@ -1,20 +1,57 @@
 #include "../header/minishell.h"
 
-void b_export(char **env, char *new)
+char	**ft_sstrdup(char **origin)
 {
-	if (!env || !new)
+	int		i;
+	int		env_len;
+	char	**new_env;
+
+	if (!origin)
+		return (NULL);
+	env_len = ft_sstrlen(origin);
+	new_env = (char **)malloc(sizeof(char *) * (env_len + 1));
+	i = -1;
+	while (++i < env_len)
+		new_env[i] = ft_strdup(origin[i]);
+	new_env[i] = NULL;
+	return (new_env);
+}
+
+void	ft_export(t_var *var, char *new)
+{
+	int		i;
+	char	*new_key;
+
+	if (!var->our_env || !new)
 		return ;
-	// "key=value" 형식인지 확인
-	// 원래 있던 거면 변경, 없던 거면 추가
-	/*
-	for (int i = 0; env[i]; i++)
+	if (!ft_strrchr(new, '='))
+		return ;
+	new_key = ft_substr(new, 0, ft_strchr(new, '=') - new);
+	i = -1;
+	while (++i < ft_sstrlen(var->our_env))
 	{
-		if (strcmp(env[i], new, strlen(new[[키값만 비교. = 나오기전까지]])) == 0)
+		if (!ft_strncmp(var->our_env[i], new_key, ft_strlen(new_key)))
 		{
-			env[i] = new
+			free(var->our_env[i]);
+			var->our_env[i] = ft_strdup(new);
+			free(new_key);
 			return ;
 		}
 	}
-	*/
-	env = ft_addonestring(env, new);
+	free(new_key);
+	var->our_env = ft_addonestring(var->our_env, new);
+}
+
+void	b_export(t_var *var, char **cmd)
+{
+	int		i;
+
+	if (!(var->our_env) || !cmd)
+		return ;
+	i = 1;
+	while (i < ft_sstrlen(cmd))
+	{
+		ft_export(var, cmd[i]);
+		i++;
+	}
 }
