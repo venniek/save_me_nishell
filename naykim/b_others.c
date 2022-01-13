@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   b_others.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
+/*   Updated: 2022/01/13 17:17:11 by naykim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 void	b_cd(t_var *var, char **cmd)
@@ -49,6 +61,15 @@ void	b_env(char **our_env)
 		printf("%s\n", our_env[i]);
 }
 
+void	b_pwd(void)
+{
+	char	*buf;
+
+	buf = getcwd(0, 100);
+	printf("%s\n", buf);
+	free(buf);
+}
+
 int	b_exit(t_var *var)
 {
 	if (var->ast)
@@ -69,13 +90,4 @@ int	b_exit(t_var *var)
 	printf("=== terminate our minishell ===\n");
 	system("leaks minishell");
 	exit(0);
-}
-
-void	b_pwd(void)
-{
-	char	*buf;
-
-	buf = getcwd(0, 100);
-	printf("%s\n", buf);
-	free(buf);
 }

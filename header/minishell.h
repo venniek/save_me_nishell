@@ -33,6 +33,7 @@ void	err_malloc();
 t_ast	*parser(char *line, char **env);
 char	**ft_addonestring(char **origin, char *newline);
 char	**sstrncat(char **origin, char *newline, int n);
+char *lookup_value(char *start, size_t leng, char **env);
 
 //=========naykim=========//
 void	b_env(char **our_env);
@@ -50,6 +51,8 @@ void 	call_pwd(t_var *var);
 void	free_sstr(char **sstr);
 void	free_ast(t_ast *ast);
 
+void init_var(t_var *var, char **env);
+void run_func(t_var *var, t_ast *ptr);
 
 
 

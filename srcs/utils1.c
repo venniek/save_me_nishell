@@ -99,7 +99,16 @@ void	free_sstr(char **sstr)
 
 void	call_pwd(t_var *var)
 {
+	char *str;
+	char *tmp_str;
+
 	if (var->pwd_now)
 		free(var->pwd_now);
-	var->pwd_now = getcwd(0, 100);
+	str = getcwd(0, 100);
+	tmp_str = ft_strrchr(str, '/');
+	free(str);
+	str = ft_substr(tmp_str, 1, ft_strlen(tmp_str) - 1);
+	free(tmp_str);
+	tmp_str = 0;
+	var->pwd_now = str;
 }
