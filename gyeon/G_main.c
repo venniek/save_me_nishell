@@ -22,7 +22,6 @@ int	main(int ac, char **av, char **env) {
 		read = readline("Test_Shell> ");
 		if (read == NULL)
 			break ;
-		// printf("input : %s\n", read);
 		input = parser(read, env);
 		ptr = input;
 		int cnt = 0;
@@ -31,16 +30,22 @@ int	main(int ac, char **av, char **env) {
 			printf("-------[%d list]-------\n", cnt);
 			printf("type : %c\n", ptr->type);
 			while (ptr->text[i] != NULL) {
-				printf("%s\n", ptr->text[i]);
+				printf("[%p] : %s\n", &ptr->text[i], ptr->text[i]);
 				free(ptr->text[i++]);
+				//++i;
 			}
+			printf("texts : [%p]\n", ptr->text);
+			free(ptr->text);
 			t_ast *temp;
 			temp = ptr;
 			ptr = ptr->next;
+			printf("temp : [%p]\n", temp);
 			free(temp);
-			printf("-----------------------\n");
 			cnt++;
 		}
+
 		free(read);
 	}
+	//while(1);
+	//system("leaks minishell");
 }

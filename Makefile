@@ -1,15 +1,13 @@
 TARGET = minishell
 LIBFT = libft.a
 GCC = gcc
-FLGS = -g #-Wall -Wextra -Werror
-DIR_GYEON = ./gyeon/
-DIR_NAYKIM = ./naykim/
+FLGS = -g3 -fsanitize=address #-Wall -Wextra -Werror
 DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
-GYEON = G_parse.c G_handle_error.c G_env.c
-NAYKIM = b_export.c b_unset.c b_others.c
-SRCS = utils1.c main.c
+SRCS = action_decider.c b_export.c b_others.c b_unset.c \
+	handle_error.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c \
+	utils1.c
 
 all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_GYEON), $(GYEON:.c=.o)) $(addprefix $(DIR_NAYKIM), $(NAYKIM:.c=.o)) $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
