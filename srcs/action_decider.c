@@ -125,10 +125,13 @@ size_t	decide_actset(char flg)
 	result = J;
 	if (flg == FIN)
 		result = actset_fin(&flgs);
-	else if ((flgs & FLG_SQ) == FLG_SQ && flg == FLG_SQ)
+	else if ((flgs & FLG_SQ) == FLG_SQ)
 	{
+		if (flg == FLG_SQ)
+		{
 			flgs &= ~FLG_SQ;
 			result = CJI;
+		}
 	}
 	else if ((flgs & FLG_DL) == FLG_DL)
 		result = actset_dollar(&flgs, flg);
