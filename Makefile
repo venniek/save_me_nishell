@@ -27,7 +27,7 @@ $(addprefix $(DIR_LIBFT), $(LIBFT)) :
 clean : 
 	rm -rf $(addprefix $(DIR_SRCS), *.o) $(addprefix $(DIR_GYEON), *.o) $(addprefix $(DIR_NAYKIM), *.o) $(addprefix $(DIR_LIBFT), *.o)
 
-fclean :
+fclean : clean
 	rm -rf $(TARGET) $(addprefix $(DIR_LIBFT), $(LIBFT))
 
 re : clean fclean all
