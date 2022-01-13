@@ -1,41 +1,4 @@
 #include "../header/minishell.h"
-#include <string.h>
-
-#define TRUE 1
-#define FALSE 0
-
-#define FLG_SQ 0b00000001
-#define FLG_DQ 0b00000010
-#define FLG_DL 0b00000100
-#define WHITE 'W'
-#define PIPE 'P'
-#define RR 'r'
-#define RRR 'R'
-#define LR 'l'
-#define LRR 'L'
-#define ALNUM 'A'
-#define EXCL '~'
-#define FIN 'F'
-
-#define J 		0
-#define CJI		1
-#define EJI		2
-#define HJI		18
-#define EIJ		3
-#define CJINP	4
-#define CJINR	5
-#define CJINL	6
-#define EJINP	7
-#define EJINR	8
-#define EJINL	9
-#define CJJINR	10
-#define CJJINL	11
-#define EJJINR	12
-#define EJJINL	13
-#define CJIAW	14
-#define EJIAW	15
-#define CAF		16
-#define EAF		17
 
 int ft_isWhite(char c) {
 	return ((c >= 9 && c <= 13) || c == 32);
@@ -259,69 +222,41 @@ char	*malloc_n_lcat(char *dst, char *src, size_t leng) {
 	return (result);
 }
 
-//char	**make_actset()
+//void	action_idx(char **line, size_t *slide)
 //{
-//	char	**result;
+//	*line += *slide;
+//	*slide = 0;
+//}
 //
-//	result = (char **) excep_malloc(sizeof(char *) * 19);
-//	result[J] = ft_strdup("J");
-//	result[CJI] = ft_strdup("CJI");
-//	result[EJI] = ft_strdup("EJI");
-//	result[EIJ] = ft_strdup("EIJ");
-//	result[CJINP] = ft_strdup("CJIAP");
-//	result[CJINR] = ft_strdup("CJIAR");
-//	result[CJINL] = ft_strdup("CJIAL");
-//	result[EJINP] = ft_strdup("EJIAP");
-//	result[EJINR] = ft_strdup("EJIAR");
-//	result[EJINL] = ft_strdup("EJIAL");
-//	result[CJJINR] = ft_strdup("CJJIAr");
-//	result[CJJINL] = ft_strdup("CJJIAl");
-//	result[EJJINR] = ft_strdup("EJJIAr");
-//	result[EJJINL] = ft_strdup("EJJIAl");
-//	result[CJIAW] = ft_strdup("CJIAW");
-//	result[EJIAW] = ft_strdup("EJIAW");
-//	result[CAF] = ft_strdup("CAF");
-//	result[EAF] = ft_strdup("EAF");
-//	result[HJI] = ft_strdup("HJI");
-//	result[19] = NULL;
+//char	*action_cat(char *dst, char *src, size_t slide)
+//{
+//	char	*result;
+//
+//	if (dst == NULL)
+//		result = ft_strndup(src, slide);
+//	else
+//	{
+//		result = malloc_n_lcat(dst, src, slide + ft_strlen(dst) + 1);
+//		free(dst);
+//	}
 //	return (result);
 //}
-
-void	action_idx(char **line, size_t *slide)
-{
-	*line += *slide;
-	*slide = 0;
-}
-
-char	*action_cat(char *dst, char *src, size_t slide)
-{
-	char	*result;
-
-	if (dst == NULL)
-		result = ft_strndup(src, slide);
-	else
-	{
-		result = malloc_n_lcat(dst, src, slide + ft_strlen(dst) + 1);
-		free(dst);
-	}
-	return (result);
-}
-
-char	*action_env(char *dst, char *src, char **env, size_t slide)
-{
-	char	*result;
-	char	*env_value;
-
-	env_value = lookup_value(src, slide, env);
-	if (env_value != NULL)
-	{
-		result = action_cat(dst, env_value, ft_strlen(env_value));
-		free(env_value);
-	}
-	else
-		return (NULL);
-	return (result);
-}
+//
+//char	*action_env(char *dst, char *src, char **env, size_t slide)
+//{
+//	char	*result;
+//	char	*env_value;
+//
+//	env_value = lookup_value(src, slide, env);
+//	if (env_value != NULL)
+//	{
+//		result = action_cat(dst, env_value, ft_strlen(env_value));
+//		free(env_value);
+//	}
+//	else
+//		return (NULL);
+//	return (result);
+//}
 
 t_ast	*get_last(t_ast	*start)
 {
@@ -367,6 +302,9 @@ char action_fin(char *cursor)
 	return ('F');
 }
 
+
+
+
 char	*get_actset(size_t idx)
 {
 	static char *actset[20] =
@@ -377,67 +315,68 @@ char	*get_actset(size_t idx)
 	return (actset[idx]);
 }
 
-char	c_to_h(char **cursor, const char *act, char **line, char **env, const size_t *slide)
+char	c_to_h(t_parsing *ps, char **env, char **line)
 {
 	char		state;
 
 	state = 'm';
-	if (*act == 'C')
-		*cursor = action_cat(*cursor, *line, *slide);
-	else if (*act == 'E')
-		*cursor = action_env(*cursor, *line, env, *slide);
-	else if (*act == 'H')
-		*cursor = action_env(*cursor, "HOME", env, 4);
-	else if (*act == 'F')
-		state = action_fin(*cursor);
+	if (*ps->act == 'C')
+		ps->cursor = action_cat(ps->cursor, *line, ps->slide);
+	else if (*ps->act == 'E')
+		ps->cursor = action_env(ps->cursor, *line, env, ps->slide);
+	else if (*ps->act == 'H')
+		ps->cursor = action_env(ps->cursor, "HOME", env, 4);
+	else if (*ps->act == 'F')
+		state = action_fin(ps->cursor);
 	return (state);
 }
 
-char	i_to_w(t_ast *result, char **cursor, const char *act, char **line, size_t *slide)
+char	i_to_w(t_parsing *ps, char **line)
 {
 	char		state;
 
 	state = 'm';
-	if (*act == 'J')
-		++(*slide);
-	else if (*act == 'I')
-		action_idx(line, slide);
-	else if (*act == 'W')
-		action_white(line, slide);
-	else if (*act == 'P' || *act == 'R' ||
-			 *act == 'r' || *act == 'L' || *act == 'l')
-		state = action_appendlist(result, cursor, act);
+	if (*ps->act == 'J')
+		++(ps->slide);
+	else if (*ps->act == 'I')
+		action_idx(line, &ps->slide);
+	else if (*ps->act == 'W')
+		action_white(line, &ps->slide);
+	else if (*ps->act == 'P' || *ps->act == 'R' ||
+			 *ps->act == 'r' || *ps->act == 'L' || *ps->act == 'l')
+		state = action_appendlist(ps->result, &ps->cursor, ps->act);
 	return (state);
+}
+
+void	init_parsing(t_parsing *parsing)
+{
+	parsing->cursor = NULL;
+	parsing->result = init_ast();
+	parsing->slide = 0;
+	parsing->state = 's';
 }
 
 t_ast	*parser(char *line, char **env)
 {
-	t_ast 	*result;
-	size_t 	slide;
-	char 	*act;
-	char	*cursor;
-	char 	state;
+	t_parsing	ps;
 
-	slide = 0;
-	state = 's';
-	result = init_ast();
-	cursor = NULL;
-	while (state != 'F')
+	init_parsing(&ps);
+	while (ps.state != 'F')
 	{
-		act = get_actset(get_action(&line[slide], state));
-		state = 'm';
-		while (*act != '\0')
+		ps.act = get_actset(get_action(&line[ps.slide], ps.state));
+		ps.state = 'm';
+		while (*ps.act != '\0')
 		{
-			if (*act == 'A')
-				state = action_addonestring(result, &cursor);
-			else if (*act <= 'H')
-				state = c_to_h(&cursor, act, &line, env, &slide);
+			if (*ps.act == 'A')
+				ps.state = action_addonestring(ps.result, &ps.cursor);
+			else if (*ps.act <= 'H')
+				ps.state = c_to_h(&ps, env, &line);
 			else
-				i_to_w(result, &cursor, act, &line, &slide);
-			++act;
+				i_to_w(&ps, &line);
+			++ps.act;
 		}
 	}
-	return (result);
+	return (ps.result);
 }
 
 

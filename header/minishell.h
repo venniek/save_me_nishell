@@ -9,6 +9,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/types.h>
+# include "defines.h"
 # include "../libft/libft.h"
 
 typedef struct s_ast {
@@ -19,11 +20,19 @@ typedef struct s_ast {
     struct s_ast    *next;
 } t_ast;
 
+typedef struct s_parsing {
+	t_ast 	*result;
+	char 	*act;
+	char	*cursor;
+	char 	state;
+	size_t 	slide;
+} t_parsing;
+
 void	*excep_malloc(int leng);
 void	*excep_calloc(size_t count, size_t size);
 size_t	ft_sstrlen(char **strstr);
 void	err_malloc();
-t_ast	*parser(char *line, char **env);
+
 char	**ft_addonestring(char **origin, char *newline);
 char	**sstrncat(char **origin, char *newline, int n);
 
