@@ -6,11 +6,11 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/13 16:34:20 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/13 18:00:09 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../header/minishell.h"
 
 char	**ft_sstrdup(char **origin)
 {

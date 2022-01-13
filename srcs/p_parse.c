@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../header/minishell.h"
 
 
 //// 특정 bit만 뒤집는다. ON -> oFF = 0, OFF -> ON = 1

@@ -1,7 +1,7 @@
 TARGET = minishell
 LIBFT = libft.a
 GCC = gcc
-FLGS = -g3 -fsanitize=address #-Wall -Wextra -Werror
+FLGS = #-g3 -fsanitize=address #-Wall -Wextra -Werror
 DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
@@ -10,7 +10,7 @@ SRCS = action_decider.c b_export.c b_others.c b_unset.c \
 	utils1.c
 
 all : $(TARGET)
-$(TARGET) : $(addprefix $(DIR_GYEON), $(GYEON:.c=.o)) $(addprefix $(DIR_NAYKIM), $(NAYKIM:.c=.o)) $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
+$(TARGET) : $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
 	$(GCC) $(FLGS) $^ -o $@ -lreadline -L /Users/naykim/.brew/opt/readline/lib -I /Users/naykim/.brew/opt/readline/include
 	stty -echoctl
 
@@ -23,7 +23,7 @@ $(addprefix $(DIR_LIBFT), $(LIBFT)) :
 	@make bonus -C $(DIR_LIBFT)
 
 clean : 
-	rm -rf $(addprefix $(DIR_SRCS), *.o) $(addprefix $(DIR_GYEON), *.o) $(addprefix $(DIR_NAYKIM), *.o) $(addprefix $(DIR_LIBFT), *.o)
+	rm -rf $(addprefix $(DIR_SRCS), *.o) $(addprefix $(DIR_LIBFT), *.o)
 
 fclean : clean
 	rm -rf $(TARGET) $(addprefix $(DIR_LIBFT), $(LIBFT))

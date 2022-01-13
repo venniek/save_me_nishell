@@ -6,11 +6,11 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/13 16:34:25 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/13 18:00:15 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../header/minishell.h"
 
 static int	find_remove_str(char **origin, char *remove, int len)
 {

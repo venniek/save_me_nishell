@@ -6,11 +6,11 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/13 17:17:11 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/13 18:00:11 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../header/minishell.h"
 
 void	b_cd(t_var *var, char **cmd)
 {
