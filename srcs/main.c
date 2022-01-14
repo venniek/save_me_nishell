@@ -14,6 +14,50 @@ void init_var(t_var *var, char **env)
 	var->pwd_now = 0;
 }
 
+// void	cmd_check(t_var *var, char **cmd)
+// {
+// 	int	i;
+// 	int	okay;
+
+// 	i = -1;
+// 	okay = 0;
+// 	while (var->paths[++i])
+// 	{
+// 		find_cmd(var, i, &cmd[0], &okay);
+// 		if (okay == 1)
+// 			break ;
+// 	}
+// 	if (okay == 0)
+// 	{
+// 		write(STDERR_FILENO, "bash: ", 7);
+// 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
+// 		write(STDERR_FILENO, ": command not found\n", 21);
+// 		ft_exit(127, var);
+// 	}
+// }
+
+void b_exec(t_var *var, t_ast *ptr)
+{
+	int		pid;
+	int status;
+	char **cmds = ptr->text;
+	char *cmd = cmds[0];
+	
+	pid = fork();
+	if (pid == 0)
+	{
+		free(ptr);
+		if (execve(cmd, cmds, var->our_env) < 0)
+		{
+			write(STDERR_FILENO, "bash: ", 7);
+			perror(cmd);
+			exit(126);
+		}
+	}
+	else	
+		waitpid(pid, &status, 0);
+}
+
 void run_func(t_var *var, t_ast *ptr)
 {
 	char **cmds = ptr->text;
@@ -34,7 +78,11 @@ void run_func(t_var *var, t_ast *ptr)
 	else if (!ft_strncmp(cmd, "exit", 4))
 		b_exit(var);
 	else
-		execve(cmd, cmds, var->our_env);
+	{
+		printf("before exec leaks\n");
+		system("leaks minishell");
+		b_exec(var, ptr);
+	}
 }
 
 int	main(int ac, char **av, char **env) {
