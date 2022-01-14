@@ -39,9 +39,9 @@ void init_var(t_var *var, char **env)
 void b_exec(t_var *var, t_ast *ptr)
 {
 	int		pid;
-	int status;
-	char **cmds = ptr->text;
-	char *cmd = cmds[0];
+	int		status;
+	char	**cmds = ptr->text;
+	char	*cmd = cmds[0];
 	
 	pid = fork();
 	if (pid == 0)
@@ -54,7 +54,7 @@ void b_exec(t_var *var, t_ast *ptr)
 			exit(126);
 		}
 	}
-	else	
+	else
 		waitpid(pid, &status, 0);
 }
 
@@ -78,11 +78,7 @@ void run_func(t_var *var, t_ast *ptr)
 	else if (!ft_strncmp(cmd, "exit", 4))
 		b_exit(var);
 	else
-	{
-		printf("before exec leaks\n");
-		system("leaks minishell");
 		b_exec(var, ptr);
-	}
 }
 
 int	main(int ac, char **av, char **env) {
@@ -110,7 +106,7 @@ int	main(int ac, char **av, char **env) {
 		}
 		free(read);
 		read = 0;
-		free_ast(var.ast);
+		free_ast(var.ast); 
 		var.ast = 0;
 	}
 	b_exit(&var);
