@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/13 18:00:15 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/15 18:25:46 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,21 @@
 
 static int	find_remove_str(char **origin, char *remove, int len)
 {
-	int	i;
+	int		i;
+	char	*add_equal;
 
+	add_equal = ft_strjoin(remove, "=");
 	i = 0;
 	while (i < len)
 	{
 		if (!ft_strncmp(origin[i], remove, ft_strlen(remove)))
+		{
+			free(add_equal);
 			return (i);
+		}
 		i++;
 	}
+	free(add_equal);
 	return (-1);
 }
 
