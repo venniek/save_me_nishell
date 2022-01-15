@@ -124,8 +124,8 @@ void	call_pwd(t_var *var)
 	free(str);
 	str = ft_substr(tmp_str, 1, ft_strlen(tmp_str) - 1);
 	free(tmp_str);
-	tmp_str = ft_strjoin(str, "> ");
-	var->pwd_now = ft_strjoin("minishell: ", tmp_str);
+	tmp_str = ft_strjoin(str, "$ ");
+	var->pwd_now = ft_strjoin("minishell-", tmp_str);
 	free(str);
 	str = 0;
 	free(tmp_str);

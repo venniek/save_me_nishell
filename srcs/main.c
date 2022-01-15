@@ -96,7 +96,7 @@ int	main(int ac, char **av, char **env) {
 		read = readline(var.pwd_now);
 		if (read == NULL)
 			break ;
-		input = parser(read, env);
+		input = parser(read, var.our_env);
 		var.ast = input;
 		ptr = var.ast;
 		while (ptr != NULL) {

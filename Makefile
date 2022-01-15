@@ -4,6 +4,7 @@ GCC = gcc
 FLGS = #-g3 -fsanitize=address #-Wall -Wextra -Werror
 LR_GY = -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
 LR_NK = -lreadline -L /Users/naykim/.brew/opt/readline/lib -I /Users/naykim/.brew/opt/readline/include
+LR_NAYKIM = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
 DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
@@ -13,12 +14,14 @@ SRCS = action_decider.c b_export.c b_others.c b_unset.c \
 
 all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
-	$(GCC) $(FLGS) $^ -o $@ $(LR_NK)
+	#$(GCC) $(FLGS) $^ -o $@ $(LR_NK)
+	$(GCC) $(FLGS) $^ -o $@ $(LR_NAYKIM)
 	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY)
 	stty -echoctl
 
 %.o : %.c
-	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK)
+	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK)
+	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NAYKIM)
 	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY)
 
 
