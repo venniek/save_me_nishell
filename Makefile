@@ -8,7 +8,7 @@ LR_NAYKIM = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/re
 DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
-SRCS = action_decider.c b_export.c b_others.c b_unset.c \
+SRCS = action_decider.c b_export.c b_others.c b_unset.c b_exec.c\
 	handle_error.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c \
 	utils1.c
 

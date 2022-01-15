@@ -66,7 +66,10 @@ void	b_export(t_var *var, char **cmd);
 void	b_unset(t_var *var, char **cmd);
 void	b_echo(char **cmd);
 int		b_exit(t_var *var);
-
+void	b_exec(t_var *var, t_ast *ptr);
+int run_command(char **cmds, char **env);
+void	find_cmd(char **path, int i, char **cmd, char **env, int *okay);
+char	**make_paths(char **env);
 
 //=========srcs=========//
 char	**ft_sstrdup(char **origin);

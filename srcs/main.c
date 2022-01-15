@@ -36,27 +36,7 @@ void init_var(t_var *var, char **env)
 // 	}
 // }
 
-void b_exec(t_var *var, t_ast *ptr)
-{
-	int		pid;
-	int		status;
-	char	**cmds = ptr->text;
-	char	*cmd = cmds[0];
-	
-	pid = fork();
-	if (pid == 0)
-	{
-		free(ptr);
-		if (execve(cmd, cmds, var->our_env) < 0)
-		{
-			write(STDERR_FILENO, "bash: ", 7);
-			perror(cmd);
-			exit(126);
-		}
-	}
-	else
-		waitpid(pid, &status, 0);
-}
+
 
 void run_func(t_var *var, t_ast *ptr)
 {
