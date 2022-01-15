@@ -14,51 +14,33 @@ void init_var(t_var *var, char **env)
 	var->pwd_now = 0;
 }
 
-// void	cmd_check(t_var *var, char **cmd)
-// {
-// 	int	i;
-// 	int	okay;
-
-// 	i = -1;
-// 	okay = 0;
-// 	while (var->paths[++i])
-// 	{
-// 		find_cmd(var, i, &cmd[0], &okay);
-// 		if (okay == 1)
-// 			break ;
-// 	}
-// 	if (okay == 0)
-// 	{
-// 		write(STDERR_FILENO, "bash: ", 7);
-// 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
-// 		write(STDERR_FILENO, ": command not found\n", 21);
-// 		ft_exit(127, var);
-// 	}
-// }
-
-
-
 void run_func(t_var *var, t_ast *ptr)
 {
 	char **cmds = ptr->text;
 	char *cmd = cmds[0];
 
 	if (!ft_strncmp(cmd, "cd", 2))
-		b_cd(var, cmds);
-	else if (!ft_strncmp(cmd, "pwd", 3))
-		b_pwd();
-	else if (!ft_strncmp(cmd, "env", 3))
-		b_env(var->our_env);
-	else if (!ft_strncmp(cmd, "echo", 4))
-		b_echo(cmds);
-	else if (!ft_strncmp(cmd, "export", 6))
-		b_export(var, cmds);
-	else if (!ft_strncmp(cmd, "unset", 5))
-		b_unset(var, cmds);
-	else if (!ft_strncmp(cmd, "exit", 4))
+		return b_cd(var, cmds);
+	if (!ft_strncmp(cmd, "pwd", 3))
+		return b_pwd();
+	if (!ft_strncmp(cmd, "env", 3))
+		return b_env(var->our_env);
+	if (!ft_strncmp(cmd, "echo", 4))
+		return b_echo(cmds);
+	if (!ft_strncmp(cmd, "export", 6))
+		return b_export(var, cmds);
+	if (!ft_strncmp(cmd, "unset", 5))
+		return b_unset(var, cmds);
+	if (!ft_strncmp(cmd, "exit", 4))
 		b_exit(var);
-	else
-		b_exec(var, ptr);
+	if (!ft_strncmp(cmd, "ls", 2)) {
+
+		// write(1, "hi\n", 3);
+		// printf("hello \n");
+		// printf("before func: %s\n", cmds[0]);
+		return b_exec(var, cmds);
+	}
+
 }
 
 int	main(int ac, char **av, char **env) {
