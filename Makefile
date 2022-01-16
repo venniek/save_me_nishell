@@ -1,7 +1,7 @@
 TARGET = minishell
 LIBFT = libft.a
 GCC = gcc
-FLGS = #-g3 -fsanitize=address #-Wall -Wextra -Werror
+FLGS = -g #-g3 -fsanitize=address #-Wall -Wextra -Werror
 LR_GY = -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
 LR_NK = -lreadline -L /Users/naykim/.brew/opt/readline/lib -I /Users/naykim/.brew/opt/readline/include
 DIR_SRCS = ./srcs/

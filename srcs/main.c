@@ -53,6 +53,13 @@ int	main(int ac, char **av, char **env) {
 		if (read == NULL)
 			break ;
 		input = parser(read, env);
+		free(read);
+		read = NULL;
+		if (input == NULL)
+		{
+			write(1, "plz close quotes.\n", 18);
+			continue ;
+		}
 		var.ast = input;
 		ptr = var.ast;
 		while (ptr != NULL) {
@@ -60,8 +67,6 @@ int	main(int ac, char **av, char **env) {
 			ptr = ptr->next;
 			printf("-----------------------\n");
 		}
-		free(read);
-		read = 0;
 		free_ast(var.ast);
 		var.ast = 0;
 	}

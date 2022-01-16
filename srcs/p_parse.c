@@ -6,7 +6,7 @@ char	*get_actset(size_t idx)
 			{"J", "CJI", "EJI", "EIJ", "CJIAP",
 			 "CJIAR", "CJIAL", "EJIAP", "EJIAR", "EJIAL",
 			 "CJJIAr", "CJJIAl", "EJJIAr", "EJJIAl", "CJIAW",
-			 "EJIAW", "CAF", "EAF", "HJI", NULL};
+			 "EJIAW", "CAF", "EAF", "HJI", "e"};
 	return (actset[idx]);
 }
 
@@ -64,6 +64,12 @@ t_ast	*parser(char *line, char **env)
 		{
 			if (*ps.act == 'A')
 				ps.state = action_addonestring(ps.result, &ps.cursor);
+			else if (*ps.act == 'e')
+			{
+				free_ast(ps.result);
+				ps.result = NULL;
+				ps.state = action_fin(ps.cursor);
+			}
 			else if (*ps.act <= 'H')
 				ps.state = c_to_h(&ps, env, &line);
 			else

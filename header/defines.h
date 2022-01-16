@@ -40,5 +40,6 @@
 #define EJIAW	15
 #define CAF		16
 #define EAF		17
+#define P_ERR	19
 
 #endif //SAVE_ME_NISHELL_DEFINES_H

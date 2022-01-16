@@ -8,7 +8,9 @@ size_t	actset_fin(char *flgs)
 {
 	size_t	result;
 
-	if ((*flgs & FLG_DL) == FLG_DL)
+	if ((*flgs & FLG_DQ) == FLG_DQ || (*flgs & FLG_SQ) == FLG_SQ)
+		result = P_ERR;
+	else if ((*flgs & FLG_DL) == FLG_DL)
 		result = EAF;
 	else
 		result = CAF;
