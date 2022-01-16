@@ -13,7 +13,8 @@
 # include "defines.h"
 # include "../libft/libft.h"
 
-typedef struct s_ast {
+typedef struct s_ast
+{
     char            type;
     // exec에 들어갈 프로그램 + 옵션 입력 char**
     // -> exec함수에 바로 입력 가능한 형태로.
@@ -21,13 +22,15 @@ typedef struct s_ast {
     struct s_ast    *next;
 } t_ast;
 
-typedef struct s_var {
+typedef struct s_var
+{
 	char	*pwd_now;
 	t_ast	*ast;
 	char	**our_env;
 } t_var;
 
-typedef struct s_parsing {
+typedef struct s_parsing
+{
 	t_ast 	*result;
 	char 	*act;
 	char	*cursor;
@@ -63,7 +66,10 @@ void	b_export(t_var *var, char **cmd);
 void	b_unset(t_var *var, char **cmd);
 void	b_echo(char **cmd);
 int		b_exit(t_var *var);
-
+void	b_exec(t_var *var, char **cmds);
+int run_command(char **cmds, char **env, int *okay);
+void	find_cmd(char **path, int i, char **cmd, char **env, int *okay);
+char	**make_paths(char **env);
 
 //=========srcs=========//
 char	**ft_sstrdup(char **origin);

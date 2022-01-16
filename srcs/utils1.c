@@ -1,6 +1,7 @@
 #include "../header/minishell.h"
 
-void *excep_malloc(int leng) {
+void *excep_malloc(int leng)
+{
 	void	*result;
 
 	result = malloc(leng);
@@ -9,7 +10,8 @@ void *excep_malloc(int leng) {
 	return (result);
 }
 
-void *excep_calloc(size_t count, size_t size) {
+void *excep_calloc(size_t count, size_t size)
+{
 	void	*result;
 
 	result = ft_calloc(count, size);
@@ -18,7 +20,8 @@ void *excep_calloc(size_t count, size_t size) {
 	return (result);
 }
 
-size_t ft_sstrlen(char **strstr) {
+size_t ft_sstrlen(char **strstr)
+{
 	size_t leng;
 
 	leng = 0;
@@ -121,15 +124,16 @@ void	call_pwd(t_var *var)
 	free(str);
 	str = ft_substr(tmp_str, 1, ft_strlen(tmp_str) - 1);
 	free(tmp_str);
-	tmp_str = ft_strjoin(str, "> ");
-	var->pwd_now = ft_strjoin("minishell: ", tmp_str);
+	tmp_str = ft_strjoin(str, "$ ");
+	var->pwd_now = ft_strjoin("minishell-", tmp_str);
 	free(str);
 	str = 0;
 	free(tmp_str);
 	tmp_str = 0;
 }
 
-char *lookup_value(char *start, size_t leng, char **env) {
+char *lookup_value(char *start, size_t leng, char **env)
+{
 		size_t 	idx;
 		char	*temp;
 		char 	*result;
@@ -137,8 +141,10 @@ char *lookup_value(char *start, size_t leng, char **env) {
 		idx = 0;
 		result = NULL;
 		temp = ft_strndup(start, leng);
-		while (env[idx] != NULL) {
-			if (ft_strncmp(env[idx], temp, ft_strlen(temp)) == 0) {
+		while (env[idx] != NULL)
+		{
+			if (ft_strncmp(env[idx], temp, ft_strlen(temp)) == 0)
+			{
 				if (env[idx][ft_strlen(temp)] == '=')
 					result = ft_strdup(&env[idx][ft_strlen(temp) + 1]);
 			}
@@ -148,6 +154,7 @@ char *lookup_value(char *start, size_t leng, char **env) {
 		return (result);
 }
 
-int ft_isWhite(char c) {
+int ft_isWhite(char c)
+{
 	return ((c >= 9 && c <= 13) || c == 32);
 }
