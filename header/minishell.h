@@ -67,8 +67,8 @@ void	b_unset(t_var *var, char **cmd);
 void	b_echo(char **cmd);
 int		b_exit(t_var *var);
 void	b_exec(t_var *var, char **cmds);
-int run_command(char **cmds, char **env, int *okay);
-void	find_cmd(char **path, int i, char **cmd, char **env, int *okay);
+void	run_command(char **cmds, char **env);
+void	find_cmd(char **path, int i, char **cmd, char **env);
 char	**make_paths(char **env);
 
 //=========srcs=========//

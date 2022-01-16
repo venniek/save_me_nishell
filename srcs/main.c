@@ -33,13 +33,8 @@ void run_func(t_var *var, t_ast *ptr)
 		return b_unset(var, cmds);
 	if (!ft_strncmp(cmd, "exit", 4))
 		b_exit(var);
-	if (!ft_strncmp(cmd, "ls", 2)) {
-
-		// write(1, "hi\n", 3);
-		// printf("hello \n");
-		// printf("before func: %s\n", cmds[0]);
-		return b_exec(var, cmds);
-	}
+	else
+		b_exec(var, cmds);
 
 }
 

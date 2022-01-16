@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_others.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/13 19:09:16 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/17 02:55:29 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ void	b_cd(t_var *var, char **cmd)
 	if (!cmd)
 		return ;
 	if (!cmd[1])
+	{
 		cmd[1] = lookup_value("HOME", 4, var->our_env);
+		cmd[2] = 0;
+	}
 	if (chdir(cmd[1]))
 		printf("minishell: cd: %s: %s\n", cmd[1], strerror(errno));
 }
@@ -30,16 +33,8 @@ void	b_echo(char **cmd)
 	n_option = 0;
 	idx = 1;
 	if (!cmd)
-	{
-		printf("error - \n");
 		return ;
-	}
-	if (!cmd[1])
-	{
-		printf("\n");
-		return ;
-	}
-	if (ft_strlen(cmd[idx]) == 2 && ft_strncmp(cmd[idx], "-n", 2) == 0)
+	if (cmd[1] && ft_strlen(cmd[idx]) == 2 && ft_strncmp(cmd[idx], "-n", 2) == 0)
 	{
 		n_option = 1;
 		idx++;

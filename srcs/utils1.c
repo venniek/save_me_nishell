@@ -89,13 +89,13 @@ void	free_ast(t_ast *ast)
 	while (ast)
 	{
 		next_node = ast->next;
-		free_sstr(ast->text);
+		if (ast->text)
+			free_sstr(ast->text);
 		ast->text = 0;
 		free(ast);
 		ast = next_node;
 	}
 }
-
 void	free_sstr(char **sstr)
 {
 	int	i;
@@ -105,10 +105,12 @@ void	free_sstr(char **sstr)
 	sstr_len = ft_sstrlen(sstr);
 	while (++i < sstr_len)
 	{
-		free(sstr[i]);
+		if (sstr[i])
+			free(sstr[i]);
 		sstr[i] = 0;
 	}
-	free(sstr);
+	if (sstr)
+		free(sstr);
 	sstr = 0;
 }
 
@@ -134,24 +136,27 @@ void	call_pwd(t_var *var)
 
 char *lookup_value(char *start, size_t leng, char **env)
 {
-		size_t 	idx;
-		char	*temp;
-		char 	*result;
+	size_t 	idx;
+	char	*temp;
+	char 	*result;
 
-		idx = 0;
-		result = NULL;
-		temp = ft_strndup(start, leng);
-		while (env[idx] != NULL)
+	idx = 0;
+	result = NULL;
+	temp = ft_strndup(start, leng);
+	while (env[idx] != NULL)
+	{
+		if (ft_strncmp(env[idx], temp, ft_strlen(temp)) == 0)
 		{
-			if (ft_strncmp(env[idx], temp, ft_strlen(temp)) == 0)
+			if (env[idx][ft_strlen(temp)] == '=')
 			{
-				if (env[idx][ft_strlen(temp)] == '=')
-					result = ft_strdup(&env[idx][ft_strlen(temp) + 1]);
+				result = ft_strdup(&env[idx][ft_strlen(temp) + 1]);
+				break ;
 			}
-			++idx;
 		}
-		free(temp);
-		return (result);
+		++idx;
+	}
+	free(temp);
+	return (result);
 }
 
 int ft_isWhite(char c)
