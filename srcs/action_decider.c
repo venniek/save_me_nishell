@@ -58,13 +58,13 @@ size_t actset_dollar(char *flgs, char flg)
 size_t	actset_noflgs(char *flgs, char flg)
 {
 	size_t	result;
-
 	if (flg == PIPE || flg == RR || flg == LR || flg == RRR || flg == LRR)
-		rev_flg(flgs, FLG_RD);
+		*flgs |= FLG_RD;
 	if (flg == FLG_DQ || flg == FLG_SQ || flg == FLG_DL)
 	{
 		result = CJI;
-		rev_flg(flgs, flg);
+		if (!((*flgs & FLG_RD) == FLG_RD && flg == FLG_DL))
+			rev_flg(flgs, flg);
 	}
 	else if (flg == PIPE)
 		result = CJINP;	//4
@@ -79,7 +79,11 @@ size_t	actset_noflgs(char *flgs, char flg)
 	else if (flg == EXCL)
 		result = HJI;	//18
 	else if (flg == WHITE)
-		result = CJIAW;		//14
+	{
+		if ((*flgs & FLG_RD) == FLG_RD)
+			*flgs &= ~FLG_RD;
+		result = CJIAW;        //14
+	}
 	else
 		result = CJI;	//1
 	return (result);
@@ -113,8 +117,6 @@ size_t	get_actindex(const char *str, const char state)
 	return (J);
 }
 
-size_t	actset_redirection()
-
 // 확인해봐야하는 동작을 받아서 어떤 동작을할지 제어하는 함수.
 /*
  * C(cat)			: idx부터 직전까지의 문자를 버퍼에 cat한다.
@@ -139,7 +141,7 @@ size_t	decide_actset(char flg)
 			result = CJI;
 		}
 	}
-	else if ((flgs & FLG_DL) == FLG_DL)
+	else if ((flgs & FLG_DL) == FLG_DL && (flgs & FLG_RD) != FLG_RD)
 		result = actset_dollar(&flgs, flg);
 	else if ((flgs & FLG_DQ) == FLG_DQ)
 	{
