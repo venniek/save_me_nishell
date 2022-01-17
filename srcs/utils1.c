@@ -163,3 +163,26 @@ int ft_isWhite(char c)
 {
 	return ((c >= 9 && c <= 13) || c == 32);
 }
+
+int	ft_astlen(t_ast *ast)
+{
+	int	len;
+
+	len = 0;
+	while (ast)
+	{
+		ast = ast->next;
+		len++;
+	}
+	return (len);
+}
+
+t_ast *ft_astindex(t_ast *ast, int idx)
+{
+	t_ast *ret;
+
+	ret = ast;
+	while (idx-- > 0)
+		ret = ret->next;
+	return (ret);
+}

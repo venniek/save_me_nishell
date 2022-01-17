@@ -10,19 +10,49 @@ void	sighandler_sigint(int signo) {
 void init_var(t_var *var, char **env)
 {
 	var->ast = 0;
+	var->ast_len = 0;
 	var->our_env = ft_sstrdup(env);
 	var->pwd_now = 0;
+	var->pinfo = 0;
+}
+
+void init_pinfo(t_var *var)
+{
+	int	i;
+
+	var->pinfo = (t_pipeinfo *)malloc(sizeof(t_pipeinfo) * 1);
+	var->pinfo->cnt = 0;
+	var->pinfo->child_pid = 0;
+	var->pinfo->num_fds = var->ast_len;
+	var->pinfo->fds = (int **)malloc(var->ast_len * sizeof(int *));
+	if (var->pinfo->fds == NULL)
+		exit(1);
+	i = 0;
+	while (i < var->ast_len)
+	{
+		var->pinfo->fds[i] = (int *)malloc(2 * sizeof(int));
+		if (var->pinfo->fds[i++] == NULL)
+			exit(1);
+	}
 }
 
 void run_func(t_var *var, t_ast *ptr)
 {
 	char **cmds = ptr->text;
 	char *cmd = cmds[0];
-
+	int		stat_loc;
+	
+	printf("cmd: %s\n", cmd);
+	//waitpid(var->pinfo->child_pid, &stat_loc, WNOHANG);
+	// close(var->pinfo->fds[var->pinfo->cnt][1]);
+	// dup2(var->pinfo->fds[var->pinfo->cnt][0], STDIN_FILENO);
+	// dup2(var->pinfo->fds[var->pinfo->cnt - 1][1], STDOUT_FILENO);
 	if (!ft_strncmp(cmd, "cd", 2))
 		return b_cd(var, cmds);
-	if (!ft_strncmp(cmd, "pwd", 3))
+	if (!ft_strncmp(cmd, "pwd", 3)){
+		printf("pwd in\n");
 		return b_pwd();
+	}
 	if (!ft_strncmp(cmd, "env", 3))
 		return b_env(var->our_env);
 	if (!ft_strncmp(cmd, "echo", 4))
@@ -62,14 +92,50 @@ int	main(int ac, char **av, char **env) {
 			continue ;
 		}
 		var.ast = input;
+		var.ast_len = ft_astlen(var.ast);
+		init_pinfo(&var);
 		ptr = var.ast;
-		while (ptr != NULL) {
-			run_func(&var, ptr);
-			ptr = ptr->next;
-			printf("-----------------------\n");
+		while (var.pinfo->cnt < var.ast_len)
+		{
+			if (pipe(var.pinfo->fds[var.pinfo->cnt]) == -1)
+				return (1);
+			var.pinfo->child_pid = fork();
+			if (var.pinfo->child_pid == -1)
+				return (1);
+			else if (var.pinfo->child_pid != 0)
+				break ;
+			printf("cnt: %d\n", var.pinfo->cnt);
+			++(var.pinfo->cnt);
 		}
-		free_ast(var.ast);
-		var.ast = 0;
+		if (var.pinfo->cnt == 0)
+		{
+			int	i;
+			int	stat_loc;
+
+			waitpid(var.pinfo->child_pid, &stat_loc, 0);
+			free_ast(var.ast);
+			var.ast = 0;
+			i = 1;
+			close(var.pinfo->fds[0][0]);
+			close(var.pinfo->fds[0][1]);
+			while (i < var.pinfo->num_fds)
+				close(var.pinfo->fds[i++][0]);
+			if (WEXITSTATUS(stat_loc) != 0)
+				exit(WEXITSTATUS(stat_loc));
+			else
+			{
+				continue;
+			}
+			
+		}
+		printf("cnt: %d, before run_func\n", var.pinfo->cnt - 1);
+		run_func(&var, ft_astindex(var.ast, var.pinfo->cnt - 1));
+		printf("--------------------------------\n");
+		// while (ptr != NULL) {
+		// 	run_func(&var, ptr);
+		// 	ptr = ptr->next;
+		// 	printf("-----------------------\n");
+		// }
 	}
 	b_exit(&var);
 }

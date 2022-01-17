@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
+/*   Updated: 2022/01/17 16:21:22 by naykim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -22,11 +34,21 @@ typedef struct s_ast
     struct s_ast    *next;
 } t_ast;
 
+typedef struct s_pipeinfo
+{
+	int	cnt;
+	int	child_pid;
+	int	num_fds;
+	int	**fds;
+} t_pipeinfo;
+
 typedef struct s_var
 {
-	char	*pwd_now;
-	t_ast	*ast;
-	char	**our_env;
+	char		*pwd_now;
+	char		**our_env;
+	int			ast_len;
+	t_ast		*ast;
+	t_pipeinfo	*pinfo;
 } t_var;
 
 typedef struct s_parsing
@@ -86,6 +108,8 @@ char	**ft_addonestring(char **origin, char *newline);
 char	**sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 int		ft_isWhite(char c);
+int		ft_astlen(t_ast *ast);
+t_ast *ft_astindex(t_ast *ast, int idx);
 
 
 #endif
