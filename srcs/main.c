@@ -42,17 +42,14 @@ void run_func(t_var *var, t_ast *ptr)
 	char *cmd = cmds[0];
 	int		stat_loc;
 	
-	printf("cmd: %s\n", cmd);
 	//waitpid(var->pinfo->child_pid, &stat_loc, WNOHANG);
 	// close(var->pinfo->fds[var->pinfo->cnt][1]);
 	// dup2(var->pinfo->fds[var->pinfo->cnt][0], STDIN_FILENO);
 	// dup2(var->pinfo->fds[var->pinfo->cnt - 1][1], STDOUT_FILENO);
 	if (!ft_strncmp(cmd, "cd", 2))
 		return b_cd(var, cmds);
-	if (!ft_strncmp(cmd, "pwd", 3)){
-		printf("pwd in\n");
+	if (!ft_strncmp(cmd, "pwd", 3))
 		return b_pwd();
-	}
 	if (!ft_strncmp(cmd, "env", 3))
 		return b_env(var->our_env);
 	if (!ft_strncmp(cmd, "echo", 4))
@@ -79,6 +76,8 @@ int	main(int ac, char **av, char **env) {
 	signal(SIGINT, sighandler_sigint);
 
 	while (1) {
+		printf("================start readline==============\n");
+		system("leaks minishell");
 		call_pwd(&var);
 		read = readline(var.pwd_now);
 		if (read == NULL)
@@ -94,48 +93,69 @@ int	main(int ac, char **av, char **env) {
 		var.ast = input;
 		var.ast_len = ft_astlen(var.ast);
 		init_pinfo(&var);
+		printf("================here2==============\n");
+		system("leaks minishell");
 		ptr = var.ast;
 		while (var.pinfo->cnt < var.ast_len)
 		{
+			printf("this turn cnt: %d\n", var.pinfo->cnt);
 			if (pipe(var.pinfo->fds[var.pinfo->cnt]) == -1)
 				return (1);
+						printf("================here3==============\n");
+		system("leaks minishell");
 			var.pinfo->child_pid = fork();
 			if (var.pinfo->child_pid == -1)
 				return (1);
 			else if (var.pinfo->child_pid != 0)
 				break ;
-			printf("cnt: %d\n", var.pinfo->cnt);
 			++(var.pinfo->cnt);
 		}
-		if (var.pinfo->cnt == 0)
+				printf("================here4==============\n");
+		system("leaks minishell");
+		if (var.pinfo->child_pid != 0)
 		{
 			int	i;
 			int	stat_loc;
 
-			waitpid(var.pinfo->child_pid, &stat_loc, 0);
-			free_ast(var.ast);
-			var.ast = 0;
-			i = 1;
-			close(var.pinfo->fds[0][0]);
-			close(var.pinfo->fds[0][1]);
-			while (i < var.pinfo->num_fds)
-				close(var.pinfo->fds[i++][0]);
+			if (var.pinfo->cnt == 0)
+			{
+				waitpid(var.pinfo->child_pid, &stat_loc, 0);
+				free_ast(var.ast);
+				var.ast = 0;
+				i = 1;
+				close(var.pinfo->fds[0][0]);
+				close(var.pinfo->fds[0][1]);
+				while (i < var.pinfo->num_fds)
+					close(var.pinfo->fds[i++][0]);
+			}
+			free_fd(var.pinfo);
 			if (WEXITSTATUS(stat_loc) != 0)
 				exit(WEXITSTATUS(stat_loc));
 			else
-			{
 				continue;
-			}
-			
 		}
 		printf("cnt: %d, before run_func\n", var.pinfo->cnt - 1);
 		run_func(&var, ft_astindex(var.ast, var.pinfo->cnt - 1));
 		printf("--------------------------------\n");
+		free_fd(var.pinfo);
+		exit(0);
 		// while (ptr != NULL) {
 		// 	run_func(&var, ptr);
 		// 	ptr = ptr->next;
 		// 	printf("-----------------------\n");
 		// }
 	}
+	free_fd(var.pinfo);
 	b_exit(&var);
+}
+
+void free_fd(t_pipeinfo *pinfo)
+{
+	for (int i = 0; i < pinfo->num_fds; i++)
+	{
+		free(pinfo->fds[i]);
+		pinfo->fds[i] = 0;
+	}
+	free(pinfo->fds);
+	pinfo->fds = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/17 16:21:22 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/17 20:05:59 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,6 @@ char	*lookup_value(char *start, size_t leng, char **env);
 int		ft_isWhite(char c);
 int		ft_astlen(t_ast *ast);
 t_ast *ft_astindex(t_ast *ast, int idx);
-
+void free_fd(t_pipeinfo *pinfo);
 
 #endif
