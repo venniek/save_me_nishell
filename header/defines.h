@@ -11,6 +11,7 @@
 #define FLG_SQ 0b00000001
 #define FLG_DQ 0b00000010
 #define FLG_DL 0b00000100
+#define FLG_RD 0b00001000
 #define WHITE 'W'
 #define PIPE 'P'
 #define RR 'r'

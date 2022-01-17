@@ -91,6 +91,14 @@ void	free_ast(t_ast *ast)
 		next_node = ast->next;
 		if (ast->text)
 			free_sstr(ast->text);
+		if (ast->rd_owrite)
+			free_sstr(ast->rd_owrite);
+		if (ast->rd_append)
+			free_sstr(ast->rd_append);
+		if (ast->rd_input)
+			free_sstr(ast->rd_input);
+		if (ast->heredoc)
+			free_sstr(ast->heredoc);
 		ast->text = 0;
 		free(ast);
 		ast = next_node;
