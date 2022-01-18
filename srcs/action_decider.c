@@ -98,27 +98,25 @@ size_t	get_actindex(const char *str, const char state)
 	if (*str == '\0')
 		return (decide_actset(FIN));
 	else if (*str == '~' && state == 's')
-		return (decide_actset(EXCL));
+		return decide_actset(EXCL);
 	else if (*str == '\'')
-		return (decide_actset(FLG_SQ));
+		return decide_actset(FLG_SQ);
 	else if (*str == '"')
-		return (decide_actset(FLG_DQ));
+		return decide_actset(FLG_DQ);
 	else if (*str == '$')
-		return (decide_actset(FLG_DL));
+		return decide_actset(FLG_DL);
 	else if (ft_isWhite(*str))
-		return (decide_actset(WHITE));
+		return decide_actset(WHITE);
 	else if (*str == '|')
-		return (decide_actset(PIPE));
+		return decide_actset(PIPE);
 	else if ((*str == '>') && *(str + 1) == '>')
-		return (decide_actset(RRR));
+		return decide_actset(RRR);
 	else if (*str == '>')
-		return (decide_actset(RR));
+		return decide_actset(RR);
 	else if ((*str == '<') && *(str + 1) == '<')
-		return (decide_actset(LRR));
+		return decide_actset(LRR);
 	else if (*str == '<')
-		return (decide_actset(LR));
-	else if (ft_isalnum(*str) == 0)
-		return (decide_actset(NOT_ALP_NUM));
+		return decide_actset(LR);
 	return (J);
 }
 
