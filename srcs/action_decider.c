@@ -18,31 +18,21 @@ size_t	actset_fin(char *flgs)
 	return (result);
 }
 
-//size_t actset_siglequotes(char *flgs)
-//{
-//	*flgs &= ~FLG_SQ;
-//	return (CJI);
-//}
-
-size_t actset_dollar(char *flgs, char flg)
+size_t	actset_dollar(char *flgs, char flg)
 {
-	size_t result;
+	size_t	result;
 
 	result = J;
 	if (flg != ALNUM)
 	{
 		if (((*flgs & FLG_DQ) == FLG_DQ && flg != FLG_DQ) || flg == NOT_ALP_NUM)
 			result = EIJ;
-		else if (flg == PIPE)
-			result = EJINP;
-		else if (flg == RR)
-			result = EJINR;
-		else if (flg == LR)
-			result = EJINL;
-		else if (flg == RRR)
-			result = EJJINR;
-		else if (flg == LRR )
-			result = EJJINL;
+		else if (flg >= PIPE && flg <= LRR)
+		{
+			if (flg == LRR)
+				*flgs |= FLG_RD;
+			result = EJINP + (flg - PIPE);
+		}
 		else if (flg == WHITE)
 			result = EJIAW;
 		else
@@ -50,46 +40,38 @@ size_t actset_dollar(char *flgs, char flg)
 		if (((*flgs & FLG_DQ) != FLG_DQ && flg == FLG_SQ) || flg == FLG_DQ)
 			rev_flg(flgs, flg);
 		if (flg != FLG_DL)
-			*flgs &= ~FLG_DL;//rev_flg(flgs, FLG_DL);
+			*flgs &= ~FLG_DL;
 	}
 	return (result);
 }
 
 size_t	actset_noflgs(char *flgs, char flg)
 {
-	size_t	result;
-
-	result = J;
-	
-	// if ((*flgs & FLG_RD) != FLG_RD && flg == LRR)
-	// 	*flgs |= FLG_RD;
-	// else if ((*flgs & FLG_RD) == FLG_RD)
-	// 	*flgs &= ~FLG_RD;
+	if (flg == LRR)
+		*flgs |= FLG_RD;
 	if (flg == FLG_DQ || flg == FLG_SQ || flg == FLG_DL)
 	{
-		// if (!((*flgs & FLG_RD) == FLG_RD && flg == FLG_DL))
-		// {
-			result = CJI;
+		if (!((*flgs & FLG_RD) == FLG_RD && flg == FLG_DL))
+		{
 			rev_flg(flgs, flg);
-		// }
+			return (CJI);
+		}
 	}
-	else if (flg == PIPE)
-		result = CJINP;	//4
-	else if (flg == RR)
-		result = CJINR;	//5
-	else if (flg == LR)
-		result = CJINL;	//6
-	else if (flg == RRR)
-		result = CJJINR;	//10
-	else if (flg == LRR)
-		result = CJJINL;	//11
+	else if (flg >= PIPE && flg <= LRR)
+	{
+		if (flg == LRR)
+			*flgs |= FLG_RD;
+		else
+			*flgs &= ~FLG_RD;
+		return (CJINP + (flg - PIPE));
+	}
 	else if (flg == EXCL)
-		result = HJI;	//18
+		return (HJI);
 	else if (flg == WHITE)
-		result = CJIAW;        //14
+		return (CJIAW);
 	else if (flg != NOT_ALP_NUM)
-		result = CJI;	//1
-	return (result);
+		return (CJI);
+	return (J);
 }
 
 // 입력된 문자열을 확인해서 확인해봐야하는 문자를 보내는 함수.
@@ -133,30 +115,28 @@ size_t	get_actindex(const char *str, const char state)
 size_t	decide_actset(char flg)
 {
 	static char	flgs = 0;
-	size_t		result;
 
-	result = J;
 	if (flg == FIN)
-		result = actset_fin(&flgs);
+		return (actset_fin(&flgs));
 	else if ((flgs & FLG_SQ) == FLG_SQ)
 	{
 		if (flg == FLG_SQ)
 		{
 			flgs &= ~FLG_SQ;
-			result = CJI;
+			return (CJI);
 		}
 	}
-	else if ((flgs & FLG_DL) == FLG_DL)
-		result = actset_dollar(&flgs, flg);
+	else if ((flgs & FLG_DL) == FLG_DL && (flgs & FLG_RD) != FLG_RD)
+		return (actset_dollar(&flgs, flg));
 	else if ((flgs & FLG_DQ) == FLG_DQ)
 	{
-		if (flg == FLG_DQ || flg == FLG_DL)
+		if (flg == FLG_DQ || (flg == FLG_DL && (flgs & FLG_RD) != FLG_RD))
 		{
-			result = CJI;
 			rev_flg(&flgs, flg);
+			return (CJI);
 		}
 	}
 	else
-		result = actset_noflgs(&flgs, flg);
-	return result;
+		return (actset_noflgs(&flgs, flg));
+	return (J);
 }

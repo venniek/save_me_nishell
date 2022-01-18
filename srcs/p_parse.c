@@ -2,11 +2,12 @@
 
 char	*get_actset(size_t idx)
 {
-	static char *actset[20] =
+	static char	*actset[20] =
 			{"J", "CJI", "EJI", "EIJ", "CJIAP",
-			 "CJIAR", "CJIAL", "EJIAP", "EJIAR", "EJIAL",
-			 "CJJIAr", "CJJIAl", "EJJIAr", "EJJIAl", "CJIAW",
+			 "CJIAR", "CJJIAr", "CJIAL", "CJJIAl", "EJIAP",
+			 "EJIAR", "EJJIAr", "EJIAL", "EJJIAl", "CJIAW",
 			 "EJIAW", "CAF", "EAF", "HJI", "e"};
+
 	return (actset[idx]);
 }
 
@@ -39,8 +40,8 @@ char	i_to_w(t_parsing *ps, char **line)
 		action_white(line, ps);
 	else if (*ps->act == 'P')
 		state = action_appendlist(ps);
-	else if (*ps->act == 'R' ||
-			 *ps->act == 'r' || *ps->act == 'L' || *ps->act == 'l')
+	else if (*ps->act == 'R' || *ps->act == 'r'
+		|| *ps->act == 'L' || *ps->act == 'l')
 	{
 		action_white(line, ps);
 		ps->where = *ps->act;
@@ -72,11 +73,7 @@ t_ast	*parser(char *line, char **env)
 			if (*ps.act == 'A')
 				ps.state = action_addonestring(&ps);
 			else if (*ps.act == 'e')
-			{
-				free_ast(ps.result);
-				ps.result = NULL;
-				ps.state = action_fin(ps.buffer);
-			}
+				action_err(&ps);
 			else if (*ps.act <= 'H')
 				ps.state = c_to_h(&ps, env, &line);
 			else
@@ -86,5 +83,3 @@ t_ast	*parser(char *line, char **env)
 	}
 	return (ps.result);
 }
-
-

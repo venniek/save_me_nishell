@@ -51,6 +51,7 @@ char	*action_cat(char *dst, char *src, size_t slide);
 char	*action_env(char *dst, char *src, char **env, size_t slide);
 char	action_addonestring(t_parsing *ps);
 void	action_white(char **line, t_parsing *ps);
+void	action_err(t_parsing *ps);
 //void	action_white(char **line, const size_t *slide);
 //char	action_appendlist(t_ast *result, char **buffer, const char *act);
 char	action_appendlist(t_parsing *ps);
@@ -93,6 +94,7 @@ char	**ft_addonestring(char **origin, char *newline);
 char	**sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 int		ft_isWhite(char c);
+char	**init_sstr(void);
 
 
 #endif
