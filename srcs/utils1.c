@@ -171,3 +171,48 @@ int ft_isWhite(char c)
 {
 	return ((c >= 9 && c <= 13) || c == 32);
 }
+
+int	ft_astlen(t_ast *ast)
+{
+	int	len;
+
+	len = 0;
+	while (ast)
+	{
+		ast = ast->next;
+		len++;
+	}
+	return (len);
+}
+
+t_ast *ft_astindex(t_ast *ast, int idx)
+{
+	t_ast *ret;
+
+	ret = ast;
+	while (idx-- > 0)
+		ret = ret->next;
+	return (ret);
+}
+
+void free_pinfo(t_var *var)
+{
+	for (int i = 0; i < var->pinfo->num_fds; i++)
+	{
+		if (var->pinfo->fds[i])
+		{
+			free(var->pinfo->fds[i]);
+			var->pinfo->fds[i] = 0;
+		}
+	}
+	if (var->pinfo->fds)
+	{
+		free(var->pinfo->fds);
+		var->pinfo->fds = 0;
+	}
+	if (var->pinfo)
+	{
+		free(var->pinfo);
+		var->pinfo = 0;
+	}
+}
