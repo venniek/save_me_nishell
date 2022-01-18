@@ -68,7 +68,6 @@ void run_func(t_var *var, t_ast *ptr)
 int	main(int ac, char **av, char **env) {
 	char	*read;
 	t_ast	*input;
-	t_ast	*ptr;
 	t_var	var;
 
 	init_var(&var, env);
@@ -91,10 +90,8 @@ int	main(int ac, char **av, char **env) {
 		var.ast = input;
 		var.ast_len = ft_astlen(var.ast);
 		init_pinfo(&var);
-		ptr = var.ast;
 		while (var.pinfo->cnt < var.ast_len)
 		{
-			printf("this turn cnt: %d\n", var.pinfo->cnt);
 			if (pipe(var.pinfo->fds[var.pinfo->cnt]) == -1)
 				return (1);
 			var.pinfo->child_pid = fork();
@@ -126,37 +123,10 @@ int	main(int ac, char **av, char **env) {
 			else
 				continue;
 		}
-		run_func(&var, ft_astindex(var.ast, var.pinfo->cnt - 1));
+		run_func(&var, ft_astindex(var.ast, var.pinfo->num_fds - var.pinfo->cnt - 1));
 		printf("--------------------------------\n");
 		free_pinfo(&var);
 		exit(0);
-		// while (ptr != NULL) {
-		// 	run_func(&var, ptr);
-		// 	ptr = ptr->next;
-		// 	printf("-----------------------\n");
-		// }
 	}
 	b_exit(&var);
-}
-
-void free_pinfo(t_var *var)
-{
-	for (int i = 0; i < var->pinfo->num_fds; i++)
-	{
-		if (var->pinfo->fds[i])
-		{
-			free(var->pinfo->fds[i]);
-			var->pinfo->fds[i] = 0;
-		}
-	}
-	if (var->pinfo->fds)
-	{
-		free(var->pinfo->fds);
-		var->pinfo->fds = 0;
-	}
-	if (var->pinfo)
-	{
-		free(var->pinfo);
-		var->pinfo = 0;
-	}
 }
