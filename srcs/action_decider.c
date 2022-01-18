@@ -31,7 +31,7 @@ size_t actset_dollar(char *flgs, char flg)
 	result = J;
 	if (flg != ALNUM)
 	{
-		if ((*flgs & FLG_DQ) == FLG_DQ && flg != FLG_DQ)
+		if (((*flgs & FLG_DQ) == FLG_DQ && flg != FLG_DQ) || flg == NOT_ALP_NUM)
 			result = EIJ;
 		else if (flg == PIPE)
 			result = EJINP;
@@ -50,7 +50,7 @@ size_t actset_dollar(char *flgs, char flg)
 		if (((*flgs & FLG_DQ) != FLG_DQ && flg == FLG_SQ) || flg == FLG_DQ)
 			rev_flg(flgs, flg);
 		if (flg != FLG_DL)
-			rev_flg(flgs, FLG_DL);
+			*flgs &= ~FLG_DL;//rev_flg(flgs, FLG_DL);
 	}
 	return (result);
 }
@@ -87,7 +87,7 @@ size_t	actset_noflgs(char *flgs, char flg)
 		result = HJI;	//18
 	else if (flg == WHITE)
 		result = CJIAW;        //14
-	else
+	else if (flg != NOT_ALP_NUM)
 		result = CJI;	//1
 	return (result);
 }
