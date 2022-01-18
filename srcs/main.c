@@ -76,8 +76,6 @@ int	main(int ac, char **av, char **env) {
 	signal(SIGINT, sighandler_sigint);
 
 	while (1) {
-		printf("================start readline==============\n");
-		system("leaks minishell");
 		call_pwd(&var);
 		read = readline(var.pwd_now);
 		if (read == NULL)
@@ -93,16 +91,12 @@ int	main(int ac, char **av, char **env) {
 		var.ast = input;
 		var.ast_len = ft_astlen(var.ast);
 		init_pinfo(&var);
-		printf("================here2==============\n");
-		system("leaks minishell");
 		ptr = var.ast;
 		while (var.pinfo->cnt < var.ast_len)
 		{
 			printf("this turn cnt: %d\n", var.pinfo->cnt);
 			if (pipe(var.pinfo->fds[var.pinfo->cnt]) == -1)
 				return (1);
-						printf("================here3==============\n");
-		system("leaks minishell");
 			var.pinfo->child_pid = fork();
 			if (var.pinfo->child_pid == -1)
 				return (1);
@@ -110,8 +104,6 @@ int	main(int ac, char **av, char **env) {
 				break ;
 			++(var.pinfo->cnt);
 		}
-				printf("================here4==============\n");
-		system("leaks minishell");
 		if (var.pinfo->child_pid != 0)
 		{
 			int	i;
@@ -128,16 +120,15 @@ int	main(int ac, char **av, char **env) {
 				while (i < var.pinfo->num_fds)
 					close(var.pinfo->fds[i++][0]);
 			}
-			free_fd(var.pinfo);
+			free_pinfo(&var);
 			if (WEXITSTATUS(stat_loc) != 0)
 				exit(WEXITSTATUS(stat_loc));
 			else
 				continue;
 		}
-		printf("cnt: %d, before run_func\n", var.pinfo->cnt - 1);
 		run_func(&var, ft_astindex(var.ast, var.pinfo->cnt - 1));
 		printf("--------------------------------\n");
-		free_fd(var.pinfo);
+		free_pinfo(&var);
 		exit(0);
 		// while (ptr != NULL) {
 		// 	run_func(&var, ptr);
@@ -145,17 +136,27 @@ int	main(int ac, char **av, char **env) {
 		// 	printf("-----------------------\n");
 		// }
 	}
-	free_fd(var.pinfo);
 	b_exit(&var);
 }
 
-void free_fd(t_pipeinfo *pinfo)
+void free_pinfo(t_var *var)
 {
-	for (int i = 0; i < pinfo->num_fds; i++)
+	for (int i = 0; i < var->pinfo->num_fds; i++)
 	{
-		free(pinfo->fds[i]);
-		pinfo->fds[i] = 0;
+		if (var->pinfo->fds[i])
+		{
+			free(var->pinfo->fds[i]);
+			var->pinfo->fds[i] = 0;
+		}
 	}
-	free(pinfo->fds);
-	pinfo->fds = 0;
+	if (var->pinfo->fds)
+	{
+		free(var->pinfo->fds);
+		var->pinfo->fds = 0;
+	}
+	if (var->pinfo)
+	{
+		free(var->pinfo);
+		var->pinfo = 0;
+	}
 }

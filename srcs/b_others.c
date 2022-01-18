@@ -6,7 +6,7 @@
 /*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/17 02:55:29 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/18 02:34:18 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	b_exit(t_var *var)
 		free(var->pwd_now);
 		var->pwd_now = 0;
 	}
+	if (var->pinfo)
+		free_pinfo(var);
 	printf("=== terminate our minishell ===\n");
 	system("leaks minishell");
 	exit(0);
