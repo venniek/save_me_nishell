@@ -3,11 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/18 18:07:38 by gyeon            ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2022/01/19 07:12:07 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +88,7 @@ char	**sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 size_t	get_actindex(const char *str, const char state);
 
-//=========naykim=========//
+//=========builtin=========//
 void	b_env(char **our_env);
 void	b_cd(t_var *var, char **cmd);
 void	b_pwd(void);
@@ -101,6 +100,11 @@ void	b_exec(t_var *var, char **cmds);
 void	run_command(char **cmds, char **env);
 void	find_cmd(char **path, int i, char **cmd, char **env);
 char	**make_paths(char **env);
+void	only_one_command(t_var *var);
+void	init_var(t_var *var, char **env);
+void	init_pinfo(t_var *var);
+void	prt_sstr(char **sstr);
+void	prt_allast(t_ast *ast);
 
 //=========srcs=========//
 char	**ft_sstrdup(char **origin);

@@ -51,7 +51,7 @@ void	run_command(char **cmds, char **env)
 	free_sstr(path);
 }
 
-void b_exec(t_var *var, char **cmds)
+void	b_exec(t_var *var, char **cmds)
 {
 	int		pid;
 	int		status;
@@ -61,7 +61,7 @@ void b_exec(t_var *var, char **cmds)
 	{
 		run_command(cmds, var->our_env);
 		printf("minishell: %s: command not found\n", cmds[0]);
-		exit(126); // ?? 126 맞나?
+		exit(127);
 	}
 	else
 		waitpid(pid, &status, 0);

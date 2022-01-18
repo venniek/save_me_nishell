@@ -11,19 +11,19 @@ DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
 SRCS = action_decider.c b_export.c b_others.c b_unset.c b_exec.c\
 	handle_error.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c \
-	utils1.c
+	utils1.c utils_init.c utils_remove.c
 
 all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
-	$(GCC) $(FLGS) $^ -o $@ $(LR_NK_MAC)
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_NAYKIM)
+	#$(GCC) $(FLGS) $^ -o $@ $(LR_NK_MAC)
+	$(GCC) $(FLGS) $^ -o $@ $(LR_NAYKIM)
 	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY_MAC)
 	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY)
 	stty -echoctl
 
 %.o : %.c
-	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK_MAC)
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NAYKIM)
+	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK_MAC)
+	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NAYKIM)
 	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY_MAC)
 	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY)
 
