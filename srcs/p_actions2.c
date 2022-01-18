@@ -4,10 +4,10 @@
 
 #include "../header/minishell.h"
 
-//char	action_addonestring(t_ast *lst, char **buffer)
 char	action_addonestring(t_parsing *ps)
 {
 	t_ast	*last;
+
 	if (ps->buffer != NULL)
 	{
 		if ((ps->buffer)[0] != '\0')
@@ -30,32 +30,28 @@ char	action_addonestring(t_parsing *ps)
 	return ('s');
 }
 
-void action_white(char **line, t_parsing *ps)
+void	action_white(char **line, t_parsing *ps)
 {
 	*line += ps->slide;
-	while (1) {
+	while (1)
+	{
 		if (**line == '\0' || !ft_isWhite(**line))
-			break;
+			break ;
 		++(*line);
 	}
 	ps->where = 'c';
 }
 
-//char action_appendlist(t_ast *result, char **buffer, const char *act)
-char action_appendlist(t_parsing *ps)
+char	action_appendlist(t_parsing *ps)
 {
-	// free(*buffer);
-	// add_ast(result, *act);
-	// buffer = NULL;
-	// return 's';
 	free(ps->buffer);
 	add_ast(ps->result, 'c');
 	ps->buffer = NULL;
 	ps->where = 'c';
-	return 's';
+	return ('s');
 }
 
-char action_fin(char *buffer)
+char	action_fin(char *buffer)
 {
 	free(buffer);
 	return ('F');

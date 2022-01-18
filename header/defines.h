@@ -8,17 +8,17 @@
 #define TRUE 1
 #define FALSE 0
 
-#define FLG_SQ 0b00000001
-#define FLG_DQ 0b00000010
-#define FLG_DL 0b00000100
-#define FLG_RD 0b00001000
+#define FLG_SQ 0b00000001	// 1
+#define FLG_DQ 0b00000010	// 2
+#define FLG_DL 0b00000100	// 4
+#define FLG_RD 0b00001000	// 8
 #define	NOT_ALP_NUM	'n'
 #define WHITE 'W'
-#define PIPE 'P'
-#define RR 'r'
-#define RRR 'R'
-#define LR 'l'
-#define LRR 'L'
+#define PIPE	'P'
+#define RR		'Q'
+#define RRR		'R'
+#define LR		'S'
+#define LRR		'T'
 #define ALNUM 'A'
 #define EXCL '~'
 #define FIN 'F'
@@ -28,16 +28,27 @@
 #define EJI		2
 #define HJI		18
 #define EIJ		3
-#define CJINP	4
+// #define CJINP	4	//pipe
+// #define CJINR	5
+// #define CJJINR	10
+// #define CJINL	6
+// #define CJJINL	11
+// #define EJINP	7	//pipe
+// #define EJINR	8
+// #define EJJINR	12
+// #define EJINL	9
+// #define EJJINL	13
+#define CJINP	4	//pipe
 #define CJINR	5
-#define CJINL	6
-#define EJINP	7
-#define EJINR	8
-#define EJINL	9
-#define CJJINR	10
-#define CJJINL	11
-#define EJJINR	12
+#define CJJINR	6
+#define CJINL	7
+#define CJJINL	8
+#define EJINP	9	//pipe
+#define EJINR	10
+#define EJJINR	11
+#define EJINL	12
 #define EJJINL	13
+
 #define CJIAW	14
 #define EJIAW	15
 #define CAF		16

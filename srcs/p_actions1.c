@@ -39,3 +39,10 @@ char	*action_env(char *dst, char *src, char **env, size_t slide)
 		return (NULL);
 	return (result);
 }
+
+void	action_err(t_parsing *ps)
+{
+	free_ast(ps->result);
+	ps->result = NULL;
+	ps->state = action_fin(ps->buffer);
+}
