@@ -59,27 +59,36 @@ size_t	actset_noflgs(char *flgs, char flg)
 {
 	size_t	result;
 
+	result = J;
+	
+	// if ((*flgs & FLG_RD) != FLG_RD && flg == LRR)
+	// 	*flgs |= FLG_RD;
+	// else if ((*flgs & FLG_RD) == FLG_RD)
+	// 	*flgs &= ~FLG_RD;
 	if (flg == FLG_DQ || flg == FLG_SQ || flg == FLG_DL)
 	{
-		result = CJI;
-		rev_flg(flgs, flg);
+		// if (!((*flgs & FLG_RD) == FLG_RD && flg == FLG_DL))
+		// {
+			result = CJI;
+			rev_flg(flgs, flg);
+		// }
 	}
 	else if (flg == PIPE)
-		result = CJINP;
+		result = CJINP;	//4
 	else if (flg == RR)
-		result = CJINR;
+		result = CJINR;	//5
 	else if (flg == LR)
-		result = CJINL;
+		result = CJINL;	//6
 	else if (flg == RRR)
-		result = CJJINR;
-	else if (flg == LRR )
-		result = CJJINL;
+		result = CJJINR;	//10
+	else if (flg == LRR)
+		result = CJJINL;	//11
 	else if (flg == EXCL)
-		result = HJI;
+		result = HJI;	//18
 	else if (flg == WHITE)
-		result = CJIAW;
+		result = CJIAW;        //14
 	else
-		result = CJI;
+		result = CJI;	//1
 	return (result);
 }
 

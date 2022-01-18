@@ -16,13 +16,13 @@ char	c_to_h(t_parsing *ps, char **env, char **line)
 
 	state = 'm';
 	if (*ps->act == 'C')
-		ps->cursor = action_cat(ps->cursor, *line, ps->slide);
+		ps->buffer = action_cat(ps->buffer, *line, ps->slide);
 	else if (*ps->act == 'E')
-		ps->cursor = action_env(ps->cursor, *line, env, ps->slide);
+		ps->buffer = action_env(ps->buffer, *line, env, ps->slide);
 	else if (*ps->act == 'H')
-		ps->cursor = action_env(ps->cursor, "HOME", env, 4);
+		ps->buffer = action_env(ps->buffer, "HOME", env, 4);
 	else if (*ps->act == 'F')
-		state = action_fin(ps->cursor);
+		state = action_fin(ps->buffer);
 	return (state);
 }
 
@@ -36,19 +36,26 @@ char	i_to_w(t_parsing *ps, char **line)
 	else if (*ps->act == 'I')
 		action_idx(line, &ps->slide);
 	else if (*ps->act == 'W')
-		action_white(line, &ps->slide);
-	else if (*ps->act == 'P' || *ps->act == 'R' ||
+		action_white(line, ps);
+	else if (*ps->act == 'P')
+		state = action_appendlist(ps);
+	else if (*ps->act == 'R' ||
 			 *ps->act == 'r' || *ps->act == 'L' || *ps->act == 'l')
-		state = action_appendlist(ps->result, &ps->cursor, ps->act);
+	{
+		action_white(line, ps);
+		ps->where = *ps->act;
+		state = 's';
+	}
 	return (state);
 }
 
 void	init_parsing(t_parsing *parsing)
 {
-	parsing->cursor = NULL;
+	parsing->buffer = NULL;
 	parsing->result = init_ast();
 	parsing->slide = 0;
 	parsing->state = 's';
+	parsing->where = 'c';
 }
 
 t_ast	*parser(char *line, char **env)
@@ -63,12 +70,12 @@ t_ast	*parser(char *line, char **env)
 		while (*ps.act != '\0')
 		{
 			if (*ps.act == 'A')
-				ps.state = action_addonestring(ps.result, &ps.cursor);
+				ps.state = action_addonestring(&ps);
 			else if (*ps.act == 'e')
 			{
 				free_ast(ps.result);
 				ps.result = NULL;
-				ps.state = action_fin(ps.cursor);
+				ps.state = action_fin(ps.buffer);
 			}
 			else if (*ps.act <= 'H')
 				ps.state = c_to_h(&ps, env, &line);

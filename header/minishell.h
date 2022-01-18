@@ -19,6 +19,10 @@ typedef struct s_ast
     // exec에 들어갈 프로그램 + 옵션 입력 char**
     // -> exec함수에 바로 입력 가능한 형태로.
     char            **text;
+	char			**rd_owrite;		// >
+	char			**rd_append;	// >>
+	char			**rd_input;		// <
+	char			**heredoc;		// <<
     struct s_ast    *next;
 } t_ast;
 
@@ -31,9 +35,10 @@ typedef struct s_var
 
 typedef struct s_parsing
 {
+	char	where;
 	t_ast 	*result;
 	char 	*act;
-	char	*cursor;
+	char	*buffer;
 	char 	state;
 	size_t 	slide;
 } t_parsing;
@@ -44,10 +49,12 @@ char	*malloc_n_lcat(char *dst, char *src, size_t leng);
 void	action_idx(char **line, size_t *slide);
 char	*action_cat(char *dst, char *src, size_t slide);
 char	*action_env(char *dst, char *src, char **env, size_t slide);
-char	action_addonestring(t_ast *lst, char **cursor);
-void	action_white(char **line, const size_t *slide);
-char	action_appendlist(t_ast *result, char **cursor, const char *act);
-char	action_fin(char *cursor);
+char	action_addonestring(t_parsing *ps);
+void	action_white(char **line, t_parsing *ps);
+//void	action_white(char **line, const size_t *slide);
+//char	action_appendlist(t_ast *result, char **buffer, const char *act);
+char	action_appendlist(t_parsing *ps);
+char	action_fin(char *buffer);
 t_ast	*init_ast();
 void	add_ast(t_ast *front, char type);
 size_t	decide_actset(char flg);
