@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/18 14:20:25 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/18 18:07:38 by gyeon            ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +74,7 @@ char	*action_cat(char *dst, char *src, size_t slide);
 char	*action_env(char *dst, char *src, char **env, size_t slide);
 char	action_addonestring(t_parsing *ps);
 void	action_white(char **line, t_parsing *ps);
+void	action_err(t_parsing *ps);
 //void	action_white(char **line, const size_t *slide);
 //char	action_appendlist(t_ast *result, char **buffer, const char *act);
 char	action_appendlist(t_parsing *ps);
@@ -118,5 +120,6 @@ int		ft_isWhite(char c);
 int		ft_astlen(t_ast *ast);
 t_ast *ft_astindex(t_ast *ast, int idx);
 void free_pinfo(t_var *var);
+char	**init_sstr(void);
 
 #endif
