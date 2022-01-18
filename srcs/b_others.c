@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_others.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/18 02:34:18 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/18 14:15:44 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,30 @@ void	b_pwd(void)
 
 int	b_exit(t_var *var)
 {
+	printf("before free ast\n");
 	if (var->ast)
 	{
 		free_ast(var->ast);
 		var->ast = 0;
 	}
+	printf("before free our_env\n");
 	if (var->our_env)
 	{
 		free_sstr(var->our_env);
 		var->our_env = 0;
 	}
+	printf("before free pwd_now\n");
 	if (var->pwd_now)
 	{
 		free(var->pwd_now);
 		var->pwd_now = 0;
 	}
+	printf("before free pinfo\n");
 	if (var->pinfo)
+	{
 		free_pinfo(var);
+		var->pinfo = 0;
+	}
 	printf("=== terminate our minishell ===\n");
 	system("leaks minishell");
 	exit(0);

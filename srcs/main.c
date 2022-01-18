@@ -36,35 +36,6 @@ void init_pinfo(t_var *var)
 	}
 }
 
-void run_func(t_var *var, t_ast *ptr)
-{
-	char **cmds = ptr->text;
-	char *cmd = cmds[0];
-	int		stat_loc;
-	
-	//waitpid(var->pinfo->child_pid, &stat_loc, WNOHANG);
-	// close(var->pinfo->fds[var->pinfo->cnt][1]);
-	// dup2(var->pinfo->fds[var->pinfo->cnt][0], STDIN_FILENO);
-	// dup2(var->pinfo->fds[var->pinfo->cnt - 1][1], STDOUT_FILENO);
-	if (!ft_strncmp(cmd, "cd", 2))
-		return b_cd(var, cmds);
-	if (!ft_strncmp(cmd, "pwd", 3))
-		return b_pwd();
-	if (!ft_strncmp(cmd, "env", 3))
-		return b_env(var->our_env);
-	if (!ft_strncmp(cmd, "echo", 4))
-		return b_echo(cmds);
-	if (!ft_strncmp(cmd, "export", 6))
-		return b_export(var, cmds);
-	if (!ft_strncmp(cmd, "unset", 5))
-		return b_unset(var, cmds);
-	if (!ft_strncmp(cmd, "exit", 4))
-		b_exit(var);
-	else
-		b_exec(var, cmds);
-
-}
-
 void	prt_sstr(char **sstr)
 {
 	size_t	i = 0;
@@ -96,6 +67,42 @@ void	prt_allast(t_ast *ast)
 	return ;
 }
 
+void run_func(t_var *var, t_ast *ptr)
+{
+	char **cmds;
+	char *cmd;
+	int		stat_loc;
+	
+	if (!ptr->text)
+		return ;
+	if (!ptr->text[0])
+		return ;
+	cmds = ptr->text;
+	cmd = cmds[0];
+	printf("======here start run_func. cmd: %s\n", cmd);
+	// waitpid(var->pinfo->child_pid, &stat_loc, WNOHANG);
+	// close(var->pinfo->fds[var->pinfo->cnt][1]);
+	// dup2(var->pinfo->fds[var->pinfo->cnt][0], STDIN_FILENO);
+	// dup2(var->pinfo->fds[var->pinfo->cnt - 1][1], STDOUT_FILENO);
+	if (!ft_strncmp(cmd, "cd", 2))
+		return b_cd(var, cmds);
+	if (!ft_strncmp(cmd, "pwd", 3))
+		return b_pwd();
+	if (!ft_strncmp(cmd, "env", 3))
+		return b_env(var->our_env);
+	if (!ft_strncmp(cmd, "echo", 4))
+		return b_echo(cmds);
+	if (!ft_strncmp(cmd, "export", 6))
+		return b_export(var, cmds);
+	if (!ft_strncmp(cmd, "unset", 5))
+		return b_unset(var, cmds);
+	if (!ft_strncmp(cmd, "exit", 4))
+		b_exit(var);
+	else
+		b_exec(var, cmds);
+
+}
+
 int	main(int ac, char **av, char **env) {
 	char	*read;
 	t_ast	*input;
@@ -109,7 +116,10 @@ int	main(int ac, char **av, char **env) {
 		call_pwd(&var);
 		read = readline(var.pwd_now);
 		if (read == NULL)
+		{
+			printf("let's break\n");
 			break ;
+		}
 		input = parser(read, env);
 		free(read);
 		read = NULL;
@@ -118,10 +128,25 @@ int	main(int ac, char **av, char **env) {
 			write(1, "plz close quotes.\n", 18);
 			continue ;
 		}
-		prt_allast(input);
+		// prt_allast(input);
 		var.ast = input;
 		var.ast_len = ft_astlen(var.ast);
+		if (!var.ast->text[0])
+		{
+			printf("no cmd. just new line\n");
+			free_ast(var.ast);
+			continue;
+		}
 		init_pinfo(&var);
+		if (var.ast_len == 1)
+		{
+			printf("here is just one ast\n");
+			run_func(&var, var.ast);
+			printf("--------------------------------\n");
+			free_ast(var.ast);
+			free_pinfo(&var);
+			continue ;
+		}
 		while (var.pinfo->cnt < var.ast_len)
 		{
 			if (pipe(var.pinfo->fds[var.pinfo->cnt]) == -1)
@@ -141,6 +166,7 @@ int	main(int ac, char **av, char **env) {
 			if (var.pinfo->cnt == 0)
 			{
 				waitpid(var.pinfo->child_pid, &stat_loc, 0);
+				printf("======this is the very first parent======\n");
 				free_ast(var.ast);
 				var.ast = 0;
 				i = 1;
@@ -148,17 +174,30 @@ int	main(int ac, char **av, char **env) {
 				close(var.pinfo->fds[0][1]);
 				while (i < var.pinfo->num_fds)
 					close(var.pinfo->fds[i++][0]);
+				// free_pinfo(&var);
 			}
-			free_pinfo(&var);
+			else
+			{
+				waitpid(var.pinfo->child_pid, &stat_loc, 0);
+				printf("===here is parent after waiting child\n");
+			}
 			if (WEXITSTATUS(stat_loc) != 0)
 				exit(WEXITSTATUS(stat_loc));
 			else
-				continue;
+			{
+				if (var.pinfo->cnt == 0)
+				{
+					free_pinfo(&var);
+					continue;
+				}
+			}
 		}
-		run_func(&var, ft_astindex(var.ast, var.pinfo->num_fds - var.pinfo->cnt - 1));
+		run_func(&var, ft_astindex(var.ast, var.pinfo->num_fds - var.pinfo->cnt));
 		printf("--------------------------------\n");
 		free_pinfo(&var);
-		exit(0);
+		printf("before exit number %d process\n", var.pinfo->cnt);
+		// exit(0);
 	}
+	printf("before last b_exit\n");
 	b_exit(&var);
 }

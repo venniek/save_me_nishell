@@ -25,6 +25,8 @@ size_t ft_sstrlen(char **strstr)
 	size_t leng;
 
 	leng = 0;
+	if (!strstr)
+		return (0);
 	while (strstr[leng] != NULL)
 		++leng;
 	return (leng);
@@ -99,7 +101,6 @@ void	free_ast(t_ast *ast)
 			free_sstr(ast->rd_input);
 		if (ast->heredoc)
 			free_sstr(ast->heredoc);
-		ast->text = 0;
 		free(ast);
 		ast = next_node;
 	}
@@ -109,13 +110,14 @@ void	free_sstr(char **sstr)
 	int	i;
 	int	sstr_len;
 
-	i = -1;
-	sstr_len = ft_sstrlen(sstr);
-	while (++i < sstr_len)
+	i = 0;
+	if (!sstr)
+		return ;
+	while (sstr[i])
 	{
-		if (sstr[i])
-			free(sstr[i]);
+		free(sstr[i]);
 		sstr[i] = 0;
+		i++;
 	}
 	if (sstr)
 		free(sstr);
