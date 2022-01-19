@@ -92,6 +92,14 @@ char	**sstrncat(char **origin, char *newline, int n)
 	return origin;
 }
 
+void	free_ast_in_var(t_var *var)
+{
+	if (!var)
+		return ;
+	free_ast(var->ast);
+	var->ast = 0;
+}
+
 void	free_ast(t_ast *ast)
 {
 	t_ast *next_node;
@@ -207,6 +215,8 @@ t_ast *ft_astindex(t_ast *ast, int idx)
 
 void free_pinfo(t_var *var)
 {
+	if (!var->pinfo)
+		return ;
 	for (int i = 0; i < var->pinfo->num_fds; i++)
 	{
 		if (var->pinfo->fds[i])

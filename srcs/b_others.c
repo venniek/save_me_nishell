@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_others.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/19 06:56:50 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/19 15:53:47 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,7 @@ void	b_pwd(void)
 int	b_exit(t_var *var)
 {
 	if (var->ast)
-	{
-		free_ast(var->ast);
-		var->ast = 0;
-	}
+		free_ast_in_var(var);
 	if (var->our_env)
 	{
 		free_sstr(var->our_env);
@@ -90,7 +87,7 @@ int	b_exit(t_var *var)
 	}
 	if (var->pinfo)
 		free_pinfo(var);
-	printf("✅✅✅✅\nterminate our minishell ===\n✅✅✅✅leak check\n");
+	printf("✅✅✅✅\nterminate our minishell ===\n✅✅✅✅ leak check\n");
 	system("leaks minishell");
 	exit(0);
 }

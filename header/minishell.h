@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/19 07:12:07 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/19 15:04:00 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ char	**ft_sstrdup(char **origin);
 void 	call_pwd(t_var *var);
 void	free_sstr(char **sstr);
 void	free_ast(t_ast *ast);
+void	free_ast_in_var(t_var *var);
 void	init_var(t_var *var, char **env);
 void	run_func(t_var *var, t_ast *ptr);
 void	*excep_malloc(int leng);
