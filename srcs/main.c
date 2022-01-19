@@ -96,21 +96,34 @@ int	main(int ac, char **av, char **env) {
 			waitpid(var.pinfo->child_pid, &stat_loc, 0);
 			if (var.pinfo->cnt == 0)
 			{
+				i = 1;
+
+				close(var.pinfo->fds[0][0]);
+				close(var.pinfo->fds[0][1]);
+				// while (i < var.pinfo->num_fds)
+				close(var.pinfo->fds[1][0]);
+				// printf("after close pipes\n");
 				free_ast(var.ast);
 				var.ast = 0;
 			}
 			if (WEXITSTATUS(stat_loc) != 0)
+			{
+				// printf("in parent, child exit code != 0\n");
 				exit(WEXITSTATUS(stat_loc));
+			}
 			else
 			{
+				// printf("child exit code = 0\n");
 				if (var.pinfo->cnt == 0)
 				{
+				// printf("and first parent\n");
 					free_pinfo(&var);
 					continue;
 				}
 			}
 		}
-		int now_cnt = var.pinfo->num_fds - var.pinfo->cnt;
+
+		int now_cnt = var.pinfo->num_fds - var.pinfo->cnt + 1;
 		close(var.pinfo->fds[now_cnt][1]);
 		dup2(var.pinfo->fds[now_cnt][0], STDIN_FILENO);
 		dup2(var.pinfo->fds[now_cnt - 1][1], STDOUT_FILENO);
