@@ -9,12 +9,11 @@ void	sighandler_sigint(int signo) {
 
 void only_one_command(t_var *var)
 {
-	run_func(var, var->ast);
-	printf("--------------------------------\n");
+	run_func(var, var->ast, 1);
 	free_ast_in_var(var);
 }
 
-void run_func(t_var *var, t_ast *ptr)
+void run_func(t_var *var, t_ast *ptr, int flag)
 {
 	char **cmds;
 	int		stat_loc;
@@ -36,8 +35,11 @@ void run_func(t_var *var, t_ast *ptr)
 		return b_unset(var, cmds);
 	if (!ft_strncmp(cmds[0], "exit", 4))
 		b_exit(var);
+	else if (flag == 1)
+		b_exec_with_fork(var, cmds);
 	else
 		b_exec(var, cmds);
+	
 }
 
 int	main(int ac, char **av, char **env) {
@@ -110,11 +112,8 @@ int	main(int ac, char **av, char **env) {
 		}
 		if (var.pinfo->cnt >= 2)
 			dup2(var.pinfo->fds[var.pinfo->cnt - 1][1], STDOUT_FILENO);
-		run_func(&var, ft_astindex(var.ast, var.pinfo->num_fds - var.pinfo->cnt));
+		run_func(&var, ft_astindex(var.ast, var.pinfo->num_fds - var.pinfo->cnt), 0);
 		close(var.pinfo->fds[var.pinfo->cnt - 1][0]);
-		printf("--------------------------------\n");
-		free_pinfo(&var);
-		free_ast_in_var(&var);
 		exit(0);
 	}
 	b_exit(&var);

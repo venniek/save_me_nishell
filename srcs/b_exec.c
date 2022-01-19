@@ -53,16 +53,19 @@ void	run_command(char **cmds, char **env)
 
 void	b_exec(t_var *var, char **cmds)
 {
+	run_command(cmds, var->our_env);
+	printf("minishell: %s: command not found\n", cmds[0]);
+	exit(127);
+}
+
+void	b_exec_with_fork(t_var *var, char **cmds)
+{
 	int		pid;
 	int		status;
 
 	pid = fork();
 	if (pid == 0)
-	{
-		run_command(cmds, var->our_env);
-		printf("minishell: %s: command not found\n", cmds[0]);
-		exit(127);
-	}
+		b_exec(var, cmds);
 	else
 		waitpid(pid, &status, 0);
 }

@@ -6,3 +6,4 @@ minishell
 *.a
 test*
 exer*
+Makefile

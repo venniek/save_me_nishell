@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/19 15:04:00 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/19 18:03:17 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	b_unset(t_var *var, char **cmd);
 void	b_echo(char **cmd);
 int		b_exit(t_var *var);
 void	b_exec(t_var *var, char **cmds);
+void	b_exec_with_fork(t_var *var, char **cmds);
 void	run_command(char **cmds, char **env);
 void	find_cmd(char **path, int i, char **cmd, char **env);
 char	**make_paths(char **env);
@@ -113,7 +114,7 @@ void	free_sstr(char **sstr);
 void	free_ast(t_ast *ast);
 void	free_ast_in_var(t_var *var);
 void	init_var(t_var *var, char **env);
-void	run_func(t_var *var, t_ast *ptr);
+void	run_func(t_var *var, t_ast *ptr, int flag);
 void	*excep_malloc(int leng);
 void	*excep_calloc(size_t count, size_t size);
 size_t	ft_sstrlen(char **strstr);
