@@ -76,6 +76,7 @@ char	**ft_addonestring(char **origin, char *newline);
 char	**ft_sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 size_t	get_actindex(const char *str, const char state);
+t_ast	*check_result(t_ast *result);
 
 //================b_exec===================//
 void	find_cmd(char **path, int i, char **cmd, char **env);

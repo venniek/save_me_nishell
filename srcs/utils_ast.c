@@ -48,7 +48,7 @@ int	get_ast(t_var *var)
 	get_lasts(input);
 	if (input == NULL)
 	{
-		write(1, "plz close quotes.\n", 18);
+		write(1, "!!!WRONG INPUT!!!\n", 18);
 		free(read);
 		return (2);
 	}
