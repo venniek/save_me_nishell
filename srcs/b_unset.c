@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   b_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/15 18:25:46 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/20 16:23:27 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-static int	find_remove_str(char **origin, char *remove, int len)
+int	find_remove_str(char **origin, char *remove, int len)
 {
 	int		i;
 	char	*add_equal;
@@ -32,7 +32,7 @@ static int	find_remove_str(char **origin, char *remove, int len)
 	return (-1);
 }
 
-static char	**ft_removeonestring(char **origin, char *remove, int origin_len)
+char	**ft_removeonestring(char **origin, char *remove, int origin_len)
 {
 	char	**new;
 	int		i;

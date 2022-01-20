@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   b_exec.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
+/*   Updated: 2022/01/20 16:21:12 by naykim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 char	**make_paths(char **env)
@@ -39,7 +51,7 @@ void	find_cmd(char **path, int i, char **cmd, char **env)
 	tmpcmd = 0;
 }
 
-void	run_command(char **cmds, char **env)
+void	find_and_run_command(char **cmds, char **env)
 {
 	int		i;
 	char	**path;
@@ -53,7 +65,7 @@ void	run_command(char **cmds, char **env)
 
 void	b_exec(t_var *var, char **cmds)
 {
-	run_command(cmds, var->our_env);
+	find_and_run_command(cmds, var->our_env);
 	printf("minishell: %s: command not found\n", cmds[0]);
 	exit(127);
 }

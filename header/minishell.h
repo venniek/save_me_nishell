@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/19 18:03:17 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 16:24:43 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@
 
 typedef struct s_ast
 {
-    char            type;
-    // exec에 들어갈 프로그램 + 옵션 입력 char**
-    // -> exec함수에 바로 입력 가능한 형태로.
-    char            **text;
+	char			type;
+	// exec에 들어갈 프로그램 + 옵션 입력 char**
+	// -> exec함수에 바로 입력 가능한 형태로.
+	char			**text;
 	char			**rd_owrite;		// >
 	char			**rd_append;	// >>
 	char			**rd_input;		// <
 	char			**heredoc;		// <<
-    struct s_ast    *next;
-} t_ast;
+	struct s_ast	*next;
+}	t_ast;
 
 typedef struct s_pipeinfo
 {
@@ -44,7 +44,7 @@ typedef struct s_pipeinfo
 	int	child_pid;
 	int	num_fds;
 	int	**fds;
-} t_pipeinfo;
+}	t_pipeinfo;
 
 typedef struct s_var
 {
@@ -53,7 +53,7 @@ typedef struct s_var
 	int			ast_len;
 	t_ast		*ast;
 	t_pipeinfo	*pinfo;
-} t_var;
+}	t_var;
 
 typedef struct s_parsing
 {
@@ -63,7 +63,7 @@ typedef struct s_parsing
 	char	*buffer;
 	char 	state;
 	size_t 	slide;
-} t_parsing;
+}	t_parsing;
 
 //=========gyeon=========//
 t_ast	*get_last(t_ast	*start);
@@ -72,7 +72,7 @@ void	action_idx(char **line, size_t *slide);
 char	*action_cat(char *dst, char *src, size_t slide);
 char	*action_env(char *dst, char *src, char **env, size_t slide);
 char	action_addonestring(t_parsing *ps);
-void	action_white(char **line, t_parsing *ps);
+void	action_white(char **line,	t_parsing *ps);
 void	action_err(t_parsing *ps);
 //void	action_white(char **line, const size_t *slide);
 //char	action_appendlist(t_ast *result, char **buffer, const char *act);
@@ -88,44 +88,104 @@ char	**sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 size_t	get_actindex(const char *str, const char state);
 
-//=========builtin=========//
+//================b_exec===================//
+void	find_cmd(char **path, int i, char **cmd, char **env);
+char	**make_paths(char **env);
+void	find_and_run_command(char **cmds, char **env);
+void	b_exec(t_var *var, char **cmds);
+void	b_exec_with_fork(t_var *var, char **cmds);
+
+//================b_export===================//
+void	b_export(t_var *var, char **cmd);
+void	ft_export(t_var *var, char *new);
+
+//================b_others===================//
 void	b_env(char **our_env);
 void	b_cd(t_var *var, char **cmd);
 void	b_pwd(void);
-void	b_export(t_var *var, char **cmd);
-void	b_unset(t_var *var, char **cmd);
 void	b_echo(char **cmd);
-int		b_exit(t_var *var);
-void	b_exec(t_var *var, char **cmds);
-void	b_exec_with_fork(t_var *var, char **cmds);
-void	run_command(char **cmds, char **env);
-void	find_cmd(char **path, int i, char **cmd, char **env);
-char	**make_paths(char **env);
-void	only_one_command(t_var *var);
-void	init_var(t_var *var, char **env);
-void	init_pinfo(t_var *var);
-void	prt_sstr(char **sstr);
-void	prt_allast(t_ast *ast);
+int		b_exit(t_var *var, int i);
 
-//=========srcs=========//
-char	**ft_sstrdup(char **origin);
-void 	call_pwd(t_var *var);
+//================b_unset===================//
+int		find_remove_str(char **origin, char *remove, int len);
+char	**ft_removeonestring(char **origin, char *remove, int origin_len);
+void	b_unset(t_var *var, char **cmd);
+
+
+
+
+
+
+//===========handle_error=========//
+void	err_malloc();
+
+//========main========//
+int		get_ast(t_var *var);
+
+//================main===================//
+void	sighandler_sigint(int signo);
+void	start_main(t_var *var);
+
+//================run_command===================//
+void	run_func(t_var *var,	t_ast *ptr, int flag);
+void	only_one_command(t_var *var);
+
+//================pipe_and_process===================//
+void	child_process(t_var *var);
+int		parent_process(t_var *var);
+void	make_pipe_and_child(t_var *var);
+
+//================utils_free===================//
 void	free_sstr(char **sstr);
 void	free_ast(t_ast *ast);
 void	free_ast_in_var(t_var *var);
+void	free_pinfo(t_var *var);
+
+//================utils_init===================//
 void	init_var(t_var *var, char **env);
-void	run_func(t_var *var, t_ast *ptr, int flag);
+char	**init_sstr(void);
+void	init_pinfo(t_var *var);
+
+//================utils_other===================//
 void	*excep_malloc(int leng);
 void	*excep_calloc(size_t count, size_t size);
+void 	call_pwd(t_var *var);
+int		ft_astlen(t_ast *ast);
+t_ast	*ft_astindex(t_ast *ast, int idx);
+
+//================utils_parsing===================//
+int		ft_isWhite(char c);
+char	*lookup_value(char *start, size_t leng, char **env);
+
+//================utils_remove===================//
+void	prt_sstr(char **sstr);
+void	prt_allast(t_ast *ast);
+
+//================utils_string===================//
 size_t	ft_sstrlen(char **strstr);
-void	err_malloc();
 char	**ft_addonestring(char **origin, char *newline);
 char	**sstrncat(char **origin, char *newline, int n);
-char	*lookup_value(char *start, size_t leng, char **env);
-int		ft_isWhite(char c);
-int		ft_astlen(t_ast *ast);
-t_ast *ft_astindex(t_ast *ast, int idx);
-void free_pinfo(t_var *var);
-char	**init_sstr(void);
+char	**ft_sstrdup(char **origin);
+
+
+
+
+
+
+
+//===================================//
+//===================================//
+//===================================//
+//===================================//
+//===================================//
+//===================================//
+//===================================//
+//===================================//
+//===================================//
+
+
+
+
+
 
 #endif

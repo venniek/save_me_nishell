@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_init.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/20 13:51:24 by naykim            #+#    #+#             */
+/*   Updated: 2022/01/20 13:51:25 by naykim           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 char	**init_sstr(void)
@@ -9,7 +21,7 @@ char	**init_sstr(void)
 	return (result);
 }
 
-void init_var(t_var *var, char **env)
+void	init_var(t_var *var, char **env)
 {
 	var->ast = 0;
 	var->ast_len = 0;
@@ -18,7 +30,7 @@ void init_var(t_var *var, char **env)
 	var->pinfo = 0;
 }
 
-void init_pinfo(t_var *var)
+void	init_pinfo(t_var *var)
 {
 	int	i;
 

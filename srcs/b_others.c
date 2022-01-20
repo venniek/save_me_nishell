@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/19 15:53:47 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 15:21:48 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	b_pwd(void)
 	free(buf);
 }
 
-int	b_exit(t_var *var)
+int	b_exit(t_var *var, int i)
 {
 	if (var->ast)
 		free_ast_in_var(var);
@@ -89,5 +89,5 @@ int	b_exit(t_var *var)
 		free_pinfo(var);
 	printf("✅✅✅✅\nterminate our minishell ===\n✅✅✅✅ leak check\n");
 	system("leaks minishell");
-	exit(0);
+	exit(i);
 }

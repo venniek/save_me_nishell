@@ -2,7 +2,9 @@
 
 void	prt_sstr(char **sstr)
 {
-	size_t	i = 0;
+	size_t	i;
+
+	i = 0;
 	if (sstr == NULL)
 		return ;
 	while (sstr[i] != NULL)
@@ -30,4 +32,3 @@ void	prt_allast(t_ast *ast)
 	}
 	return ;
 }
-

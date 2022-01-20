@@ -6,28 +6,11 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/17 15:00:06 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 16:16:38 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
-
-char	**ft_sstrdup(char **origin)
-{
-	int		i;
-	int		env_len;
-	char	**new_env;
-
-	if (!origin)
-		return (NULL);
-	env_len = ft_sstrlen(origin);
-	new_env = (char **)malloc(sizeof(char *) * (env_len + 1));
-	i = -1;
-	while (++i < env_len)
-		new_env[i] = ft_strdup(origin[i]);
-	new_env[i] = NULL;
-	return (new_env);
-}
 
 void	ft_export(t_var *var, char *new)
 {
