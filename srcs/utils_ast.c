@@ -45,7 +45,7 @@ int	get_ast(t_var *var)
 	if (read == NULL)
 		return (1);
 	input = parser(read, var->our_env);
-	get_lasts(input);
+	//get_lasts(input);
 	if (input == NULL)
 	{
 		write(1, "!!!WRONG INPUT!!!\n", 18);

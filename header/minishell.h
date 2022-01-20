@@ -10,6 +10,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/types.h>
+# include <fcntl.h>
 # include "defines.h"
 # include "../libft/libft.h"
 
@@ -18,10 +19,10 @@ typedef struct s_ast
 	// exec에 들어갈 프로그램 + 옵션 입력 char**
 	// -> exec함수에 바로 입력 가능한 형태로.
 	char			**text;
-	char			**rd_owrite;	// >
-	char			**rd_append;	// >>
-	char			**rd_input;		// <
-	char			**heredoc;		// <<
+	char			**rd_owrite;	// > R
+	char			**rd_append;	// >>r
+	char			**rd_input;		// < L
+	char			**heredoc;		// <<l
 	char			last_out;
 	char			last_in;
 	struct s_ast	*next;
