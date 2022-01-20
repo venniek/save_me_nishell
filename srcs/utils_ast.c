@@ -38,29 +38,28 @@ void	get_lasts(t_ast	*input)
 int	get_ast(t_var *var)
 {
 	char	*read;
-	t_ast	*input;
 
 	call_pwd(var);
 	read = readline(var->pwd_now);
 	if (read == NULL)
 		return (1);
-	input = parser(read, var->our_env);
-	get_lasts(input);
-	if (input == NULL)
+	if (read[0] != '\0')
+		add_history(read);
+	var->ast = parser(read, var->our_env);
+	free(read);
+	read = 0;
+	get_lasts(var->ast);
+	if (var->ast == NULL)
 	{
 		write(1, "!!!WRONG INPUT!!!\n", 18);
-		free(read);
 		return (2);
 	}
-	var->ast = input;
 	var->ast_len = ft_astlen(var->ast);
 	if (!var->ast->text[0])
 	{
-		free(read);
 		free_ast_in_var(var);
 		return (2);
 	}
-	add_history(read);
 	free(read);
 	return (0);
 }

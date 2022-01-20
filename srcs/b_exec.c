@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:21:12 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 20:57:15 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ void	find_and_run_command(char **cmds, char **env)
 
 void	b_exec(t_var *var, char **cmds)
 {
+	change_exitcode(var, 0);
 	find_and_run_command(cmds, var->our_env);
 	printf("minishell: %s: command not found\n", cmds[0]);
+	change_exitcode(var, 127);
 	exit(127);
 }
 
@@ -79,5 +81,8 @@ void	b_exec_with_fork(t_var *var, char **cmds)
 	if (pid == 0)
 		b_exec(var, cmds);
 	else
+	{
 		waitpid(pid, &status, 0);
+		var->exitcode = WEXITSTATUS(status);
+	}
 }

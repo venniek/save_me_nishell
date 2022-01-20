@@ -40,6 +40,7 @@ typedef struct s_var
 	char		*pwd_now;
 	char		**our_env;
 	int			ast_len;
+	int			exitcode;
 	t_ast		*ast;
 	t_pipeinfo	*pinfo;
 }	t_var;
@@ -90,10 +91,10 @@ void	b_export(t_var *var, char **cmd);
 void	ft_export(t_var *var, char *new);
 
 //================b_others===================//
-void	b_env(char **our_env);
+void	b_env(t_var *var);
 void	b_cd(t_var *var, char **cmd);
-void	b_pwd(void);
-void	b_echo(char **cmd);
+void	b_pwd(t_var *var);
+void	b_echo(t_var *var, char **cmd);
 int		b_exit(t_var *var, int i);
 
 //================b_unset===================//
@@ -101,23 +102,15 @@ int		find_remove_str(char **origin, char *remove, int len);
 char	**ft_removeonestring(char **origin, char *remove, int origin_len);
 void	b_unset(t_var *var, char **cmd);
 
-
-
-
-
-
 //===========handle_error=========//
 void	err_malloc();
-
-//========utils_ast========//
-int		get_ast(t_var *var);
 
 //================main===================//
 void	sighandler_sigint(int signo);
 void	start_main(t_var *var);
 
 //================run_command===================//
-void	run_func(t_var *var,	t_ast *ptr, int flag);
+void	run_func(t_var *var, t_ast *ptr, int flag);
 void	only_one_command(t_var *var);
 
 //================pipe_and_process===================//
@@ -140,6 +133,10 @@ void	init_pinfo(t_var *var);
 void	*excep_malloc(int leng);
 void	*excep_calloc(size_t count, size_t size);
 void 	call_pwd(t_var *var);
+void	change_exitcode(t_var *var, int i);
+
+//====================utils_ast===============//
+int		get_ast(t_var *var);
 int		ft_astlen(t_ast *ast);
 t_ast	*ft_astindex(t_ast *ast, int idx);
 
@@ -156,24 +153,6 @@ size_t	ft_sstrlen(char **strstr);
 char	**ft_addonestring(char **origin, char *newline);
 char	**ft_sstrncat(char **origin, char *newline, int n);
 char	**ft_sstrdup(char **origin);
-
-
-
-
-
-
-
-//===================================//
-//===================================//
-//===================================//
-//===================================//
-//===================================//
-//===================================//
-//===================================//
-//===================================//
-//===================================//
-
-
 
 
 

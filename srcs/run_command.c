@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:49:23 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:23:00 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 20:42:00 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	run_func(t_var *var, t_ast *ptr, int flag)
 	if (!ft_strncmp(cmds[0], "cd", 2))
 		return (b_cd(var, cmds));
 	if (!ft_strncmp(cmds[0], "pwd", 3))
-		return (b_pwd());
+		return (b_pwd(var));
 	if (!ft_strncmp(cmds[0], "env", 3))
-		return (b_env(var->our_env));
+		return (b_env(var));
 	if (!ft_strncmp(cmds[0], "echo", 4))
-		return (b_echo(cmds));
+		return (b_echo(var, cmds));
 	if (!ft_strncmp(cmds[0], "export", 6))
 		return (b_export(var, cmds));
 	if (!ft_strncmp(cmds[0], "unset", 5))

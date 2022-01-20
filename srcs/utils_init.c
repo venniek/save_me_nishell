@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:51:24 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 13:51:25 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 20:23:18 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_var(t_var *var, char **env)
 {
 	var->ast = 0;
 	var->ast_len = 0;
+	var->exitcode = 0;
 	var->our_env = ft_sstrdup(env);
 	var->pwd_now = 0;
 	var->pinfo = 0;

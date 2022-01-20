@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:59:05 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:45:26 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 21:02:13 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,15 @@ int	parent_process(t_var *var)
 	int	stat_loc;
 
 	waitpid(var->pinfo->child_pid, &stat_loc, 0);
+	var->exitcode = WEXITSTATUS(stat_loc);
 	if (var->pinfo->cnt == 0)
 	{
 		close(var->pinfo->fds[0][0]);
 		close(var->pinfo->fds[0][1]);
 		free_ast_in_var(var);
 	}
-	if (WEXITSTATUS(stat_loc) != 0)
-		exit(WEXITSTATUS(stat_loc));
+	if (var->exitcode != 0)
+		exit(var->exitcode);
 	else if (var->pinfo->cnt == 0)
 	{
 		free_pinfo(var);
