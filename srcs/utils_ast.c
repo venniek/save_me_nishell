@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_ast.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 16:25:11 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 17:38:25 by gyeon            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../header/minishell.h"
 
 int	ft_astlen(t_ast *ast)
@@ -58,19 +46,21 @@ int	get_ast(t_var *var)
 		return (1);
 	input = parser(read, var->our_env);
 	get_lasts(input);
-	free(read);
-	read = NULL;
 	if (input == NULL)
 	{
 		write(1, "plz close quotes.\n", 18);
+		free(read);
 		return (2);
 	}
 	var->ast = input;
 	var->ast_len = ft_astlen(var->ast);
 	if (!var->ast->text[0])
 	{
+		free(read);
 		free_ast_in_var(var);
 		return (2);
 	}
+	add_history(read);
+	free(read);
 	return (0);
 }
