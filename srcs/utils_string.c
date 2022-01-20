@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_string.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:56 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:16:48 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 16:42:41 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-char	**sstrncat(char **origin, char *newline, int n)
+char	**ft_sstrncat(char **origin, char *newline, int n)
 {
 	int		idx;
 	int		idx_newline;
@@ -29,12 +29,9 @@ char	**sstrncat(char **origin, char *newline, int n)
 		n = ft_strlen(newline);
 	len_str = ft_strlen(ptr_str);
 	temp = excep_malloc(len_str + n + 1);
-	idx = 0;
-	while (idx < len_str)
-	{
+	idx = -1;
+	while (++idx < len_str)
 		temp[idx] = ptr_str[idx];
-		++idx;
-	}
 	idx_newline = 0;
 	while (idx < len_str + n)
 		temp[idx++] = newline[idx_newline++];

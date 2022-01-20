@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:24:43 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 16:39:07 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_ast
 	// exec에 들어갈 프로그램 + 옵션 입력 char**
 	// -> exec함수에 바로 입력 가능한 형태로.
 	char			**text;
-	char			**rd_owrite;		// >
+	char			**rd_owrite;	// >
 	char			**rd_append;	// >>
 	char			**rd_input;		// <
 	char			**heredoc;		// <<
@@ -84,7 +84,7 @@ size_t	decide_actset(char flg);
 int		rev_flg(char *flgs, char flg);
 t_ast	*parser(char *line, char **env);
 char	**ft_addonestring(char **origin, char *newline);
-char	**sstrncat(char **origin, char *newline, int n);
+char	**ft_sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 size_t	get_actindex(const char *str, const char state);
 
@@ -164,7 +164,7 @@ void	prt_allast(t_ast *ast);
 //================utils_string===================//
 size_t	ft_sstrlen(char **strstr);
 char	**ft_addonestring(char **origin, char *newline);
-char	**sstrncat(char **origin, char *newline, int n);
+char	**ft_sstrncat(char **origin, char *newline, int n);
 char	**ft_sstrdup(char **origin);
 
 
