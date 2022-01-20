@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:25:11 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:25:35 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 17:38:25 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,18 @@ t_ast	*ft_astindex(t_ast *ast, int idx)
 	return (ret);
 }
 
+void	get_lasts(t_ast	*input)
+{
+	t_ast	*ptr;
+	ptr = input;
+	while(ptr != NULL)
+	{
+		printf("last_in : %c, last_out : %c\n", input->last_in, input->last_out);
+		ptr = ptr->next;
+	}
+}
+
+
 int	get_ast(t_var *var)
 {
 	char	*read;
@@ -45,6 +57,7 @@ int	get_ast(t_var *var)
 	if (read == NULL)
 		return (1);
 	input = parser(read, var->our_env);
+	get_lasts(input);
 	free(read);
 	read = NULL;
 	if (input == NULL)

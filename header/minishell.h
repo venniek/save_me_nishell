@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:39:07 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/20 17:03:53 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 
 typedef struct s_ast
 {
-	char			type;
 	// exec에 들어갈 프로그램 + 옵션 입력 char**
 	// -> exec함수에 바로 입력 가능한 형태로.
 	char			**text;
@@ -35,6 +34,8 @@ typedef struct s_ast
 	char			**rd_append;	// >>
 	char			**rd_input;		// <
 	char			**heredoc;		// <<
+	char			last_out;
+	char			last_in;
 	struct s_ast	*next;
 }	t_ast;
 

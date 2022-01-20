@@ -35,13 +35,14 @@ t_ast	*init_ast(void)
 	t_ast	*result;
 
 	result = (t_ast *) excep_malloc(sizeof(t_ast));
-	result->type = 'c';
 	result->text = init_sstr();
 	result->next = NULL;
 	result->rd_owrite = init_sstr();
 	result->rd_append = init_sstr();
 	result->rd_input = init_sstr();
 	result->heredoc = init_sstr();
+	result->last_out = 0;
+	result->last_in = 0;
 	return (result);
 }
 
@@ -53,10 +54,6 @@ void	add_ast(t_ast *front, char type)
 	while (buffer->next != NULL)
 		buffer = buffer->next;
 	buffer->next = init_ast();
-	if (type == PIPE)
-		buffer->next->type = 'c';
-	else
-		buffer->next->type = type;
 }
 
 // 특정 bit만 뒤집는다. ON -> oFF = 0, OFF -> ON = 1

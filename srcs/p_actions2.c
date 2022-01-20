@@ -23,6 +23,10 @@ char	action_addonestring(t_parsing *ps)
 				last->rd_input = ft_addonestring(last->rd_input, ps->buffer);
 			else if (ps->where == 'l')
 				last->heredoc = ft_addonestring(last->heredoc, ps->buffer);
+			if (ps->where == 'R' || ps->where == 'r')
+				last->last_out = ps->where;
+			else if (ps->where == 'L' || ps->where == 'l')
+				last->last_in = ps->where;
 			free(ps->buffer);
 			ps->buffer = NULL;
 		}
