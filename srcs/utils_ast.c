@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 16:25:11 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:25:35 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/20 17:51:52 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,21 @@ int	get_ast(t_var *var)
 	if (read == NULL)
 		return (1);
 	input = parser(read, var->our_env);
-	free(read);
-	read = NULL;
 	if (input == NULL)
 	{
 		write(1, "plz close quotes.\n", 18);
+		free(read);
 		return (2);
 	}
 	var->ast = input;
 	var->ast_len = ft_astlen(var->ast);
 	if (!var->ast->text[0])
 	{
+		free(read);
 		free_ast_in_var(var);
 		return (2);
 	}
+	add_history(read);
+	free(read);
 	return (0);
 }
