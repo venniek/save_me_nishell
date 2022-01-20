@@ -81,5 +81,5 @@ t_ast	*parser(char *line, char **env)
 			++ps.act;
 		}
 	}
-	return (ps.result);
+	return (check_result(ps.result));
 }

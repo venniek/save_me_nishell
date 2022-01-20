@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/17 14:50:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 20:11:16 by naykim           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -27,7 +15,6 @@
 
 typedef struct s_ast
 {
-	char			type;
 	// exec에 들어갈 프로그램 + 옵션 입력 char**
 	// -> exec함수에 바로 입력 가능한 형태로.
 	char			**text;
@@ -35,6 +22,8 @@ typedef struct s_ast
 	char			**rd_append;	// >>
 	char			**rd_input;		// <
 	char			**heredoc;		// <<
+	char			last_out;
+	char			last_in;
 	struct s_ast	*next;
 }	t_ast;
 
@@ -87,6 +76,7 @@ char	**ft_addonestring(char **origin, char *newline);
 char	**ft_sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 size_t	get_actindex(const char *str, const char state);
+t_ast	*check_result(t_ast *result);
 
 //================b_exec===================//
 void	find_cmd(char **path, int i, char **cmd, char **env);
