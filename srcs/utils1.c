@@ -52,15 +52,6 @@ char	**ft_addonestring(char **origin, char *newline)
 	return (new);
 }
 
-char	**init_sstr(void)
-{
-	char	**result;
-
-	result = (char **) excep_malloc(sizeof(char *) * 1);
-	result[0] = NULL;
-	return (result);
-}
-
 char	**sstrncat(char **origin, char *newline, int n)
 {
 	int		idx;
@@ -90,54 +81,6 @@ char	**sstrncat(char **origin, char *newline, int n)
 	origin[ft_sstrlen(origin) - 1] = temp;
 	free(ptr_str);
 	return origin;
-}
-
-void	free_ast_in_var(t_var *var)
-{
-	if (!var)
-		return ;
-	free_ast(var->ast);
-	var->ast = 0;
-}
-
-void	free_ast(t_ast *ast)
-{
-	t_ast *next_node;
-
-	while (ast)
-	{
-		next_node = ast->next;
-		if (ast->text)
-			free_sstr(ast->text);
-		if (ast->rd_owrite)
-			free_sstr(ast->rd_owrite);
-		if (ast->rd_append)
-			free_sstr(ast->rd_append);
-		if (ast->rd_input)
-			free_sstr(ast->rd_input);
-		if (ast->heredoc)
-			free_sstr(ast->heredoc);
-		free(ast);
-		ast = next_node;
-	}
-}
-void	free_sstr(char **sstr)
-{
-	int	i;
-	int	sstr_len;
-
-	i = 0;
-	if (!sstr)
-		return ;
-	while (sstr[i])
-	{
-		free(sstr[i]);
-		sstr[i] = 0;
-		i++;
-	}
-	if (sstr)
-		free(sstr);
-	sstr = 0;
 }
 
 void	call_pwd(t_var *var)
@@ -211,28 +154,4 @@ t_ast *ft_astindex(t_ast *ast, int idx)
 	while (idx-- > 0)
 		ret = ret->next;
 	return (ret);
-}
-
-void free_pinfo(t_var *var)
-{
-	if (!var->pinfo)
-		return ;
-	for (int i = 0; i < var->pinfo->num_fds; i++)
-	{
-		if (var->pinfo->fds[i])
-		{
-			free(var->pinfo->fds[i]);
-			var->pinfo->fds[i] = 0;
-		}
-	}
-	if (var->pinfo->fds)
-	{
-		free(var->pinfo->fds);
-		var->pinfo->fds = 0;
-	}
-	if (var->pinfo)
-	{
-		free(var->pinfo);
-		var->pinfo = 0;
-	}
 }

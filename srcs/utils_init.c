@@ -1,5 +1,14 @@
 #include "../header/minishell.h"
 
+char	**init_sstr(void)
+{
+	char	**result;
+
+	result = (char **)excep_malloc(sizeof(char *) * 1);
+	result[0] = NULL;
+	return (result);
+}
+
 void init_var(t_var *var, char **env)
 {
 	var->ast = 0;

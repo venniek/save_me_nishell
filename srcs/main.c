@@ -103,7 +103,10 @@ int	main(int ac, char **av, char **env) {
 			if (WEXITSTATUS(stat_loc) != 0)
 				exit(WEXITSTATUS(stat_loc));
 			else if (var.pinfo->cnt == 0)
+			{
+				free_pinfo(&var);
 				continue;
+			}
 		}
 		if (var.pinfo->cnt != var.pinfo->num_fds)
 		{
