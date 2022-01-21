@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:26 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:46:30 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 15:13:30 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	start_main(t_var *var)
 			break ;
 		else if (ret == 2)
 			continue ;
+		var->heredoc = setnget_heredoc(var->ast);
 		if (var->ast_len == 1)
 		{
 			only_one_command(var);

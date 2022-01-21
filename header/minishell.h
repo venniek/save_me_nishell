@@ -36,6 +36,13 @@ typedef struct s_pipeinfo
 	int	**fds;
 }	t_pipeinfo;
 
+typedef struct s_heredoc
+{
+	int		doc_cnt;
+	int		*fds;
+	char	**docs;
+}	t_heredoc;
+
 typedef struct s_var
 {
 	char		*pwd_now;
@@ -43,6 +50,7 @@ typedef struct s_var
 	int			ast_len;
 	t_ast		*ast;
 	t_pipeinfo	*pinfo;
+	t_heredoc	*heredoc;
 }	t_var;
 
 typedef struct s_parsing
@@ -78,6 +86,8 @@ char	**ft_sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 size_t	get_actindex(const char *str, const char state);
 t_ast	*check_result(t_ast *result);
+int		redirections(t_ast *ast);
+t_heredoc	*setnget_heredoc(t_ast *ast);
 
 //================b_exec===================//
 void	find_cmd(char **path, int i, char **cmd, char **env);
