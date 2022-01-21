@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 21:05:28 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 14:53:35 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	b_cd(t_var *var, char **cmd)
 	if (chdir(cmd[1]))
 	{
 		printf("minishell: cd: %s: %s\n", cmd[1], strerror(errno));
-		return (change_exitcode(var, 127));
+		return (change_exitcode(var, 1));
 	}
 	change_exitcode(var, 0);
 }

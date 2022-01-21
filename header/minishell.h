@@ -132,7 +132,7 @@ void	init_pinfo(t_var *var);
 //================utils_other===================//
 void	*excep_malloc(int leng);
 void	*excep_calloc(size_t count, size_t size);
-void 	call_pwd(t_var *var);
+void	call_pwd(t_var *var);
 void	change_exitcode(t_var *var, int i);
 
 //====================utils_ast===============//

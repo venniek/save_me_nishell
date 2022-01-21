@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:26 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:46:30 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 15:35:15 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	start_main(t_var *var)
 
 	while (1)
 	{
+		printf("exitcode = %d\n", var->exitcode);
 		ret = get_ast(var);
 		if (ret == 1)
 			break ;

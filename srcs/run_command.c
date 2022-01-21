@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:49:23 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 20:42:00 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 15:22:44 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ void	run_func(t_var *var, t_ast *ptr, int flag)
 	if (!ptr->text || !ptr->text[0])
 		return ;
 	cmds = ptr->text;
-	if (!ft_strncmp(cmds[0], "cd", 2))
+	if (!ft_strncmp(cmds[0], "cd", 2) && ft_strlen(cmds[0]) == 2)
 		return (b_cd(var, cmds));
-	if (!ft_strncmp(cmds[0], "pwd", 3))
+	if (!ft_strncmp(cmds[0], "pwd", 3) && ft_strlen(cmds[0]) == 3)
 		return (b_pwd(var));
-	if (!ft_strncmp(cmds[0], "env", 3))
+	if (!ft_strncmp(cmds[0], "env", 3) && ft_strlen(cmds[0]) == 3)
 		return (b_env(var));
-	if (!ft_strncmp(cmds[0], "echo", 4))
+	if (!ft_strncmp(cmds[0], "echo", 4) && ft_strlen(cmds[0]) == 4)
 		return (b_echo(var, cmds));
-	if (!ft_strncmp(cmds[0], "export", 6))
+	if (!ft_strncmp(cmds[0], "export", 6) && ft_strlen(cmds[0]) == 6)
 		return (b_export(var, cmds));
-	if (!ft_strncmp(cmds[0], "unset", 5))
+	if (!ft_strncmp(cmds[0], "unset", 5) && ft_strlen(cmds[0]) == 5)
 		return (b_unset(var, cmds));
-	if (!ft_strncmp(cmds[0], "exit", 4))
+	if (!ft_strncmp(cmds[0], "exit", 4) && ft_strlen(cmds[0]) == 4)
 		b_exit(var, 0);
 	else if (flag == 1)
 		b_exec_with_fork(var, cmds);

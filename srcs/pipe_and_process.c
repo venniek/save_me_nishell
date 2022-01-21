@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:59:05 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 21:02:13 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 15:34:23 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	child_process(t_var *var)
 	now_cnt = var->pinfo->num_fds - var->pinfo->cnt;
 	run_func(var, ft_astindex(var->ast, now_cnt), 0);
 	close(var->pinfo->fds[var->pinfo->cnt - 1][0]);
-	exit(0);
+	exit(var->exitcode);
 }
 
 int	parent_process(t_var *var)
@@ -41,11 +41,6 @@ int	parent_process(t_var *var)
 		close(var->pinfo->fds[0][0]);
 		close(var->pinfo->fds[0][1]);
 		free_ast_in_var(var);
-	}
-	if (var->exitcode != 0)
-		exit(var->exitcode);
-	else if (var->pinfo->cnt == 0)
-	{
 		free_pinfo(var);
 		return (1);
 	}
