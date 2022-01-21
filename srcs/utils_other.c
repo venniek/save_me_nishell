@@ -6,11 +6,13 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:52 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 20:30:42 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 16:19:33 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+extern int	g_exitcode;
 
 void	*excep_malloc(int leng)
 {
@@ -54,5 +56,5 @@ void	call_pwd(t_var *var)
 
 void	change_exitcode(t_var *var, int i)
 {
-	var->exitcode = i;
+	g_exitcode = i;
 }

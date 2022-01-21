@@ -6,11 +6,13 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:59:05 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/21 15:34:23 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 16:19:12 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+extern int	g_exitcode;
 
 void	child_process(t_var *var)
 {
@@ -26,7 +28,7 @@ void	child_process(t_var *var)
 	now_cnt = var->pinfo->num_fds - var->pinfo->cnt;
 	run_func(var, ft_astindex(var->ast, now_cnt), 0);
 	close(var->pinfo->fds[var->pinfo->cnt - 1][0]);
-	exit(var->exitcode);
+	exit(g_exitcode);
 }
 
 int	parent_process(t_var *var)
@@ -35,7 +37,7 @@ int	parent_process(t_var *var)
 	int	stat_loc;
 
 	waitpid(var->pinfo->child_pid, &stat_loc, 0);
-	var->exitcode = WEXITSTATUS(stat_loc);
+	g_exitcode = WEXITSTATUS(stat_loc);
 	if (var->pinfo->cnt == 0)
 	{
 		close(var->pinfo->fds[0][0]);

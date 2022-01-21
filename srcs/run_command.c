@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:49:23 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/21 15:22:44 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 20:30:28 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,20 @@ void	run_func(t_var *var, t_ast *ptr, int flag)
 	if (!ft_strncmp(cmds[0], "unset", 5) && ft_strlen(cmds[0]) == 5)
 		return (b_unset(var, cmds));
 	if (!ft_strncmp(cmds[0], "exit", 4) && ft_strlen(cmds[0]) == 4)
-		b_exit(var, 0);
+		b_exit(var, have_argument(cmds));
 	else if (flag == 1)
 		b_exec_with_fork(var, cmds);
 	else
 		b_exec(var, cmds);
+}
+
+int	have_argument(char **cmds)
+{
+	int	ret;
+	
+	if (cmds[1])
+		ret = ft_atoi(cmds[1]) % 256;
+	else
+		ret = 0;
+	return (ret);
 }

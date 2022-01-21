@@ -6,11 +6,13 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/21 14:58:01 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 19:06:20 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+extern int	g_exitcode;
 
 int	find_remove_str(char **origin, char *remove, int len)
 {
@@ -70,7 +72,7 @@ void	b_unset(t_var *var, char **cmd)
 		if (ft_strrchr(cmd[i], '='))
 		{
 			printf("unset: %s: invalid parameter name\n", cmd[i]);
-			change_exitcode(var, 1);
+			g_exitcode = 1;
 		}
 		else
 			*env = ft_removeonestring(*env, cmd[i], ft_sstrlen(*env));
