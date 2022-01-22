@@ -1,114 +1,60 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/01/20 13:49:16 by naykim            #+#    #+#              #
-#    Updated: 2022/01/21 15:13:58 by gyeon            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-TARGET = minishell
-LIBFT = libft.a
-GCC = gcc
-FLGS = -g #-g3 -fsanitize=address #-Wall -Wextra -Werror
-LR_GY = -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
-LR_GY_MAC = -lreadline -L /Users/gyeon/.brew/opt/readline/lib -I /Users/gyeon/.brew/opt/readline/include
-LR_NK_MAC = -lreadline -L /Users/naykim/.brew/opt/readline/lib -I /Users/naykim/.brew/opt/readline/include
-LR_NAYKIM = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
-DIR_SRCS = ./srcs/
-DIR_HEADER = ./header/
-DIR_LIBFT = ./libft/
-SRCS = action_decider.c b_export.c b_others.c b_unset.c b_exec.c run_command.c pipe_and_process.c\
-	handle_error.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c p_checkerr.c redirections.c\
-	utils_ast.c utils_init.c utils_remove.c utils_free.c utils_other.c utils_parsing.c utils_string.c
-
-all : $(TARGET)
-$(TARGET) : $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_NK_MAC)
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_NAYKIM)
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY_MAC)
-	$(GCC) $(FLGS) $^ -o $@ $(LR_GY)
-	stty -echoctl
-
-%.o : %.c
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK_MAC)
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NAYKIM)
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY_MAC)
-	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY)
-
-
-$(addprefix $(DIR_LIBFT), $(LIBFT)) : 
-	@make -C $(DIR_LIBFT)
-	@make bonus -C $(DIR_LIBFT)
-
-clean : 
-	rm -rf $(addprefix $(DIR_SRCS), *.o) $(addprefix $(DIR_LIBFT), *.o)
-
-fclean : clean
-	rm -rf $(TARGET) $(addprefix $(DIR_LIBFT), $(LIBFT))
-
-re : clean fclean all
-
-.PHONY : all clean fclean# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/01/20 13:49:16 by naykim            #+#    #+#              #
-#    Updated: 2022/01/21 15:13:58 by gyeon            ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
-TARGET = minishell
-LIBFT = libft.a
-GCC = gcc
-FLGS = -g #-g3 -fsanitize=address #-Wall -Wextra -Werror
-LR_GY = -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
-LR_GY_MAC = -lreadline -L /Users/gyeon/.brew/opt/readline/lib -I /Users/gyeon/.brew/opt/readline/include
-LR_NK_MAC = -lreadline -L /Users/naykim/.brew/opt/readline/lib -I /Users/naykim/.brew/opt/readline/include
-LR_NAYKIM = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/readline/include
-DIR_SRCS = ./srcs/
-DIR_HEADER = ./header/
-DIR_LIBFT = ./libft/
-SRCS = action_decider.c b_export.c b_others.c b_unset.c b_exec.c run_command.c pipe_and_process.c\
-	handle_error.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c p_checkerr.c redirections.c\
-	utils_ast.c utils_init.c utils_remove.c utils_free.c utils_other.c utils_parsing.c utils_string.c
-
-all : $(TARGET)
-$(TARGET) : $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_NK_MAC)
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_NAYKIM)
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY_MAC)
-	$(GCC) $(FLGS) $^ -o $@ $(LR_GY)
-	stty -echoctl
-
-%.o : %.c
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK_MAC)
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NAYKIM)
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY_MAC)
-	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY)
-
-
-$(addprefix $(DIR_LIBFT), $(LIBFT)) : 
-	@make -C $(DIR_LIBFT)
-	@make bonus -C $(DIR_LIBFT)
-
-clean : 
-	rm -rf $(addprefix $(DIR_SRCS), *.o) $(addprefix $(DIR_LIBFT), *.o)
-
-fclean : clean
-	rm -rf $(TARGET) $(addprefix $(DIR_LIBFT), $(LIBFT))
-
-re : clean fclean all
-
-.PHONY : all clean fcleandf
-sd
-dsg
-
-
-
+     1	SECURITYSESSIONID=186a6
+     2	USER=gyeon
+     3	COMMAND_MODE=unix2003
+     4	PATH=/Users/gyeon/.brew/bin:/Users/gyeon/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+     5	HOME=/Users/gyeon
+     6	SHELL=/bin/zsh
+     7	LaunchInstanceID=4F956E2C-E0B2-4783-916F-EC388BD82D30
+     8	__CF_USER_TEXT_ENCODING=0x19190:0x0:0x0
+     9	XPC_SERVICE_NAME=0
+    10	SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.oZHp2W15Tq/Listeners
+    11	XPC_FLAGS=0x0
+    12	LOGNAME=gyeon
+    13	TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cjk00034ch/T/
+    14	LESS=-R
+    15	LSCOLORS=Gxfxcxdxbxegedabagacad
+    16	MANPAGER=sh -c 'col -bx | bat -l man -p'
+    17	OLDPWD=/Users/gyeon/Git/gyujun9403/save_me_nishell
+    18	P9K_SSH=0
+    19	PAGER=less
+    20	PWD=/Users/gyeon/Git/gyujun9403/save_me_nishell
+    21	SHLVL=1
+    22	ZSH=/Users/gyeon/.oh-my-zsh
+    23	TERM_PROGRAM=vscode
+    24	TERM_PROGRAM_VERSION=1.39.2
+    25	LANG=en_US.UTF-8
+    26	COLORTERM=truecolor
+    27	TERM=xterm-256color
+    28	P9K_TTY=old
+    29	_P9K_TTY=/dev/ttys000
+    30	_=/Users/gyeon/Git/gyujun9403/save_me_nishell/./minishell
+SECURITYSESSIONID=186a6
+USER=gyeon
+COMMAND_MODE=unix2003
+PATH=/Users/gyeon/.brew/bin:/Users/gyeon/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki
+HOME=/Users/gyeon
+SHELL=/bin/zsh
+LaunchInstanceID=4F956E2C-E0B2-4783-916F-EC388BD82D30
+__CF_USER_TEXT_ENCODING=0x19190:0x0:0x0
+XPC_SERVICE_NAME=0
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.oZHp2W15Tq/Listeners
+XPC_FLAGS=0x0
+LOGNAME=gyeon
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000cjk00034ch/T/
+LESS=-R
+LSCOLORS=Gxfxcxdxbxegedabagacad
+MANPAGER=sh -c 'col -bx | bat -l man -p'
+OLDPWD=/Users/gyeon/Git/gyujun9403/save_me_nishell
+P9K_SSH=0
+PAGER=less
+PWD=/Users/gyeon/Git/gyujun9403/save_me_nishell
+SHLVL=1
+ZSH=/Users/gyeon/.oh-my-zsh
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.39.2
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+TERM=xterm-256color
+P9K_TTY=old
+_P9K_TTY=/dev/ttys000
+_=/Users/gyeon/Git/gyujun9403/save_me_nishell/./minishell

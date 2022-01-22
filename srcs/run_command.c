@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_command.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:49:23 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:23:00 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 14:27:31 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	run_func(t_var *var, t_ast *ptr, int flag)
 	if (!ptr->text || !ptr->text[0])
 		return ;
 	cmds = ptr->text;
-	redirections(var->ast);
+	redirections(ptr);
 	if (!ft_strncmp(cmds[0], "cd", 2))
 		return (b_cd(var, cmds));
 	if (!ft_strncmp(cmds[0], "pwd", 3))

@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:26 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/21 15:13:30 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/22 13:17:44 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	start_main(t_var *var)
 	in_out[1] = dup(STDOUT_FILENO);
 	while (1)
 	{
+		dup2(in_out[0], STDIN_FILENO);
+		dup2(in_out[1], STDOUT_FILENO);
 		ret = get_ast(var);
 		if (ret == 1)
 			break ;
@@ -36,8 +38,6 @@ void	start_main(t_var *var)
 			continue ;
 		if (setnget_heredoc(var->ast) == 0)
 			printf("!!!!!heredoc error!!!!!\n");
-		dup2(in_out[0], STDIN_FILENO);
-		dup2(in_out[1], STDOUT_FILENO);
 		if (var->ast_len == 1)
 		{
 			only_one_command(var);
