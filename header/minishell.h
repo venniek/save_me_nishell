@@ -48,11 +48,11 @@ typedef struct s_var
 typedef struct s_parsing
 {
 	char	where;
-	t_ast 	*result;
-	char 	*act;
+	t_ast	*result;
+	char	*act;
 	char	*buffer;
-	char 	state;
-	size_t 	slide;
+	char	state;
+	size_t	slide;
 }	t_parsing;
 
 //=========gyeon=========//
@@ -68,7 +68,7 @@ void	action_err(t_parsing *ps);
 //char	action_appendlist(t_ast *result, char **buffer, const char *act);
 char	action_appendlist(t_parsing *ps);
 char	action_fin(char *buffer);
-t_ast	*init_ast();
+t_ast	*init_ast(void);
 void	add_ast(t_ast *front, char type);
 size_t	decide_actset(char flg);
 int		rev_flg(char *flgs, char flg);
@@ -103,7 +103,7 @@ char	**ft_removeonestring(char **origin, char *remove, int origin_len);
 void	b_unset(t_var *var, char **cmd);
 
 //===========handle_error=========//
-void	err_malloc();
+void	err_malloc(void);
 
 //================main===================//
 void	sighandler_sigint(int signo);
@@ -153,8 +153,5 @@ size_t	ft_sstrlen(char **strstr);
 char	**ft_addonestring(char **origin, char *newline);
 char	**ft_sstrncat(char **origin, char *newline, int n);
 char	**ft_sstrdup(char **origin);
-
-
-
 
 #endif

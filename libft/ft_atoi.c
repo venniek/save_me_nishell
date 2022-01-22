@@ -3,30 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 22:21:41 by gyeon             #+#    #+#             */
-/*   Updated: 2021/05/11 11:40:51 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/22 16:27:40 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+static int	over_range(int sign)
 {
-	int		num;
-	int		sign;
-	size_t	i;
+	if (sign == 1)
+		return (2147483647);
+	else
+		return (-2147483648);
+}
+
+long long	ft_atoi(const char *str)
+{
+	long long	atoi;
+	int			i;
+	int			sign;
 
 	i = 0;
-	num = 0;
 	sign = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+	atoi = 0;
+	while (str[i] == '\t' || str[i] == '\n' || str[i] == '\v'
+		|| str[i] == '\f' || str[i] == '\r' || str[i] == ' ')
 		i++;
-	if (str[i] == '+' || str[i] == '-')
-		if (str[i++] == '-')
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
 			sign = -1;
-	while (ft_isdigit(str[i]) != 0)
-		num = 10 * num + (str[i++] - '0');
-	return (sign * num);
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		atoi = atoi * 10 + str[i] - '0';
+		i++;
+	}
+	if (atoi > 2147483647)
+		return (over_range(sign));
+	return (atoi * sign);
 }
+
