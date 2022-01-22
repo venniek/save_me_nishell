@@ -17,15 +17,15 @@ all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
 	#$(GCC) $(FLGS) $^ -o $@ $(LR_NK_MAC)
 	#$(GCC) $(FLGS) $^ -o $@ $(LR_NAYKIM)
-	$(GCC) $(FLGS) $^ -o $@ $(LR_GY_MAC)
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY)
+	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY_MAC)
+	$(GCC) $(FLGS) $^ -o $@ $(LR_GY)
 	stty -echoctl
 
 %.o : %.c
 	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK_MAC)
 	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NAYKIM)
-	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY_MAC)
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY)
+	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY_MAC)
+	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY)
 
 
 $(addprefix $(DIR_LIBFT), $(LIBFT)) : 
