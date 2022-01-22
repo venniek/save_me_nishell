@@ -6,11 +6,13 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:59 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 20:11:22 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 16:42:56 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+extern int	g_exitcode;
 
 char	*lookup_value(char *start, size_t leng, char **env)
 {
