@@ -6,14 +6,14 @@
 #    By: naykim <naykim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 13:49:16 by naykim            #+#    #+#              #
-#    Updated: 2022/01/22 16:58:53 by naykim           ###   ########.fr        #
+#    Updated: 2022/01/22 19:23:03 by naykim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 TARGET = minishell
 LIBFT = libft.a
 GCC = gcc
-FLGS = -g #-g3 -fsanitize=address #-Wall -Wextra -Werror
+FLGS = -g3 -fsanitize=address #-Wall -Wextra -Werror
 LR_GY = -lreadline -L /usr/local/opt/readline/lib -I /usr/local/opt/readline/include
 LR_GY_MAC = -lreadline -L /Users/gyeon/.brew/opt/readline/lib -I /Users/gyeon/.brew/opt/readline/include
 LR_NK_MAC = -lreadline -L /Users/naykim/.brew/opt/readline/lib -I /Users/naykim/.brew/opt/readline/include

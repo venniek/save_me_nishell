@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/21 19:05:37 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 19:50:18 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,16 @@ extern int	g_exitcode;
 
 void	b_cd(t_var *var, char **cmd)
 {
+	char *tmp;
+
 	if (!cmd)
 		return ;
 	if (!cmd[1])
 	{
+		// tmp = lookup_value("HOME", 4, var->our_env);
+		// cmd = ft_addonestring(cmd, tmp);
+		// free(tmp);
+		// tmp = 0;
 		cmd[1] = lookup_value("HOME", 4, var->our_env);
 		cmd[2] = 0;
 	}
@@ -83,6 +89,12 @@ void	b_pwd(t_var *var)
 
 int	b_exit(t_var *var, int i)
 {
+	// if (ft_sstrlen(cmd) > 2)
+	// {
+	// 	printf("minishell: exit: too many arguments\n");
+	// 	g_exitcode = 1;
+	// 	return (1);
+	// }
 	if (var->ast)
 		free_ast_in_var(var);
 	if (var->our_env)
@@ -99,6 +111,6 @@ int	b_exit(t_var *var, int i)
 		free_pinfo(var);
 	g_exitcode = i;
 	printf("✅✅✅✅\nterminate our minishell ===\n✅✅✅✅ leak check\n");
-	system("leaks minishell");
+	// system("leaks minishell");
 	exit(i);
 }

@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:56:02 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 15:56:07 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 19:50:18 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	free_ast(t_ast *ast)
 void	free_sstr(char **sstr)
 {
 	int	i;
-	int	sstr_len;
 
 	i = 0;
 	if (!sstr)
