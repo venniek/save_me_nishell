@@ -6,11 +6,13 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:21:12 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 15:31:38 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+extern int	g_exitcode;
 
 char	**make_paths(char **env)
 {
@@ -65,8 +67,12 @@ void	find_and_run_command(char **cmds, char **env)
 
 void	b_exec(t_var *var, char **cmds)
 {
+	g_exitcode = 0;
 	find_and_run_command(cmds, var->our_env);
-	printf("minishell: %s: command not found\n", cmds[0]);
+	write(2, "minishell: ", 12);
+	write(2, cmds[0], ft_strlen(cmds[0]));
+	write(2, ": command not found\n", 21);
+	g_exitcode = 127;
 	exit(127);
 }
 
@@ -74,10 +80,21 @@ void	b_exec_with_fork(t_var *var, char **cmds)
 {
 	int		pid;
 	int		status;
+	int		signum;
 
 	pid = fork();
 	if (pid == 0)
 		b_exec(var, cmds);
 	else
+	{
 		waitpid(pid, &status, 0);
+		g_exitcode = WEXITSTATUS(status);
+		signum = WTERMSIG(status);
+		if (signum != 0)
+		{
+			if (signum == 2)
+				printf("^C\n");
+			g_exitcode = 128 + WTERMSIG(status);
+		}
+	}
 }

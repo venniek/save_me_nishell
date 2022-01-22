@@ -1,23 +1,17 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 13:49:26 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 13:17:44 by gyeon            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../header/minishell.h"
+
+int	g_exitcode;
 
 void	sighandler_sigint(int signo)
 {
-	printf("\n"); // Move to a new line
-	rl_replace_line("", 0); // Clear the previous text
-	rl_on_new_line(); // Regenerate the prompt on a newline
-	rl_redisplay();
+	g_exitcode = 1;
+	if (waitpid(-1, NULL, WNOHANG) != 0)
+	{
+		printf("\n"); // Move to a new line
+		rl_replace_line("", 0); // Clear the previous text
+		rl_on_new_line(); // Regenerate the prompt on a newline
+		rl_redisplay();
+	}
 }
 
 void	start_main(t_var *var)
@@ -60,7 +54,6 @@ int	main(int ac, char **av, char **env)
 	t_var	var;
 
 	init_var(&var, env);
-	signal(SIGQUIT, sighandler_sigint);
 	signal(SIGINT, sighandler_sigint);
 	start_main(&var);
 	b_exit(&var, 0);

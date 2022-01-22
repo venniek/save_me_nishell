@@ -6,11 +6,13 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:52 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:26:10 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 16:07:26 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+extern int	g_exitcode;
 
 void	*excep_malloc(int leng)
 {

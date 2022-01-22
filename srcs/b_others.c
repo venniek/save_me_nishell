@@ -6,11 +6,13 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 15:21:48 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/21 19:05:37 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+extern int	g_exitcode;
 
 void	b_cd(t_var *var, char **cmd)
 {
@@ -22,10 +24,15 @@ void	b_cd(t_var *var, char **cmd)
 		cmd[2] = 0;
 	}
 	if (chdir(cmd[1]))
+	{
 		printf("minishell: cd: %s: %s\n", cmd[1], strerror(errno));
+		g_exitcode = 1;
+		return ;
+	}
+	g_exitcode = 0;
 }
 
-void	b_echo(char **cmd)
+void	b_echo(t_var *var, char **cmd)
 {
 	int	n_option;
 	int	idx;
@@ -49,26 +56,29 @@ void	b_echo(char **cmd)
 	}
 	if (n_option == 0)
 		printf("\n");
+	g_exitcode = 0;
 }
 
-void	b_env(char **our_env)
+void	b_env(t_var *var)
 {
 	int	i;
 
-	if (!our_env)
+	if (!var->our_env)
 		return ;
 	i = -1;
-	while (++i < ft_sstrlen(our_env))
-		printf("%s\n", our_env[i]);
+	while (++i < ft_sstrlen(var->our_env))
+		printf("%s\n", var->our_env[i]);
+	g_exitcode = 0;
 }
 
-void	b_pwd(void)
+void	b_pwd(t_var *var)
 {
 	char	*buf;
 
 	buf = getcwd(0, 100);
 	printf("%s\n", buf);
 	free(buf);
+	g_exitcode = 0;
 }
 
 int	b_exit(t_var *var, int i)
@@ -87,6 +97,7 @@ int	b_exit(t_var *var, int i)
 	}
 	if (var->pinfo)
 		free_pinfo(var);
+	g_exitcode = i;
 	printf("✅✅✅✅\nterminate our minishell ===\n✅✅✅✅ leak check\n");
 	system("leaks minishell");
 	exit(i);

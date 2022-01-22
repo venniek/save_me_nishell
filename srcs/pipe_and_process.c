@@ -1,16 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pipe_and_process.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 15:59:05 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 14:40:31 by gyeon            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../header/minishell.h"
+
+extern int	g_exitcode;
 
 void	child_process(t_var *var)
 {
@@ -28,7 +18,7 @@ void	child_process(t_var *var)
 	}
 	run_func(var, ft_astindex(var->ast, now_cnt), 0);
 	close(var->pinfo->fds[var->pinfo->cnt - 1][0]);
-	exit(0);
+	exit(g_exitcode);
 }
 
 int	parent_process(t_var *var)
@@ -37,16 +27,12 @@ int	parent_process(t_var *var)
 	int	stat_loc;
 
 	waitpid(var->pinfo->child_pid, &stat_loc, 0);
+	g_exitcode = WEXITSTATUS(stat_loc);
 	if (var->pinfo->cnt == 0)
 	{
 		close(var->pinfo->fds[0][0]);
 		close(var->pinfo->fds[0][1]);
 		free_ast_in_var(var);
-	}
-	if (WEXITSTATUS(stat_loc) != 0)
-		exit(WEXITSTATUS(stat_loc));
-	else if (var->pinfo->cnt == 0)
-	{
 		free_pinfo(var);
 		return (1);
 	}
