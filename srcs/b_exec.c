@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/21 21:27:53 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 15:31:38 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	b_exec_with_fork(t_var *var, char **cmds)
 {
 	int		pid;
 	int		status;
+	int		signum;
 
 	pid = fork();
 	if (pid == 0)
@@ -88,9 +89,11 @@ void	b_exec_with_fork(t_var *var, char **cmds)
 	{
 		waitpid(pid, &status, 0);
 		g_exitcode = WEXITSTATUS(status);
-		printf("wtermsig: %d\n", WTERMSIG(status));
-		if (WTERMSIG(status) != 0)
+		signum = WTERMSIG(status);
+		if (signum != 0)
 		{
+			if (signum == 2)
+				printf("^C\n");
 			g_exitcode = 128 + WTERMSIG(status);
 		}
 	}
