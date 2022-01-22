@@ -10,6 +10,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/types.h>
+# include <fcntl.h>
 # include "defines.h"
 # include "../libft/libft.h"
 
@@ -18,10 +19,10 @@ typedef struct s_ast
 	// exec에 들어갈 프로그램 + 옵션 입력 char**
 	// -> exec함수에 바로 입력 가능한 형태로.
 	char			**text;
-	char			**rd_owrite;	// >
-	char			**rd_append;	// >>
-	char			**rd_input;		// <
-	char			**heredoc;		// <<
+	char			**rd_owrite;	// > R
+	char			**rd_append;	// >>r
+	char			**rd_input;		// < L
+	char			**heredoc;		// <<l
 	char			last_out;
 	char			last_in;
 	struct s_ast	*next;
@@ -35,6 +36,13 @@ typedef struct s_pipeinfo
 	int	**fds;
 }	t_pipeinfo;
 
+typedef struct s_heredoc
+{
+	int		doc_cnt;
+	int		*fds;
+	char	**docs;
+}	t_heredoc;
+
 typedef struct s_var
 {
 	char		*pwd_now;
@@ -43,6 +51,7 @@ typedef struct s_var
 	int			exitcode;
 	t_ast		*ast;
 	t_pipeinfo	*pinfo;
+	t_heredoc	*heredoc;
 }	t_var;
 
 typedef struct s_parsing
@@ -78,6 +87,8 @@ char	**ft_sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 size_t	get_actindex(const char *str, const char state);
 t_ast	*check_result(t_ast *result);
+int	redirections(t_ast *ast);
+int	setnget_heredoc(t_ast *ast);
 
 //================b_exec===================//
 void	find_cmd(char **path, int i, char **cmd, char **env);

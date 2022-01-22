@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   run_command.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 15:49:23 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 16:29:20 by naykim           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../header/minishell.h"
 
 void	only_one_command(t_var *var)
@@ -26,6 +14,7 @@ void	run_func(t_var *var, t_ast *ptr, int flag)
 	if (!ptr->text || !ptr->text[0])
 		return ;
 	cmds = ptr->text;
+	redirections(ptr);
 	if (!ft_strncmp(cmds[0], "cd", 2) && ft_strlen(cmds[0]) == 2)
 		return (b_cd(var, cmds));
 	if (!ft_strncmp(cmds[0], "pwd", 3) && ft_strlen(cmds[0]) == 3)

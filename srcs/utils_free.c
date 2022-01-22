@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:56:02 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 15:56:07 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 16:07:46 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	free_ast_in_var(t_var *var)
 void	free_ast(t_ast *ast)
 {
 	t_ast	*next_node;
+	size_t	idx;
 
 	while (ast)
 	{
@@ -36,7 +37,12 @@ void	free_ast(t_ast *ast)
 		if (ast->rd_input)
 			free_sstr(ast->rd_input);
 		if (ast->heredoc)
+		{
+			idx = 0;
+			while (ast->heredoc[idx] != NULL)
+				unlink(ast->heredoc[idx++]);
 			free_sstr(ast->heredoc);
+		}
 		free(ast);
 		ast = next_node;
 	}

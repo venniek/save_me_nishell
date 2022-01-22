@@ -22,22 +22,22 @@ DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
 SRCS = action_decider.c b_export.c b_others.c b_unset.c b_exec.c run_command.c pipe_and_process.c\
-	handle_error.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c p_checkerr.c\
+	handle_error.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c p_checkerr.c redirections.c\
 	utils_ast.c utils_init.c utils_remove.c utils_free.c utils_other.c utils_parsing.c utils_string.c
 
 all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
-	$(GCC) $(FLGS) $^ -o $@ $(LR_NK_MAC)
+	#$(GCC) $(FLGS) $^ -o $@ $(LR_NK_MAC)
 	#$(GCC) $(FLGS) $^ -o $@ $(LR_NAYKIM)
 	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY_MAC)
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY)
+	$(GCC) $(FLGS) $^ -o $@ $(LR_GY)
 	stty -echoctl
 
 %.o : %.c
-	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK_MAC)
+	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK_MAC)
 	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NAYKIM)
 	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY_MAC)
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY)
+	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY)
 
 
 $(addprefix $(DIR_LIBFT), $(LIBFT)) : 

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 13:49:26 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 16:05:35 by naykim           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../header/minishell.h"
 
 int	g_exitcode;
@@ -29,18 +17,25 @@ void	sighandler_sigint(int signo)
 void	start_main(t_var *var)
 {
 	int		ret;
+	int 	in_out[2];
 
+	in_out[0] = dup(STDIN_FILENO);
+	in_out[1] = dup(STDOUT_FILENO);
 	while (1)
 	{
-		printf("exitcode = %d\n", g_exitcode);
+		dup2(in_out[0], STDIN_FILENO);
+		dup2(in_out[1], STDOUT_FILENO);
 		ret = get_ast(var);
 		if (ret == 1)
 			break ;
 		else if (ret == 2)
 			continue ;
+		if (setnget_heredoc(var->ast) == 0)
+			printf("!!!!!heredoc error!!!!!\n");
 		if (var->ast_len == 1)
 		{
 			only_one_command(var);
+
 			continue ;
 		}
 		init_pinfo(var);

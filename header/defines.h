@@ -28,16 +28,6 @@
 #define EJI		2
 #define HJI		18
 #define EIJ		3
-// #define CJINP	4	//pipe
-// #define CJINR	5
-// #define CJJINR	10
-// #define CJINL	6
-// #define CJJINL	11
-// #define EJINP	7	//pipe
-// #define EJINR	8
-// #define EJJINR	12
-// #define EJINL	9
-// #define EJJINL	13
 #define CJINP	4	//pipe
 #define CJINR	5
 #define CJJINR	6
@@ -54,5 +44,8 @@
 #define CAF		16
 #define EAF		17
 #define P_ERR	19
+
+#define APPEND	O_WRONLY | O_APPEND | O_CREAT
+#define OWRITE	O_WRONLY | O_TRUNC | O_CREAT
 
 #endif //SAVE_ME_NISHELL_DEFINES_H
