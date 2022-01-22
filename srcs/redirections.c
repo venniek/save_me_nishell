@@ -31,12 +31,37 @@ char		*strcat_num(char *dst, int num)
 	return (result);
 }
 
+void	readlein_heredoc(t_ast *ptr, int temp_fd, char *delimiter)
+{
+	char		*read;
+
+	while (1)
+	{
+		read = readline(">");
+		if (read == NULL)
+			continue ;
+		if (ft_strncmp(read, delimiter, ft_strlen(delimiter)) == 0)
+		{
+			free(read);
+			free(delimiter);
+			close(temp_fd);
+			break ;
+		}
+		else
+		{
+			write(temp_fd, read, ft_strlen(read));
+			write(temp_fd, "\n", 1);
+			free(read);
+		}
+	}
+}
+
 int	setnget_heredoc(t_ast *ast)
 {
 	t_ast		*ptr;
 	int			cnt;
 	int 		temp_fd;
-	char		*read;
+	// char		*read;
 	char 		*delimiter;
 
 	ptr = ast;
@@ -50,25 +75,26 @@ int	setnget_heredoc(t_ast *ast)
 			temp_fd = open(ptr->heredoc[cnt], O_WRONLY | O_TRUNC | O_CREAT, 0666);
 			if (temp_fd < 0)
 				return (0);
-			while (1)
-			{
-				read = readline(">");
-				if (read == NULL)
-					continue ;
-				if (ft_strncmp(read, delimiter, ft_strlen(ptr->heredoc[cnt])) == 0)
-				{
-					free(read);
-					free(delimiter);
-					close(temp_fd);
-					break ;
-				}
-				else
-				{
-					write(temp_fd, read, ft_strlen(read));
-					write(temp_fd, "\n", 1);
-					free(read);
-				}
-			}
+			readlein_heredoc(ptr, temp_fd, delimiter);
+			// while (1)
+			// {
+			// 	read = readline(">");
+			// 	if (read == NULL)
+			// 		continue ;
+			// 	if (ft_strncmp(read, delimiter, ft_strlen(ptr->heredoc[cnt])) == 0)
+			// 	{
+			// 		free(read);
+			// 		free(delimiter);
+			// 		close(temp_fd);
+			// 		break ;
+			// 	}
+			// 	else
+			// 	{
+			// 		write(temp_fd, read, ft_strlen(read));
+			// 		write(temp_fd, "\n", 1);
+			// 		free(read);
+			// 	}
+			// }
 			++cnt;
 		}
 		ptr = ptr->next;
