@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 15:49:23 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/21 20:30:28 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 16:05:56 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	run_func(t_var *var, t_ast *ptr, int flag)
 int	have_argument(char **cmds)
 {
 	int	ret;
-	
+
 	if (cmds[1])
 		ret = ft_atoi(cmds[1]) % 256;
 	else

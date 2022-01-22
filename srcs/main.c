@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:26 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 16:03:25 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 16:05:35 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	g_exitcode;
 
 void	sighandler_sigint(int signo)
 {
-	int status;
-
 	g_exitcode = 1;
 	if (waitpid(-1, NULL, WNOHANG) != 0)
 	{

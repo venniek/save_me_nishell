@@ -26,14 +26,14 @@ t_ast	*ft_astindex(t_ast *ast, int idx)
 void	get_lasts(t_ast	*input)
 {
 	t_ast	*ptr;
+
 	ptr = input;
-	while(ptr != NULL)
+	while (ptr != NULL)
 	{
 		printf("last_in : %c, last_out : %c\n", input->last_in, input->last_out);
 		ptr = ptr->next;
 	}
 }
-
 
 int	get_ast(t_var *var)
 {
@@ -48,7 +48,6 @@ int	get_ast(t_var *var)
 	var->ast = parser(read, var->our_env);
 	free(read);
 	read = 0;
-	// get_lasts(var->ast);
 	if (var->ast == NULL)
 	{
 		write(1, "!!!WRONG INPUT!!!\n", 18);
