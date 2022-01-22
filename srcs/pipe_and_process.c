@@ -23,7 +23,6 @@ void	child_process(t_var *var)
 	}
 	if (var->pinfo->cnt >= 2)
 		dup2(var->pinfo->fds[var->pinfo->cnt - 1][1], STDOUT_FILENO);
-	redirections(var->ast);
 	now_cnt = var->pinfo->num_fds - var->pinfo->cnt;
 	run_func(var, ft_astindex(var->ast, now_cnt), 0);
 	close(var->pinfo->fds[var->pinfo->cnt - 1][0]);

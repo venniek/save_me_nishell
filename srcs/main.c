@@ -23,7 +23,10 @@ void	sighandler_sigint(int signo)
 void	start_main(t_var *var)
 {
 	int		ret;
+	int 	in_out[2];
 
+	in_out[0] = dup(STDIN_FILENO);
+	in_out[1] = dup(STDOUT_FILENO);
 	while (1)
 	{
 		ret = get_ast(var);
@@ -31,10 +34,14 @@ void	start_main(t_var *var)
 			break ;
 		else if (ret == 2)
 			continue ;
-		var->heredoc = setnget_heredoc(var->ast);
+		if (setnget_heredoc(var->ast) == 0)
+			printf("!!!!!heredoc error!!!!!\n");
+		dup2(in_out[0], STDIN_FILENO);
+		dup2(in_out[1], STDOUT_FILENO);
 		if (var->ast_len == 1)
 		{
 			only_one_command(var);
+
 			continue ;
 		}
 		init_pinfo(var);

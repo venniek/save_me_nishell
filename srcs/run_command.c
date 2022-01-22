@@ -26,6 +26,7 @@ void	run_func(t_var *var, t_ast *ptr, int flag)
 	if (!ptr->text || !ptr->text[0])
 		return ;
 	cmds = ptr->text;
+	redirections(var->ast);
 	if (!ft_strncmp(cmds[0], "cd", 2))
 		return (b_cd(var, cmds));
 	if (!ft_strncmp(cmds[0], "pwd", 3))

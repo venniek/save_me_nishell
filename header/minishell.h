@@ -86,8 +86,8 @@ char	**ft_sstrncat(char **origin, char *newline, int n);
 char	*lookup_value(char *start, size_t leng, char **env);
 size_t	get_actindex(const char *str, const char state);
 t_ast	*check_result(t_ast *result);
-int		redirections(t_ast *ast);
-t_heredoc	*setnget_heredoc(t_ast *ast);
+int	redirections(t_ast *ast);
+int	setnget_heredoc(t_ast *ast);
 
 //================b_exec===================//
 void	find_cmd(char **path, int i, char **cmd, char **env);
