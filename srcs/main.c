@@ -55,6 +55,7 @@ int	main(int ac, char **av, char **env)
 
 	init_var(&var, env);
 	signal(SIGINT, sighandler_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	start_main(&var);
 	b_exit(&var, 0);
 }
