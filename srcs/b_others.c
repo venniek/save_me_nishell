@@ -16,7 +16,7 @@ extern int	g_exitcode;
 
 void	b_cd(t_var *var, char **cmd)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (!cmd)
 		return ;

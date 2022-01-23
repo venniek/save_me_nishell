@@ -9,7 +9,6 @@ void	only_one_command(t_var *var)
 void	run_func(t_var *var, t_ast *ptr, int flag)
 {
 	char	**cmds;
-	int		stat_loc;
 
 	if (!ptr->text || !ptr->text[0])
 		return ;

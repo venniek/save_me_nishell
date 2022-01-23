@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   action_decider.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/23 21:23:49 by gyeon             #+#    #+#             */
+/*   Updated: 2022/01/23 21:23:52 by gyeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
-#include "./action_decider_sub.c"
 
 size_t	actset_fin(char *flgs)
 {
@@ -72,8 +83,6 @@ size_t	actset_noflgs(char *flgs, char flg)
 	return (J);
 }
 
-
-// 입력된 문자열을 확인해서 확인해봐야하는 문자를 보내는 함수.
 size_t	get_actindex(const char *str, const char state)
 {
 	if (*str == '\0')

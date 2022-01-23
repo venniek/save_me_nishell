@@ -21,7 +21,7 @@ LR_NAYKIM = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/re
 DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
-SRCS = action_decider.c b_export.c b_others.c b_unset.c b_exec.c run_command.c pipe_and_process.c\
+SRCS = action_decider.c action_decider_sub.c b_export.c b_others.c b_unset.c b_exec.c run_command.c pipe_and_process.c\
 	handle_error.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c p_checkerr.c redirections.c\
 	utils_ast.c utils_init.c utils_remove.c utils_free.c utils_other.c utils_parsing.c utils_string.c
 

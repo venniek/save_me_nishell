@@ -73,8 +73,6 @@ char	*action_env(char *dst, char *src, char **env, size_t slide);
 char	action_addonestring(t_parsing *ps);
 void	action_white(char **line,	t_parsing *ps);
 void	action_err(t_parsing *ps);
-//void	action_white(char **line, const size_t *slide);
-//char	action_appendlist(t_ast *result, char **buffer, const char *act);
 char	action_appendlist(t_parsing *ps);
 char	action_fin(char *buffer);
 t_ast	*init_ast(void);
@@ -89,6 +87,8 @@ size_t	get_actindex(const char *str, const char state);
 t_ast	*check_result(t_ast *result);
 int	redirections(t_ast *ast);
 int	setnget_heredoc(t_ast *ast);
+size_t	doller_dollerquestion(const char *str);
+size_t	if_flg_slinglequete(char *flgs);
 
 //================b_exec===================//
 void	find_cmd(char **path, int i, char **cmd, char **env);

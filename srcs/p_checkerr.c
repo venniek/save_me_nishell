@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   p_checkerr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/23 21:24:27 by gyeon             #+#    #+#             */
+/*   Updated: 2022/01/23 21:24:29 by gyeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-int		is_emptyast(t_ast *ast)
+int	is_emptyast(t_ast *ast)
 {
 	return (ast->text[0] == NULL && ast->rd_append[0] == NULL
 		&& ast->rd_owrite[0] == NULL && ast->rd_input[0] == NULL
 		&& ast->heredoc[0] == NULL);
 }
 
-int 	there_is_empty_redirection(t_ast *ast)
+int	there_is_empty_redirection(t_ast *ast)
 {
 	size_t	idx;
 	t_ast	*ptr;
