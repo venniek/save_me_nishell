@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 15:31:38 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/22 19:17:06 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	**make_paths(char **env)
 	char	*tmpenv;
 	char	**path;
 
+	tmpenv = 0;
+	path = 0;
 	i = -1;
 	while (env[++i])
 	{
@@ -32,7 +34,8 @@ char	**make_paths(char **env)
 			break ;
 		}
 	}
-	free(tmpenv);
+	if (tmpenv)
+		free(tmpenv);
 	return (path);
 }
 

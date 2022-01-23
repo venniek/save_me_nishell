@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_string.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:56 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/20 16:42:41 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/22 19:39:27 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,12 @@ char	**ft_addonestring(char **origin, char *newline)
 	new = (char **)malloc(sizeof(char *) * (idxlen + 2));
 	i = -1;
 	while (++i < idxlen)
-		new[i] = origin[i];
+		new[i] = ft_strdup(origin[i]);
 	new[idxlen] = ft_strdup(newline);
 	new[idxlen + 1] = NULL;
 	idxlen = 0;
-	free(origin);
+	free_sstr(origin);
+	origin = 0;
 	return (new);
 }
 
