@@ -14,15 +14,19 @@
 # include "defines.h"
 # include "../libft/libft.h"
 
+/*
+ * char			**rd_owrite;	// > R
+ * char			**rd_append;	// >>r
+ * char			**rd_input;		// < L
+ * char			**heredoc;		// <<l
+ */
 typedef struct s_ast
 {
-	// exec에 들어갈 프로그램 + 옵션 입력 char**
-	// -> exec함수에 바로 입력 가능한 형태로.
 	char			**text;
-	char			**rd_owrite;	// > R
-	char			**rd_append;	// >>r
-	char			**rd_input;		// < L
-	char			**heredoc;		// <<l
+	char			**rd_owrite;
+	char			**rd_append;
+	char			**rd_input;
+	char			**heredoc;
 	char			last_out;
 	char			last_in;
 	struct s_ast	*next;
@@ -36,13 +40,6 @@ typedef struct s_pipeinfo
 	int	**fds;
 }	t_pipeinfo;
 
-typedef struct s_heredoc
-{
-	int		doc_cnt;
-	int		*fds;
-	char	**docs;
-}	t_heredoc;
-
 typedef struct s_var
 {
 	char		*pwd_now;
@@ -51,7 +48,6 @@ typedef struct s_var
 	int			exitcode;
 	t_ast		*ast;
 	t_pipeinfo	*pinfo;
-	t_heredoc	*heredoc;
 }	t_var;
 
 typedef struct s_parsing
@@ -64,9 +60,18 @@ typedef struct s_parsing
 	size_t	slide;
 }	t_parsing;
 
-//=========gyeon=========//
-t_ast	*get_last(t_ast	*start);
-char	*malloc_n_lcat(char *dst, char *src, size_t leng);
+//=================Paser=================//
+t_ast	*parser(char *line, char **env);
+
+//=============Action_desider=============//
+char	**ft_addonestring(char **origin, char *newline);
+size_t	doller_dollerquestion(const char *str);
+size_t	if_flg_slinglequete(char *flgs);
+size_t	get_actindex(const char *str, const char state);
+size_t	decide_actset(char flg);
+int		rev_flg(char *flgs, char flg);
+
+//================Actions================//
 void	action_idx(char **line, size_t *slide);
 char	*action_cat(char *dst, char *src, size_t slide);
 char	*action_env(char *dst, char *src, char **env, size_t slide);
@@ -75,20 +80,20 @@ void	action_white(char **line,	t_parsing *ps);
 void	action_err(t_parsing *ps);
 char	action_appendlist(t_parsing *ps);
 char	action_fin(char *buffer);
+
+//==============Redirection==============//
+int		redirections(t_ast *ast);
+int		setnget_heredoc(t_ast *ast);
+
+//==========Parse_error_check==========//
+t_ast	*check_result(t_ast *result);
+
+//================Utils================//
 t_ast	*init_ast(void);
 void	add_ast(t_ast *front);
-size_t	decide_actset(char flg);
-int		rev_flg(char *flgs, char flg);
-t_ast	*parser(char *line, char **env);
-char	**ft_addonestring(char **origin, char *newline);
-char	**ft_sstrncat(char **origin, char *newline, int n);
+t_ast	*get_last(t_ast	*start);
 char	*lookup_value(char *start, size_t leng, char **env);
-size_t	get_actindex(const char *str, const char state);
-t_ast	*check_result(t_ast *result);
-int	redirections(t_ast *ast);
-int	setnget_heredoc(t_ast *ast);
-size_t	doller_dollerquestion(const char *str);
-size_t	if_flg_slinglequete(char *flgs);
+char	*malloc_n_lcat(char *dst, char *src, size_t leng);
 
 //================b_exec===================//
 void	find_cmd(char **path, int i, char **cmd, char **env);
