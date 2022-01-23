@@ -50,12 +50,12 @@ int	have_argument(t_var *var, char **cmds)
 			printf_err(": numeric argument required\n");
 			b_exit(var, 255);
 		}
-	if (ft_sstrlen(cmds) > 2)
-	{
-		printf_err("minishell: exit: too many arguments\n");
-		g_exitcode = 1;
-		return (1);
-	}
+		if (ft_sstrlen(cmds) > 2)
+		{
+			printf_err("minishell: exit: too many arguments\n");
+			g_exitcode = 1;
+			return (1);
+		}
 		ret = ft_atoi(cmds[1]);
 	}
 	else

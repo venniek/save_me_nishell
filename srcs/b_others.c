@@ -6,7 +6,7 @@
 /*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/23 17:59:34 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/24 02:24:20 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,8 @@ void	b_cd(t_var *var, t_ast *ptr)
 		return ;
 	if (!ptr->text[1])
 	{
-		tmp = lookup_value("HOME", 4, var->our_env);
-		if (!tmp)
-		{
-			printf_err("minishell: cd: HOME not set\n");
-			free(tmp);
-			g_exitcode = 1;
+		if (input_home_in_cd(var, ptr) == 1)
 			return ;
-		}
-		ptr->text = ft_addonestring(ptr->text, tmp);
-		ptr->text = ptr->text;
-		free(tmp);
 	}
 	if (chdir(ptr->text[1]))
 	{
@@ -113,7 +104,6 @@ int	b_exit(t_var *var, int i)
 	if (var->pinfo)
 		free_pinfo(var);
 	g_exitcode = i;
-	printf("✅✅✅✅\nterminate our minishell ===\n✅✅✅✅ leak check\n");
-	// system("leaks minishell");
+	printf("\n=== terminate our minishell ===\n");
 	exit(i);
 }

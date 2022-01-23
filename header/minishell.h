@@ -151,6 +151,7 @@ void	*excep_malloc(int leng);
 void	*excep_calloc(size_t count, size_t size);
 void	call_pwd(t_var *var);
 void	printf_err(char *str);
+int	input_home_in_cd(t_var *var, t_ast *ptr);
 
 //====================utils_ast===============//
 int		get_ast(t_var *var);

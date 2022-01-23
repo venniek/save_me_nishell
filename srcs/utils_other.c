@@ -6,7 +6,7 @@
 /*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:52 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/23 17:35:31 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/24 02:24:42 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,21 @@ void	call_pwd(t_var *var)
 void	printf_err(char *str)
 {
 	write(2, str, ft_strlen(str));
+}
+
+int	input_home_in_cd(t_var *var, t_ast *ptr)
+{
+	char	*tmp;
+
+	tmp = lookup_value("HOME", 4, var->our_env);
+	if (!tmp)
+	{
+		printf_err("minishell: cd: HOME not set\n");
+		free(tmp);
+		g_exitcode = 1;
+		return (1);
+	}
+	ptr->text = ft_addonestring(ptr->text, tmp);
+	free(tmp);
+	return (0);
 }
