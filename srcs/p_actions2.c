@@ -54,7 +54,7 @@ void	action_white(char **line, t_parsing *ps)
 char	action_appendlist(t_parsing *ps)
 {
 	free(ps->buffer);
-	add_ast(ps->result, 'c');
+	add_ast(ps->result);
 	ps->buffer = NULL;
 	ps->where = 'c';
 	return ('s');

@@ -41,7 +41,7 @@ char	*strcat_num(char *dst, int num)
 	return (result);
 }
 
-void	readlein_heredoc(t_ast *ptr, int temp_fd, char *delimiter)
+void	readlein_heredoc(int temp_fd, char *delimiter)
 {
 	char		*read;
 
@@ -85,7 +85,7 @@ int	setnget_heredoc(t_ast *ast)
 				= open(ptr->heredoc[cnt], O_WRONLY | O_TRUNC | O_CREAT, 0666);
 			if (temp_fd < 0)
 				return (0);
-			readlein_heredoc(ptr, temp_fd, delimiter);
+			readlein_heredoc(temp_fd, delimiter);
 			++cnt;
 		}
 		ptr = ptr->next;
@@ -129,10 +129,7 @@ int	opne_files(size_t rd, char **file)
 int	redirections(t_ast *ast)
 {
 	size_t	rd;
-	size_t	idx;
-	size_t	len_sstr;
 	char	**ptr[4];
-	int		temp_fd;
 
 	rd = 1;
 	ptr[0] = ast->heredoc;

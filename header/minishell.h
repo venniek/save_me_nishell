@@ -76,7 +76,7 @@ void	action_err(t_parsing *ps);
 char	action_appendlist(t_parsing *ps);
 char	action_fin(char *buffer);
 t_ast	*init_ast(void);
-void	add_ast(t_ast *front, char type);
+void	add_ast(t_ast *front);
 size_t	decide_actset(char flg);
 int		rev_flg(char *flgs, char flg);
 t_ast	*parser(char *line, char **env);

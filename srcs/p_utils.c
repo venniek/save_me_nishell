@@ -55,7 +55,7 @@ t_ast	*init_ast(void)
 	return (result);
 }
 
-void	add_ast(t_ast *front, char type)
+void	add_ast(t_ast *front)
 {
 	t_ast	*buffer;
 
