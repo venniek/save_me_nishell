@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_free.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/20 15:56:02 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 16:07:46 by gyeon            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../header/minishell.h"
 
 void	free_ast_in_var(t_var *var)
@@ -51,7 +39,6 @@ void	free_ast(t_ast *ast)
 void	free_sstr(char **sstr)
 {
 	int	i;
-	int	sstr_len;
 
 	i = 0;
 	if (!sstr)
