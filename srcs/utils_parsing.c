@@ -22,6 +22,8 @@ char	*lookup_value(char *start, size_t leng, char **env)
 
 	idx = 0;
 	result = NULL;
+	if (ft_strncmp(start, "?", leng) == 0)
+		return (ft_itoa(g_exitcode));
 	temp = ft_strndup(start, leng);
 	while (env[idx] != NULL)
 	{

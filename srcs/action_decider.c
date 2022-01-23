@@ -1,8 +1,5 @@
-//
-// Created by 연규준 on 2022/01/13.
-//
-
 #include "../header/minishell.h"
+#include "./action_decider_sub.c"
 
 size_t	actset_fin(char *flgs)
 {
@@ -23,25 +20,26 @@ size_t	actset_dollar(char *flgs, char flg)
 	size_t	result;
 
 	result = J;
-	if (flg != ALNUM)
+	if (flg == ALNUM)
+		return (result);
+	if (((*flgs & FLG_DQ) == FLG_DQ && flg != FLG_DQ) || flg == NOT_ALP_NUM)
+		result = EIJ;
+	else if (flg >= PIPE && flg <= LRR)
 	{
-		if (((*flgs & FLG_DQ) == FLG_DQ && flg != FLG_DQ) || flg == NOT_ALP_NUM)
-			result = EIJ;
-		else if (flg >= PIPE && flg <= LRR)
-		{
-			if (flg == LRR)
-				*flgs |= FLG_RD;
-			result = EJINP + (flg - PIPE);
-		}
-		else if (flg == WHITE)
-			result = EJIAW;
-		else
-			result = EJI;
-		if (((*flgs & FLG_DQ) != FLG_DQ && flg == FLG_SQ) || flg == FLG_DQ)
-			rev_flg(flgs, flg);
-		if (flg != FLG_DL)
-			*flgs &= ~FLG_DL;
+		if (flg == LRR)
+			*flgs |= FLG_RD;
+		result = EJINP + (flg - PIPE);
 	}
+	else if (flg == WHITE)
+		result = EJIAW;
+	else if (flg == DLQUESTION)
+		result = EJIEJI;
+	else
+		result = EJI;
+	if (((*flgs & FLG_DQ) != FLG_DQ && flg == FLG_SQ) || flg == FLG_DQ)
+		rev_flg(flgs, flg);
+	if (flg != FLG_DL)
+		*flgs &= ~FLG_DL;
 	return (result);
 }
 
@@ -59,9 +57,7 @@ size_t	actset_noflgs(char *flgs, char flg)
 	}
 	else if (flg >= PIPE && flg <= LRR)
 	{
-		if (flg == LRR)
-			*flgs |= FLG_RD;
-		else
+		if (flg != LRR)
 			*flgs &= ~FLG_RD;
 		return (CJINP + (flg - PIPE));
 	}
@@ -69,10 +65,13 @@ size_t	actset_noflgs(char *flgs, char flg)
 		return (HJI);
 	else if (flg == WHITE)
 		return (CJIAW);
+	else if (flg == DLQUESTION)
+		return (CJIEJI);
 	else if (flg != NOT_ALP_NUM)
 		return (CJI);
 	return (J);
 }
+
 
 // 입력된 문자열을 확인해서 확인해봐야하는 문자를 보내는 함수.
 size_t	get_actindex(const char *str, const char state)
@@ -86,7 +85,7 @@ size_t	get_actindex(const char *str, const char state)
 	else if (*str == '"')
 		return (decide_actset(FLG_DQ));
 	else if (*str == '$')
-		return (decide_actset(FLG_DL));
+		return (doller_dollerquestion(str));
 	else if (ft_isWhite(*str))
 		return (decide_actset(WHITE));
 	else if (*str == '|')
@@ -121,15 +120,14 @@ size_t	decide_actset(char flg)
 	else if ((flgs & FLG_SQ) == FLG_SQ)
 	{
 		if (flg == FLG_SQ)
-		{
-			flgs &= ~FLG_SQ;
-			return (CJI);
-		}
+			return (if_flg_slinglequete(&flgs));
 	}
 	else if ((flgs & FLG_DL) == FLG_DL && (flgs & FLG_RD) != FLG_RD)
 		return (actset_dollar(&flgs, flg));
 	else if ((flgs & FLG_DQ) == FLG_DQ)
 	{
+		if (flg == DLQUESTION)
+			return (CJIEJI);
 		if (flg == FLG_DQ || (flg == FLG_DL && (flgs & FLG_RD) != FLG_RD))
 		{
 			rev_flg(&flgs, flg);

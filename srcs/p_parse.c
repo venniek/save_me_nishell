@@ -2,11 +2,11 @@
 
 char	*get_actset(size_t idx)
 {
-	static char	*actset[20] =
+	static char	*actset[22] =
 			{"J", "CJI", "EJI", "EIJ", "CJIAP",
 			 "CJIAR", "CJJIAr", "CJIAL", "CJJIAl", "EJIAP",
 			 "EJIAR", "EJJIAr", "EJIAL", "EJJIAl", "CJIAW",
-			 "EJIAW", "CAF", "EAF", "HJI", "e"};
+			 "EJIAW", "CAF", "EAF", "HJI", "e", "CJIEJI", "EJIEJI"};
 
 	return (actset[idx]);
 }

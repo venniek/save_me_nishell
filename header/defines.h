@@ -22,18 +22,19 @@
 #define ALNUM 'A'
 #define EXCL '~'
 #define FIN 'F'
+#define DLQUESTION '?'
 
 #define J 		0
 #define CJI		1
 #define EJI		2
 #define HJI		18
 #define EIJ		3
-#define CJINP	4	//pipe
+#define CJINP	4
 #define CJINR	5
 #define CJJINR	6
 #define CJINL	7
 #define CJJINL	8
-#define EJINP	9	//pipe
+#define EJINP	9
 #define EJINR	10
 #define EJJINR	11
 #define EJINL	12
@@ -44,6 +45,8 @@
 #define CAF		16
 #define EAF		17
 #define P_ERR	19
+#define CJIEJI	20
+#define EJIEJI	21
 
 #define APPEND	O_WRONLY | O_APPEND | O_CREAT
 #define OWRITE	O_WRONLY | O_TRUNC | O_CREAT
