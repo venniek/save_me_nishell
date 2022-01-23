@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_exec.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 19:17:06 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/23 18:04:23 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ void	b_exec(t_var *var, char **cmds)
 {
 	g_exitcode = 0;
 	find_and_run_command(cmds, var->our_env);
-	write(2, "minishell: ", 12);
-	write(2, cmds[0], ft_strlen(cmds[0]));
-	write(2, ": command not found\n", 21);
+	printf_err("minishell: ");
+	printf_err(cmds[0]);
+	printf_err(": command not found\n");
 	g_exitcode = 127;
-	exit(127);
+	b_exit(var, 127);
 }
 
 void	b_exec_with_fork(t_var *var, char **cmds)

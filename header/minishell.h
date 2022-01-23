@@ -92,7 +92,7 @@ void	ft_export(t_var *var, char *new);
 
 //================b_others===================//
 void	b_env(t_var *var);
-void	b_cd(t_var *var, char **cmd);
+void	b_cd(t_var *var, t_ast *ptr);
 void	b_pwd(t_var *var);
 void	b_echo(t_var *var, char **cmd);
 int		b_exit(t_var *var, int i);
@@ -112,7 +112,7 @@ void	start_main(t_var *var);
 //================run_command===================//
 void	run_func(t_var *var, t_ast *ptr, int flag);
 void	only_one_command(t_var *var);
-int		have_argument(char **cmds);
+int		have_argument(t_var *var, char **cmds);
 
 //================pipe_and_process===================//
 void	child_process(t_var *var);
@@ -134,6 +134,7 @@ void	init_pinfo(t_var *var);
 void	*excep_malloc(int leng);
 void	*excep_calloc(size_t count, size_t size);
 void	call_pwd(t_var *var);
+void	printf_err(char *str);
 
 //====================utils_ast===============//
 int		get_ast(t_var *var);

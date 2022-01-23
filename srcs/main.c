@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:26 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 16:05:35 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/23 14:37:38 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	main(int ac, char **av, char **env)
 
 	init_var(&var, env);
 	signal(SIGINT, sighandler_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	start_main(&var);
 	b_exit(&var, 0);
 }

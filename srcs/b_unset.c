@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/21 19:06:20 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/23 18:01:39 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void	b_unset(t_var *var, char **cmd)
 	{
 		if (ft_strrchr(cmd[i], '='))
 		{
-			printf("unset: %s: invalid parameter name\n", cmd[i]);
+			printf_err("unset: ");
+			printf_err(cmd[1]);
+			printf_err(": invalid parameter name\n");
 			g_exitcode = 1;
 		}
 		else

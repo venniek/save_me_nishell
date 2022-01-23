@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_other.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:52 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 16:07:26 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/23 17:35:31 by nayeon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,9 @@ void	call_pwd(t_var *var)
 	str = 0;
 	free(tmp_str);
 	tmp_str = 0;
+}
+
+void	printf_err(char *str)
+{
+	write(2, str, ft_strlen(str));
 }
