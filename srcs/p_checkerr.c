@@ -8,23 +8,51 @@ int		is_emptyast(t_ast *ast)
 		&& ast->heredoc[0] == NULL);
 }
 
+int 	there_is_empty_redirection(t_ast *ast)
+{
+	size_t	idx;
+	t_ast	*ptr;
+
+	ptr = ast;
+	while (ptr != NULL)
+	{
+		idx = 0;
+		while (ptr->heredoc[idx] != NULL)
+			if (ft_strncmp(ptr->heredoc[idx++], "", 1) == 0)
+				return (1);
+		idx = 0;
+		while (ptr->rd_append[idx] != NULL)
+			if (ft_strncmp(ptr->rd_append[idx++], "", 1) == 0)
+				return (1);
+		idx = 0;
+		while (ptr->rd_input[idx] != NULL)
+			if (ft_strncmp(ptr->rd_input[idx++], "", 1) == 0)
+				return (1);
+		idx = 0;
+		while (ptr->rd_owrite[idx] != NULL)
+			if (ft_strncmp(ptr->rd_owrite[idx++], "", 1) == 0)
+				return (1);
+		ptr = ptr->next;
+	}
+	return (0);
+}
+
 t_ast	*check_result(t_ast *result)
 {
-	t_ast	*pre;
 	t_ast	*ptr;
 
 	if (result == NULL)
 		return (NULL);
-	pre = result;
-	ptr = result->next;
+	ptr = result;
 	while (ptr != NULL)
 	{
-		if (is_emptyast(ptr))
+		if (is_emptyast(ptr) == 0
+			&& there_is_empty_redirection(ptr) == 0);
+		else
 		{
 			free_ast(result);
 			return (NULL);
 		}
-		pre = ptr;
 		ptr = ptr->next;
 	}
 	return (result);
