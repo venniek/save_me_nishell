@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 15:40:53 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/24 16:06:31 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ extern int	g_exitcode;
 
 void	b_cd(t_var *var, t_ast *ptr)
 {
-	char	*tmp;
-
 	if (!ptr->text)
 		return ;
 	if (!ptr->text[1])
@@ -38,10 +36,10 @@ void	b_cd(t_var *var, t_ast *ptr)
 	g_exitcode = 0;
 }
 
-void	b_echo(t_var *var, char **cmd)
+void	b_echo(char **cmd)
 {
-	int	n_option;
-	int	idx;
+	int		n_option;
+	size_t	idx;
 
 	n_option = 0;
 	if (!cmd)
@@ -72,12 +70,12 @@ void	b_env(t_var *var)
 	if (!var->our_env)
 		return ;
 	i = -1;
-	while (++i < ft_sstrlen(var->our_env))
+	while (++i < (int)ft_sstrlen(var->our_env))
 		printf("%s\n", var->our_env[i]);
 	g_exitcode = 0;
 }
 
-void	b_pwd(t_var *var)
+void	b_pwd(void)
 {
 	char	*buf;
 

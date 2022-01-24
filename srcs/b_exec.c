@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 15:41:32 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/24 16:07:10 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	find_and_run_command(char **cmds, char **env)
 	int		ret;
 	path = make_paths(env);
 	i = -1;
-	while (++i < ft_sstrlen(path))
+	while (++i < (int)ft_sstrlen(path))
 	{
 		ret = find_cmd(path, i, cmds, env);
 		if (ret == 1)

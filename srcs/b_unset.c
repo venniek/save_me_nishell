@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/23 18:01:39 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/24 16:06:56 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	**ft_removeonestring(char **origin, char *remove, int origin_len)
 
 void	b_unset(t_var *var, char **cmd)
 {
-	int		i;
+	size_t	i;
 	char	***env;
 
 	if (!var->our_env || !cmd)

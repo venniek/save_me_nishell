@@ -2,12 +2,6 @@
 
 int	g_exitcode;
 
-/*
- * printf("\n"); // Move to a new line
-		rl_replace_line("", 0); // Clear the previous text
-		rl_on_new_line(); // Regenerate the prompt on a newline
-		rl_redisplay();
- */
 void	sighandler_sigint(int signo)
 {
 	g_exitcode = 1;
@@ -18,6 +12,7 @@ void	sighandler_sigint(int signo)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	signo = 0;
 }
 
 void	set_stdinout(void)
@@ -72,6 +67,12 @@ int	main(int ac, char **av, char **env)
 {
 	t_var	var;
 
+	if (ac != 1)
+	{
+		printf_err("No argument required\n");
+		return (1);
+	}
+	av = 0;
 	init_var(&var, env);
 	signal(SIGINT, sighandler_sigint);
 	signal(SIGQUIT, SIG_IGN);

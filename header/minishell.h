@@ -109,8 +109,8 @@ void	ft_export(t_var *var, char *new);
 //================b_others===================//
 void	b_env(t_var *var);
 void	b_cd(t_var *var, t_ast *ptr);
-void	b_pwd(t_var *var);
-void	b_echo(t_var *var, char **cmd);
+void	b_pwd(void);
+void	b_echo(char **cmd);
 int		b_exit(t_var *var, int i);
 
 //================b_unset===================//

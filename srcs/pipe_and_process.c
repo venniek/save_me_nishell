@@ -23,7 +23,6 @@ void	child_process(t_var *var)
 
 int	parent_process(t_var *var)
 {
-	int	i;
 	int	stat_loc;
 
 	waitpid(var->pinfo->child_pid, &stat_loc, 0);
