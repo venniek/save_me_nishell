@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: naykim <naykim@student.42.fr>              +#+  +:+       +#+         #
+#    By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 13:49:16 by naykim            #+#    #+#              #
-#    Updated: 2022/01/24 17:04:38 by naykim           ###   ########.fr        #
+#    Updated: 2022/01/24 21:17:58 by gyeon            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,9 @@ LR_NAYKIM = -lreadline -L /opt/homebrew/opt/readline/lib -I /opt/homebrew/opt/re
 DIR_SRCS = ./srcs/
 DIR_HEADER = ./header/
 DIR_LIBFT = ./libft/
-SRCS = action_decider.c action_decider_sub.c b_export.c b_others.c b_unset.c b_exec.c run_command.c pipe_and_process.c\
-	handle_error.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c p_checkerr.c redirections.c\
-	utils_ast.c utils_init.c utils_remove.c utils_free.c utils_other.c utils_parsing.c utils_string.c
+SRCS = action_decider.c action_decider_sub.c b_export.c b_others.c b_unset.c b_exec.c run_command.c\
+	pipe_and_process.c main.c p_actions1.c p_actions2.c p_parse.c p_utils.c p_checkerr.c redirections.c\
+	utils_ast.c utils_init.c utils_free.c utils_other.c utils_parsing.c utils_string.c utils_err_handler.c
 
 all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))

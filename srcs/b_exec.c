@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 17:15:51 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/24 21:18:40 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,7 @@ int	find_cmd(char **path, int i, char **cmd, char **env)
 
 	execve(cmd[0], cmd, env);
 	if (ft_strchr(cmd[0], '/'))
-	{
-		printf_err("minishell: ");
-		printf_err(cmd[0]);
-		printf_err(": No such file or directory\n");
-		return (1);
-	}
+		return (if_have_slash(cmd));
 	tmpcmd = ft_sstrdup(cmd);
 	tmp = ft_strjoin(path[i], "/");
 	free(tmpcmd[0]);

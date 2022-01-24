@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   p_checkerr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:24:27 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/23 21:24:29 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/24 20:25:03 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
+
+extern int	g_exitcode;
 
 int	is_emptyast(t_ast *ast)
 {
@@ -18,11 +20,8 @@ int	is_emptyast(t_ast *ast)
 
 	if (ast->text[0] == NULL && ast->rd_append[0] == NULL
 		&& ast->rd_owrite[0] == NULL && ast->rd_input[0] == NULL
-		&& ast->heredoc[0] == NULL)
-	{
-		if (ast->next != NULL)
-			return (1);
-	}
+		&& ast->heredoc[0] == NULL && ast->next != NULL)
+		return (1);
 	else
 	{
 		if (ast->next != NULL)
@@ -79,6 +78,7 @@ t_ast	*check_result(t_ast *result)
 			&& there_is_empty_redirection(ptr) == 0);
 		else
 		{
+			g_exitcode = 258;
 			free_ast(result);
 			return (NULL);
 		}

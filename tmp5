@@ -1,0 +1,7 @@
+-rw-r--r--   1 gyeon  2021_seoul      12 Jan 14 10:14 README.md
+drwxr-xr-x  16 gyeon  2021_seoul     544 Jan 24 17:30 Testfiles
+drwxr-xr-x   3 gyeon  2021_seoul     102 Jan 14 17:07 gyeon
+drwxr-xr-x   4 gyeon  2021_seoul     136 Jan 24 17:36 header
+drwxr-xr-x  94 gyeon  2021_seoul    3196 Jan 24 17:49 libft
+drwxr-xr-x   3 gyeon  2021_seoul     102 Jan 14 10:14 minishell.dSYM
+drwxr-xr-x  23 gyeon  2021_seoul     782 Jan 24 17:40 srcs
