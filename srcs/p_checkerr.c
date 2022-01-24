@@ -14,9 +14,27 @@
 
 int	is_emptyast(t_ast *ast)
 {
-	return (ast->text[0] == NULL && ast->rd_append[0] == NULL
+	t_ast	*next;
+
+	if (ast->text[0] == NULL && ast->rd_append[0] == NULL
 		&& ast->rd_owrite[0] == NULL && ast->rd_input[0] == NULL
-		&& ast->heredoc[0] == NULL);
+		&& ast->heredoc[0] == NULL)
+	{
+		if (ast->next != NULL)
+			return (1);
+	}
+	else
+	{
+		if (ast->next != NULL)
+		{
+			next = ast->next;
+			if (next->text[0] == NULL && next->rd_append[0] == NULL
+				&& next->rd_owrite[0] == NULL && next->rd_input[0] == NULL
+				&& next->heredoc[0] == NULL)
+				return (1);
+		}
+	}
+	return (0);
 }
 
 int	there_is_empty_redirection(t_ast *ast)
