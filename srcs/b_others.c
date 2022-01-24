@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 20:35:31 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/24 21:26:58 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,7 @@ void	b_echo(char **cmd)
 	if (!cmd)
 		return ;
 	idx = 1;
-	while (cmd[idx][0] == '-')
-	{
-		size_t	i = 1;
-		while (cmd[idx][i] && cmd[idx][i] == 'n')
-			i++;
-		if (ft_strlen(cmd[idx]) == i)
-			n_option = 1;
-		else
-			break ;
-		idx++;
-	}
+	echo_n_flag(cmd, &idx, &n_option);
 	while (idx < ft_sstrlen(cmd))
 	{
 		printf("%s", cmd[idx]);

@@ -173,5 +173,6 @@ size_t	ft_sstrlen(char **strstr);
 char	**ft_addonestring(char **origin, char *newline);
 char	**ft_sstrncat(char **origin, char *newline, int n);
 char	**ft_sstrdup(char **origin);
+void	echo_n_flag(char **cmd, int *idx, int *n_option);
 
 #endif
