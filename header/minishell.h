@@ -11,6 +11,7 @@
 # include <signal.h>
 # include <sys/types.h>
 # include <fcntl.h>
+# include <dirent.h>
 # include "defines.h"
 # include "../libft/libft.h"
 
@@ -149,7 +150,10 @@ void	*excep_malloc(int leng);
 void	*excep_calloc(size_t count, size_t size);
 void	call_pwd(t_var *var);
 void	printf_err(char *str);
-int	input_home_in_cd(t_var *var, t_ast *ptr);
+int		input_home_in_cd(t_var *var, t_ast *ptr);
+
+//==============utils_err_handler===============//
+int		if_have_slash(char **cmd);
 
 //====================utils_ast===============//
 int		get_ast(t_var *var);
@@ -169,5 +173,6 @@ size_t	ft_sstrlen(char **strstr);
 char	**ft_addonestring(char **origin, char *newline);
 char	**ft_sstrncat(char **origin, char *newline, int n);
 char	**ft_sstrdup(char **origin);
+void	echo_n_flag(char **cmd, size_t *idx, int *n_option);
 
 #endif

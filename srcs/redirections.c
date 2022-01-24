@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:29:22 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/23 21:29:23 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/24 17:55:49 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	opne_files(size_t rd, char **file)
 			temp_fd = open(file[idx], O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		if (temp_fd < 0)
 		{
-			printf("%s: No such file or directory\n", file[idx]);
+			printf("minishell: %s: No such file or directory\n", file[idx]);
 			return (0);
 		}
 		close(temp_fd);
@@ -137,7 +137,8 @@ int	redirections(t_ast *ast)
 	ptr[2] = ast->rd_input;
 	ptr[3] = ast->rd_owrite;
 	while (rd++ < 4)
-		opne_files(rd - 1, ptr[rd - 1]);
+		if (opne_files(rd - 1, ptr[rd - 1]) == 0)
+			return (0);
 	if (ast->last_in == 'l')
 		dup2(open(ptr[0][ft_sstrlen(ptr[0]) - 1], O_RDONLY), STDIN_FILENO);
 	else if (ast->last_in == 'L')

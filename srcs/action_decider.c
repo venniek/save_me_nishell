@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:23:49 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/24 13:44:04 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/24 21:21:18 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ size_t	get_actindex(const char *str, const char state)
 	else if (*str == '"')
 		return (decide_actset(FLG_DQ));
 	else if (*str == '$')
-		return (doller_dollerquestion(str));
+		return (dollar_dollarquestion(str));
 	else if (ft_isWhite(*str))
 		return (decide_actset(WHITE));
 	else if (*str == '|')

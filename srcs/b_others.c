@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_others.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 16:06:31 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/24 21:31:25 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,8 @@ void	b_echo(char **cmd)
 	n_option = 0;
 	if (!cmd)
 		return ;
-	if (cmd[1] && ft_strlen(cmd[1]) == 2 && ft_strncmp(cmd[1], "-n", 2) == 0)
-	{
-		n_option = 1;
-		idx = 2;
-	}
-	else
-		idx = 1;
+	idx = 1;
+	echo_n_flag(cmd, &idx, &n_option);
 	while (idx < ft_sstrlen(cmd))
 	{
 		printf("%s", cmd[idx]);
