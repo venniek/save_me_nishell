@@ -21,6 +21,7 @@ void	sighandler_sigquit(int signo)
 	{
 		g_exitcode = 131;
 		printf("^\\Quit: 3\n");
+		rl_replace_line("", 0);
 	}
 	signo = 0;
 }
