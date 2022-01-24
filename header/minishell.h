@@ -96,7 +96,7 @@ char	*lookup_value(char *start, size_t leng, char **env);
 char	*malloc_n_lcat(char *dst, char *src, size_t leng);
 
 //================b_exec===================//
-void	find_cmd(char **path, int i, char **cmd, char **env);
+int		find_cmd(char **path, int i, char **cmd, char **env);
 char	**make_paths(char **env);
 void	find_and_run_command(char **cmds, char **env);
 void	b_exec(t_var *var, char **cmds);
