@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   action_decider_sub.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:23:40 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/24 13:43:56 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/24 17:34:10 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-size_t	doller_dollerquestion(const char *str)
+size_t	dollar_dollarquestion(const char *str)
 {
 	if (*(str + 1) == '?')
 		return (decide_actset(DLQUESTION));
