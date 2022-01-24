@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_other.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:52 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 02:24:42 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/24 17:40:35 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void	*excep_malloc(int leng)
 
 	result = malloc(leng);
 	if (result == NULL)
-		err_malloc();
+	{
+		write(2, "fatal : malloc false.\n", 22);
+		exit(1);
+	}
 	return (result);
 }
 
@@ -30,7 +33,10 @@ void	*excep_calloc(size_t count, size_t size)
 
 	result = ft_calloc(count, size);
 	if (result == NULL)
-		err_malloc();
+	{
+		write(2, "fatal : calloc false.\n", 22);
+		exit(1);
+	}
 	return (result);
 }
 

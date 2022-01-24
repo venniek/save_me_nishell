@@ -118,9 +118,6 @@ int		find_remove_str(char **origin, char *remove, int len);
 char	**ft_removeonestring(char **origin, char *remove, int origin_len);
 void	b_unset(t_var *var, char **cmd);
 
-//===========handle_error=========//
-void	err_malloc(void);
-
 //================main===================//
 void	sighandler_sigint(int signo);
 void	sighandler_sigquit(int signo);
