@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:56 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 19:39:27 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/24 16:08:46 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**ft_sstrncat(char **origin, char *newline, int n)
 	if (ft_sstrlen(origin) == 0)
 		origin = ft_addonestring(origin, "");
 	ptr_str = origin[ft_sstrlen(origin) - 1];
-	if (n > ft_strlen(newline))
+	if (n > (int)ft_strlen(newline))
 		n = ft_strlen(newline);
 	len_str = ft_strlen(ptr_str);
 	temp = excep_malloc(len_str + n + 1);

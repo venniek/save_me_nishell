@@ -20,11 +20,11 @@ void	run_func(t_var *var, t_ast *ptr, int flag)
 	if (!ft_strncmp(cmds[0], "cd", 2) && ft_strlen(cmds[0]) == 2)
 		return (b_cd(var, ptr));
 	if (!ft_strncmp(cmds[0], "pwd", 3) && ft_strlen(cmds[0]) == 3)
-		return (b_pwd(var));
+		return (b_pwd());
 	if (!ft_strncmp(cmds[0], "env", 3) && ft_strlen(cmds[0]) == 3)
 		return (b_env(var));
 	if (!ft_strncmp(cmds[0], "echo", 4) && ft_strlen(cmds[0]) == 4)
-		return (b_echo(var, cmds));
+		return (b_echo(cmds));
 	if (!ft_strncmp(cmds[0], "export", 6) && ft_strlen(cmds[0]) == 6)
 		return (b_export(var, cmds));
 	if (!ft_strncmp(cmds[0], "unset", 5) && ft_strlen(cmds[0]) == 5)
