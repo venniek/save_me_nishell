@@ -6,7 +6,7 @@
 #    By: naykim <naykim@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/20 13:49:16 by naykim            #+#    #+#              #
-#    Updated: 2022/01/24 17:01:50 by naykim           ###   ########.fr        #
+#    Updated: 2022/01/24 17:04:38 by naykim           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,16 +27,16 @@ SRCS = action_decider.c action_decider_sub.c b_export.c b_others.c b_unset.c b_e
 
 all : $(TARGET)
 $(TARGET) : $(addprefix $(DIR_SRCS), $(SRCS)) $(addprefix $(DIR_LIBFT), $(LIBFT))
-	$(GCC) $(FLGS) $^ -o $@ $(LR_NK_MAC)
+	#$(GCC) $(FLGS) $^ -o $@ $(LR_NK_MAC)
 	#$(GCC) $(FLGS) $^ -o $@ $(LR_NAYKIM)
-	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY_MAC)
+	$(GCC) $(FLGS) $^ -o $@ $(LR_GY_MAC)
 	#$(GCC) $(FLGS) $^ -o $@ $(LR_GY)
 	stty -echoctl
 
 %.o : %.c
-	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK_MAC)
+	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NK_MAC)
 	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_NAYKIM)
-	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY_MAC)
+	$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY_MAC)
 	#$(GCC) $(FLGS) -c $? -o $@ -I $(DIR_HEADER) $(LR_GY)
 
 
