@@ -28,7 +28,6 @@ void	sighandler_sigquit(int signo)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	signo = 0;
 }
 
 void	set_stdinout(void)
