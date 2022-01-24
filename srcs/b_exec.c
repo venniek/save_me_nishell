@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_exec.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/23 18:04:23 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/24 15:22:43 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ void	b_exec(t_var *var, char **cmds)
 	find_and_run_command(cmds, var->our_env);
 	printf_err("minishell: ");
 	printf_err(cmds[0]);
-	printf_err(": command not found\n");
+	if (ft_strchr(cmds[0], '/'))
+		printf_err(": No such file or directory\n");
+	else
+		printf_err(": command not found\n");
 	g_exitcode = 127;
 	b_exit(var, 127);
 }
