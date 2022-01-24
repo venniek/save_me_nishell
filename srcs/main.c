@@ -15,6 +15,16 @@ void	sighandler_sigint(int signo)
 	signo = 0;
 }
 
+void	sighandler_sigquit(int signo)
+{
+	if (waitpid(-1, NULL, WNOHANG) == 0)
+	{
+		g_exitcode = 131;
+		printf("^\\Quit: 3\n");
+	}
+	signo = 0;
+}
+
 void	set_stdinout(void)
 {
 	static int	first = 0;
@@ -75,7 +85,7 @@ int	main(int ac, char **av, char **env)
 	av = 0;
 	init_var(&var, env);
 	signal(SIGINT, sighandler_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, sighandler_sigquit);
 	start_main(&var);
 	b_exit(&var, 0);
 }
