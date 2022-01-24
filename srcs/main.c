@@ -20,8 +20,13 @@ void	sighandler_sigquit(int signo)
 	if (waitpid(-1, NULL, WNOHANG) == 0)
 	{
 		g_exitcode = 131;
-		printf("^\\Quit: 3\n");
+		printf("^\\Quit: %d\n", signo);
 		rl_replace_line("", 0);
+	}
+	else
+	{
+		rl_on_new_line();
+		rl_redisplay();
 	}
 	signo = 0;
 }

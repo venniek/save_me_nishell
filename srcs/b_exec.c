@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_exec.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 16:07:10 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/24 17:15:51 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	find_and_run_command(char **cmds, char **env)
 	int		i;
 	char	**path;
 	int		ret;
+
 	path = make_paths(env);
 	i = -1;
 	while (++i < (int)ft_sstrlen(path))
