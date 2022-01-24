@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action_decider_sub.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:23:40 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/23 21:23:43 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/24 13:43:56 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	doller_dollerquestion(const char *str)
 	return (decide_actset(FLG_DL));
 }
 
-size_t	if_flg_slinglequete(char *flgs)
+size_t	if_flg_singlequete(char *flgs)
 {
 	(*flgs) &= ~FLG_SQ;
 	return (CJI);

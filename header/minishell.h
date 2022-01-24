@@ -66,7 +66,7 @@ t_ast	*parser(char *line, char **env);
 //=============Action_desider=============//
 char	**ft_addonestring(char **origin, char *newline);
 size_t	doller_dollerquestion(const char *str);
-size_t	if_flg_slinglequete(char *flgs);
+size_t	if_flg_singlequete(char *flgs);
 size_t	get_actindex(const char *str, const char state);
 size_t	decide_actset(char flg);
 int		rev_flg(char *flgs, char flg);

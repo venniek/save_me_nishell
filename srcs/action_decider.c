@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action_decider.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:23:49 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/23 21:23:52 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/24 13:44:04 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ size_t	decide_actset(char flg)
 	else if ((flgs & FLG_SQ) == FLG_SQ)
 	{
 		if (flg == FLG_SQ)
-			return (if_flg_slinglequete(&flgs));
+			return (if_flg_singlequete(&flgs));
 	}
 	else if ((flgs & FLG_DL) == FLG_DL && (flgs & FLG_RD) != FLG_RD)
 		return (actset_dollar(&flgs, flg));
