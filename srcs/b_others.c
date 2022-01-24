@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_others.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nayeon <nayeon@student.42.fr>              +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 02:24:20 by nayeon           ###   ########.fr       */
+/*   Updated: 2022/01/24 15:40:53 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,5 @@ int	b_exit(t_var *var, int i)
 	if (var->pinfo)
 		free_pinfo(var);
 	g_exitcode = i;
-	printf("\n=== terminate our minishell ===\n");
 	exit(i);
 }
