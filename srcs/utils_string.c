@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_string.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:56 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 21:27:06 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/24 21:31:37 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	**ft_sstrdup(char **origin)
 	return (new_env);
 }
 
-void	echo_n_flag(char **cmd, int *idx, int *n_option)
+void	echo_n_flag(char **cmd, size_t *idx, int *n_option)
 {
 	size_t	i = 1;
 
