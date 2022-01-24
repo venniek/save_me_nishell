@@ -123,6 +123,7 @@ void	err_malloc(void);
 
 //================main===================//
 void	sighandler_sigint(int signo);
+void	sighandler_sigquit(int signo);
 void	start_main(t_var *var);
 
 //================run_command===================//
