@@ -16,10 +16,10 @@
 # include "../libft/libft.h"
 
 /*
- * char			**rd_owrite;	// > R
- * char			**rd_append;	// >>r
- * char			**rd_input;		// < L
- * char			**heredoc;		// <<l
+ * rd_owrite	: >	 R
+ * rd_append	: >> r
+ * rd_input 	: <  L
+ * heredoc		: << l
  */
 typedef struct s_ast
 {
