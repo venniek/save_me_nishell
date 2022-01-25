@@ -74,6 +74,7 @@ void	start_main(t_var *var)
 		if (var->ast_len == 1)
 		{
 			only_one_command(var);
+			
 			continue ;
 		}
 		init_pinfo(var);
