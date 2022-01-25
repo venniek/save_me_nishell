@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 16:06:56 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/25 17:42:14 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	find_remove_str(char **origin, char *remove, int len)
 	i = 0;
 	while (i < len)
 	{
-		if (!ft_strncmp(origin[i], remove, ft_strlen(remove)))
+		if (!ft_strncmp(origin[i], remove, ft_strlen(remove)))  ///ㄱㅗ치기
 		{
 			free(add_equal);
 			return (i);

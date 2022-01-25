@@ -105,6 +105,7 @@ void	b_exec_with_fork(t_var *var, char **cmds);
 
 //================b_export===================//
 void	b_export(t_var *var, char **cmd);
+void	print_sorted_env(char **sorted_env);
 void	ft_export(t_var *var, char *new);
 
 //================b_others===================//
