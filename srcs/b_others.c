@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/25 13:04:33 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/25 13:42:43 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	b_env(t_var *var)
 		return ;
 	i = -1;
 	while (++i < (int)ft_sstrlen(var->our_env))
-		if (*(ft_strchr(var->our_env[i], '=') + 1) != '\0')
+		if (ft_strchr(var->our_env[i], '=') != NULL)
 			printf("%s\n", var->our_env[i]);
 	g_exitcode = 0;
 }
