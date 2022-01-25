@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:23:49 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/24 21:21:18 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/25 14:10:57 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ size_t	actset_dollar(char *flgs, char flg)
 	result = J;
 	if (flg == ALNUM)
 		return (result);
-	if (((*flgs & FLG_DQ) == FLG_DQ && flg != FLG_DQ) || flg == NOT_ALP_NUM)
+	if (((*flgs & FLG_DQ) == FLG_DQ && flg != DLQUESTION
+			&& flg != FLG_DQ && flg != FLG_DL) || flg == NOT_ALP_NUM)
 		result = EIJ;
 	else if (flg >= PIPE && flg <= LRR)
 	{
