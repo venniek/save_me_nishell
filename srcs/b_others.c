@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_others.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
+/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/25 13:42:43 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/25 17:34:42 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	b_pwd(void)
 {
 	char	*buf;
 
-	buf = getcwd(0, 100);
+	buf = getcwd(0, 1024);
 	printf("%s\n", buf);
 	free(buf);
 	g_exitcode = 0;
