@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:29:22 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/24 17:55:49 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/25 14:46:45 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	setnget_heredoc(t_ast *ast)
 		while (ptr->heredoc[cnt] != NULL)
 		{
 			delimiter = ptr->heredoc[cnt];
-			ptr->heredoc[cnt] = strcat_num(".dc", cnt);
+			ptr->heredoc[cnt] = strcat_num(".doc", cnt);
 			temp_fd
 				= open(ptr->heredoc[cnt], O_WRONLY | O_TRUNC | O_CREAT, 0666);
 			if (temp_fd < 0)
