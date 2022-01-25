@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action_decider_sub.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:23:40 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/24 17:34:10 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/25 18:16:50 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	dollar_dollarquestion(const char *str)
 	return (decide_actset(FLG_DL));
 }
 
-size_t	if_flg_singlequete(char *flgs)
+size_t	if_flg_singlequote(char *flgs)
 {
 	(*flgs) &= ~FLG_SQ;
 	return (CJI);

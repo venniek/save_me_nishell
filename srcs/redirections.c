@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:29:22 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/25 15:10:49 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/25 18:22:08 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*strcat_num(char *dst, int num)
 	return (result);
 }
 
-void	readlein_heredoc(int temp_fd, char *delimiter)
+void	readline_heredoc(int temp_fd, char *delimiter)
 {
 	char		*read;
 
@@ -85,7 +85,7 @@ int	setnget_heredoc(t_ast *ast)
 				= open(ptr->heredoc[cnt], O_WRONLY | O_TRUNC | O_CREAT, 0666);
 			if (temp_fd < 0)
 				return (0);
-			readlein_heredoc(temp_fd, delimiter);
+			readline_heredoc(temp_fd, delimiter);
 			++cnt;
 		}
 		ptr = ptr->next;
@@ -99,7 +99,7 @@ int	setnget_heredoc(t_ast *ast)
  *  2 input < L
  *  3 owrite > R
  */
-int	opne_files(size_t rd, char **file)
+int	open_files(size_t rd, char **file)
 {
 	int		temp_fd;
 	size_t	idx;
@@ -117,7 +117,9 @@ int	opne_files(size_t rd, char **file)
 			temp_fd = open(file[idx], O_WRONLY | O_TRUNC | O_CREAT, 0666);
 		if (temp_fd < 0)
 		{
-			printf("minishell: %s: No such file or directory\n", file[idx]);
+			printf_err("minishell: ");
+			printf_err(file[idx]);
+			printf_err(": No such file or directory\n");
 			return (0);
 		}
 		close(temp_fd);
@@ -137,7 +139,7 @@ int	redirections(t_ast *ast)
 	ptr[2] = ast->rd_input;
 	ptr[3] = ast->rd_owrite;
 	while (rd++ < 4)
-		if (opne_files(rd - 1, ptr[rd - 1]) == 0)
+		if (open_files(rd - 1, ptr[rd - 1]) == 0)
 			return (0);
 	if (ast->last_in == 'l')
 		dup2(open(ptr[0][ft_sstrlen(ptr[0]) - 1], O_RDONLY), STDIN_FILENO);

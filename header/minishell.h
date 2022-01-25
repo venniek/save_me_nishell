@@ -67,7 +67,7 @@ t_ast	*parser(char *line, char **env);
 //=============Action_desider=============//
 char	**ft_addonestring(char **origin, char *newline);
 size_t	dollar_dollarquestion(const char *str);
-size_t	if_flg_singlequete(char *flgs);
+size_t	if_flg_singlequote(char *flgs);
 size_t	get_actindex(const char *str, const char state);
 size_t	decide_actset(char flg);
 int		rev_flg(char *flgs, char flg);
