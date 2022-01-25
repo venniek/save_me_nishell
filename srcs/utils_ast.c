@@ -23,18 +23,6 @@ t_ast	*ft_astindex(t_ast *ast, int idx)
 	return (ret);
 }
 
-void	get_lasts(t_ast	*input)
-{
-	t_ast	*ptr;
-
-	ptr = input;
-	while (ptr != NULL)
-	{
-		printf("last_in : %c, last_out : %c\n", input->last_in, input->last_out);
-		ptr = ptr->next;
-	}
-}
-
 int	get_ast(t_var *var)
 {
 	char	*read;
@@ -50,7 +38,7 @@ int	get_ast(t_var *var)
 	read = 0;
 	if (var->ast == NULL)
 	{
-		write(1, "!!!WRONG INPUT!!!\n", 18);
+		printf_err("!!!WRONG INPUT!!!\n");
 		return (2);
 	}
 	var->ast_len = ft_astlen(var->ast);

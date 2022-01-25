@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:29:22 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/25 18:22:08 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/25 21:47:56 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int	open_files(size_t rd, char **file)
 int	redirections(t_ast *ast)
 {
 	size_t	rd;
+	int		ttt;
 	char	**ptr[4];
 
 	rd = 1;
@@ -148,7 +149,11 @@ int	redirections(t_ast *ast)
 	if (ast->last_out == 'r')
 		dup2(open(ptr[1][ft_sstrlen(ptr[1]) - 1], APPEND, 0666), STDOUT_FILENO);
 	else if (ast->last_out == 'R')
-		dup2(open(ptr[3][ft_sstrlen(ptr[3]) - 1], OWRITE, 0666), STDOUT_FILENO);
+	{
+		ttt = open(ptr[3][ft_sstrlen(ptr[3]) - 1], OWRITE, 0666);
+		dup2(ttt, STDOUT_FILENO);
+		close(ttt);
+	}
 	rd = 0;
 	return (1);
 }

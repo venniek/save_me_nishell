@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/05 22:21:41 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/22 16:27:40 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/25 20:51:37 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,3 @@ long long	ft_atoi(const char *str)
 		return (over_range(sign));
 	return (atoi * sign);
 }
-
