@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_actions1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:24:13 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/23 21:24:14 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/25 13:27:40 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*action_env(char *dst, char *src, char **env, size_t slide)
 		free(env_value);
 	}
 	else
-		return (NULL);
+		result = dst;
 	return (result);
 }
 

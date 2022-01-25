@@ -62,7 +62,7 @@ char	i_to_w(t_parsing *ps, char **line)
 	return (state);
 }
 
-void	init_parsing(t_parsing *parsing)
+static void	init_parsing(t_parsing *parsing)
 {
 	parsing->buffer = NULL;
 	parsing->result = init_ast();
