@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/25 20:47:03 by gyeon             #+#    #+#             */
+/*   Updated: 2022/01/25 20:47:04 by gyeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -16,10 +28,10 @@
 # include "../libft/libft.h"
 
 /*
- * char			**rd_owrite;	// > R
- * char			**rd_append;	// >>r
- * char			**rd_input;		// < L
- * char			**heredoc;		// <<l
+ * rd_owrite	: >	 R
+ * rd_append	: >> r
+ * rd_input 	: <  L
+ * heredoc		: << l
  */
 typedef struct s_ast
 {
@@ -67,7 +79,7 @@ t_ast	*parser(char *line, char **env);
 //=============Action_desider=============//
 char	**ft_addonestring(char **origin, char *newline);
 size_t	dollar_dollarquestion(const char *str);
-size_t	if_flg_singlequete(char *flgs);
+size_t	if_flg_singlequote(char *flgs);
 size_t	get_actindex(const char *str, const char state);
 size_t	decide_actset(char flg);
 int		rev_flg(char *flgs, char flg);
@@ -105,6 +117,7 @@ void	b_exec_with_fork(t_var *var, char **cmds);
 
 //================b_export===================//
 void	b_export(t_var *var, char **cmd);
+void	print_sorted_env(char **sorted_env);
 void	ft_export(t_var *var, char *new);
 
 //================b_others===================//

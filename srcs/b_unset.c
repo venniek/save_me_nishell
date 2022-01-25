@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 16:06:56 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/25 20:29:28 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,17 @@ extern int	g_exitcode;
 int	find_remove_str(char **origin, char *remove, int len)
 {
 	int		i;
-	char	*add_equal;
+	int		r_len;
 
-	add_equal = ft_strjoin(remove, "=");
+	r_len = (int)ft_strlen(remove);
 	i = 0;
 	while (i < len)
 	{
-		if (!ft_strncmp(origin[i], remove, ft_strlen(remove)))
-		{
-			free(add_equal);
+		if (!ft_strncmp(origin[i], remove, r_len)
+			&& (origin[i][r_len] == '\0' || origin[i][r_len] == '='))
 			return (i);
-		}
 		i++;
 	}
-	free(add_equal);
 	return (-1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:23:49 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/24 21:21:18 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/25 20:59:10 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ size_t	actset_dollar(char *flgs, char flg)
 	result = J;
 	if (flg == ALNUM)
 		return (result);
-	if (((*flgs & FLG_DQ) == FLG_DQ && flg != FLG_DQ) || flg == NOT_ALP_NUM)
+	if (((*flgs & FLG_DQ) == FLG_DQ && flg != DLQUESTION
+			&& flg != FLG_DQ && flg != FLG_DL) || flg == NOT_ALP_NUM)
 		result = EIJ;
 	else if (flg >= PIPE && flg <= LRR)
 	{
@@ -112,8 +113,7 @@ size_t	get_actindex(const char *str, const char state)
 	return (J);
 }
 
-// 확인해봐야하는 동작을 받아서 어떤 동작을할지 제어하는 함수.
-/*
+/* 확인해봐야하는 동작을 받아서 어떤 동작을할지 제어하는 함수.
  * C(cat)			: idx부터 직전까지의 문자를 버퍼에 cat한다.
  * E(Env)			: idx부터 직전짜기의 문자를 환경변수에서 검색하여 cat한다.
  * J(Jump)			: ++slide
@@ -129,7 +129,7 @@ size_t	decide_actset(char flg)
 	else if ((flgs & FLG_SQ) == FLG_SQ)
 	{
 		if (flg == FLG_SQ)
-			return (if_flg_singlequete(&flgs));
+			return (if_flg_singlequote(&flgs));
 	}
 	else if ((flgs & FLG_DL) == FLG_DL && (flgs & FLG_RD) != FLG_RD)
 		return (actset_dollar(&flgs, flg));

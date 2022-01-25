@@ -4,8 +4,12 @@ int	g_exitcode;
 
 void	sighandler_sigint(int signo)
 {
+	pid_t	result;
 	g_exitcode = 1;
-	if (waitpid(-1, NULL, WNOHANG) != 0)
+	result = waitpid(-1, NULL, WNOHANG);
+	if (result < 0)
+		exit(1);
+	else if (result != 0)
 	{
 		printf("\n");
 		rl_replace_line("", 0);
@@ -39,16 +43,18 @@ void	set_stdinout(void)
 	{
 		in_out[0] = dup(STDIN_FILENO);
 		if (in_out[0] < 0)
-			exit (0);
+			exit (1);
 		in_out[1] = dup(STDOUT_FILENO);
 		if (in_out[1] < 0)
-			exit (0);
+			exit (1);
 		first = 1;
 	}
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	if (dup2(in_out[0], STDIN_FILENO) < 0)
-		exit (0);
+		exit (1);
 	if (dup2(in_out[1], STDOUT_FILENO) < 0)
-		exit (0);
+		exit (1);
 }
 
 void	start_main(t_var *var)
@@ -64,10 +70,11 @@ void	start_main(t_var *var)
 		else if (ret == 2)
 			continue ;
 		if (setnget_heredoc(var->ast) == 0)
-			printf("!!!!!heredoc error!!!!!\n");
+			printf_err("!!!!!heredoc error!!!!!\n");
 		if (var->ast_len == 1)
 		{
 			only_one_command(var);
+			
 			continue ;
 		}
 		init_pinfo(var);

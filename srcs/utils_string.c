@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:56 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 21:31:37 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/25 13:17:30 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,20 @@ char	**ft_sstrdup(char **origin)
 
 void	echo_n_flag(char **cmd, size_t *idx, int *n_option)
 {
-	size_t	i = 1;
+	size_t	i;
 
-	while (cmd[*idx][0] == '-')
+	i = 1;
+	if (cmd[*idx] != NULL)
 	{
-		while (cmd[*idx][i] && cmd[*idx][i] == 'n')
-			i++;
-		if (ft_strlen(cmd[*idx]) == i)
-			*n_option = 1;
-		else
-			break ;
-		(*idx)++;
+		while (cmd[*idx][0] == '-')
+		{
+			while (cmd[*idx][i] && cmd[*idx][i] == 'n')
+				i++;
+			if (ft_strlen(cmd[*idx]) == i)
+				*n_option = 1;
+			else
+				break ;
+			(*idx)++;
+		}
 	}
 }
