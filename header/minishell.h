@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 20:47:03 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/25 20:47:04 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 12:32:30 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ size_t	dollar_dollarquestion(const char *str);
 size_t	if_flg_singlequote(char *flgs);
 size_t	get_actindex(const char *str, const char state);
 size_t	decide_actset(char flg);
-int		rev_flg(char *flgs, char flg);
+void	rev_flg(char *flgs, char flg);
 
 //================Actions================//
 void	action_idx(char **line, size_t *slide);
@@ -98,10 +98,10 @@ char	action_fin(char *buffer);
 int		redirections(t_ast *ast);
 int		setnget_heredoc(t_ast *ast);
 
-//==========Parse_error_check==========//
+//===========Parse_error_check===========//
 t_ast	*check_result(t_ast *result);
 
-//================Utils================//
+//==============Parse_Utils==============//
 t_ast	*init_ast(void);
 void	add_ast(t_ast *front);
 t_ast	*get_last(t_ast	*start);
@@ -159,11 +159,14 @@ char	**init_sstr(void);
 void	init_pinfo(t_var *var);
 
 //================utils_other===================//
+void	call_pwd(t_var *var);
+int		printf_err(char *str);
+int		input_home_in_cd(t_var *var, t_ast *ptr);
+
+//==============utils_syscalls===============//
 void	*excep_malloc(int leng);
 void	*excep_calloc(size_t count, size_t size);
-void	call_pwd(t_var *var);
-void	printf_err(char *str);
-int		input_home_in_cd(t_var *var, t_ast *ptr);
+int		open_dup2_close(char *file, int options, int stream);
 
 //==============utils_err_handler===============//
 int		if_have_slash(char **cmd);

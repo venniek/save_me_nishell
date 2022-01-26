@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:59 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/22 16:42:56 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/26 12:17:45 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,9 @@ char	*lookup_value(char *start, size_t leng, char **env)
 
 	idx = 0;
 	result = NULL;
-	if (ft_strncmp(start, "?", leng) == 0)
+	if (leng == 0)
+		return (ft_strdup("$"));
+	else if (leng == 1 && ft_strncmp(start, "?", leng) == 0)
 		return (ft_itoa(g_exitcode));
 	temp = ft_strndup(start, leng);
 	while (env[idx] != NULL)

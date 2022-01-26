@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:29:22 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/25 21:47:56 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 11:53:19 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	setnget_heredoc(t_ast *ast)
 			temp_fd
 				= open(ptr->heredoc[cnt], O_WRONLY | O_TRUNC | O_CREAT, 0666);
 			if (temp_fd < 0)
-				return (0);
+				return (printf_err("heredoc error.\n"));
 			readline_heredoc(temp_fd, delimiter);
 			++cnt;
 		}
@@ -131,7 +131,6 @@ int	open_files(size_t rd, char **file)
 int	redirections(t_ast *ast)
 {
 	size_t	rd;
-	int		ttt;
 	char	**ptr[4];
 
 	rd = 1;
@@ -143,17 +142,12 @@ int	redirections(t_ast *ast)
 		if (open_files(rd - 1, ptr[rd - 1]) == 0)
 			return (0);
 	if (ast->last_in == 'l')
-		dup2(open(ptr[0][ft_sstrlen(ptr[0]) - 1], O_RDONLY), STDIN_FILENO);
+		open_dup2_close(ptr[0][ft_sstrlen(ptr[0]) - 1], O_RDONLY, STDIN_FILENO);
 	else if (ast->last_in == 'L')
-		dup2(open(ptr[2][ft_sstrlen(ptr[2]) - 1], O_RDONLY), STDIN_FILENO);
+		open_dup2_close(ptr[2][ft_sstrlen(ptr[2]) - 1], O_RDONLY, STDIN_FILENO);
 	if (ast->last_out == 'r')
-		dup2(open(ptr[1][ft_sstrlen(ptr[1]) - 1], APPEND, 0666), STDOUT_FILENO);
+		open_dup2_close(ptr[1][ft_sstrlen(ptr[1]) - 1], APPEND, STDOUT_FILENO);
 	else if (ast->last_out == 'R')
-	{
-		ttt = open(ptr[3][ft_sstrlen(ptr[3]) - 1], OWRITE, 0666);
-		dup2(ttt, STDOUT_FILENO);
-		close(ttt);
-	}
-	rd = 0;
+		open_dup2_close(ptr[3][ft_sstrlen(ptr[3]) - 1], OWRITE, STDOUT_FILENO);
 	return (1);
 }

@@ -5,10 +5,14 @@ int	g_exitcode;
 void	sighandler_sigint(int signo)
 {
 	pid_t	result;
+
 	g_exitcode = 1;
 	result = waitpid(-1, NULL, WNOHANG);
-	if (result < 0)
+	if (result < 0 && errno != 10)
+	{
+		printf_err("fatal : critical error occured in process.\n");
 		exit(1);
+	}
 	else if (result != 0)
 	{
 		printf("\n");
@@ -21,7 +25,15 @@ void	sighandler_sigint(int signo)
 
 void	sighandler_sigquit(int signo)
 {
-	if (waitpid(-1, NULL, WNOHANG) == 0)
+	pid_t	result;
+
+	result = waitpid(-1, NULL, WNOHANG);
+	if (result < 0 && errno != 10)
+	{
+		printf_err("fatal : critical error occured in process.\n");
+		exit(1);
+	}
+	else if (result == 0)
 	{
 		g_exitcode = 131;
 		printf("^\\Quit: %d\n", signo);
@@ -70,11 +82,10 @@ void	start_main(t_var *var)
 		else if (ret == 2)
 			continue ;
 		if (setnget_heredoc(var->ast) == 0)
-			printf_err("!!!!!heredoc error!!!!!\n");
+			continue ;
 		if (var->ast_len == 1)
 		{
 			only_one_command(var);
-			
 			continue ;
 		}
 		init_pinfo(var);

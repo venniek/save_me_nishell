@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 20:47:12 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/25 20:47:13 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 12:28:41 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define DEFINES_H
 # define TRUE	1
 # define FALSE	0
+# define SUCCESS	0
+# define FAILURE	1
 # define FLG_SQ 0b00000001
 # define FLG_DQ 0b00000010
 # define FLG_DL 0b00000100

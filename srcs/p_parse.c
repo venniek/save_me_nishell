@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_parse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:29:02 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/23 21:29:03 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 10:28:05 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_actset(size_t idx)
 			{"J", "CJI", "EJI", "EIJ", "CJIAP",
 			 "CJIAR", "CJJIAr", "CJIAL", "CJJIAl", "EJIAP",
 			 "EJIAR", "EJJIAr", "EJIAL", "EJJIAl", "CJIAW",
-			 "EJIAW", "CAF", "EAF", "HJI", "e", "CJIEJI", "EJIEJI"};
+			 "EJIAW", "CAF", "EAF", "HJI", "e", "CJIJEI", "EJIJEI"};
 
 	return (actset[idx]);
 }

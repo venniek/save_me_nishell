@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   p_utils.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:29:09 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/23 21:29:10 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 12:32:41 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,14 @@ void	add_ast(t_ast *front)
 	buffer->next = init_ast();
 }
 
-// 특정 bit만 뒤집는다. ON -> oFF = 0, OFF -> ON = 1
-int	rev_flg(char *flgs, char flg)
+void	rev_flg(char *flgs, char flg)
 {
 	if ((*flgs & flg) == flg)
 	{
 		*flgs &= ~flg;
-		return (1);
 	}
 	else
 	{
 		*flgs |= flg;
-		return (0);
 	}
 }

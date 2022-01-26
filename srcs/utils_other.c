@@ -6,39 +6,13 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:52 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/24 17:40:35 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 11:53:04 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
 extern int	g_exitcode;
-
-void	*excep_malloc(int leng)
-{
-	void	*result;
-
-	result = malloc(leng);
-	if (result == NULL)
-	{
-		write(2, "fatal : malloc false.\n", 22);
-		exit(1);
-	}
-	return (result);
-}
-
-void	*excep_calloc(size_t count, size_t size)
-{
-	void	*result;
-
-	result = ft_calloc(count, size);
-	if (result == NULL)
-	{
-		write(2, "fatal : calloc false.\n", 22);
-		exit(1);
-	}
-	return (result);
-}
 
 void	call_pwd(t_var *var)
 {
@@ -60,9 +34,10 @@ void	call_pwd(t_var *var)
 	tmp_str = 0;
 }
 
-void	printf_err(char *str)
+int	printf_err(char *str)
 {
 	write(2, str, ft_strlen(str));
+	return (1);
 }
 
 int	input_home_in_cd(t_var *var, t_ast *ptr)
