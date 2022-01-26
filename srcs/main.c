@@ -5,6 +5,7 @@ int	g_exitcode;
 void	sighandler_sigint(int signo)
 {
 	pid_t	result;
+
 	g_exitcode = 1;
 	result = waitpid(-1, NULL, WNOHANG);
 	if (result < 0)
@@ -74,7 +75,6 @@ void	start_main(t_var *var)
 		if (var->ast_len == 1)
 		{
 			only_one_command(var);
-			
 			continue ;
 		}
 		init_pinfo(var);
