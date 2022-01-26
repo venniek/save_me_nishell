@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_unset.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/26 12:05:30 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/26 15:13:01 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**ft_removeonestring(char **origin, char *remove, int origin_len)
 
 	flag = find_remove_str(origin, remove, origin_len);
 	if (flag != -1)
-		new = (char **)malloc(sizeof(char *) * (origin_len));
+		new = (char **)excep_malloc(sizeof(char *) * (origin_len));
 	else
 		return (origin);
 	i = -1;
@@ -79,10 +79,10 @@ void	b_unset(t_var *var, char **cmd)
 	i = 1;
 	while (i < ft_sstrlen(cmd))
 	{
-		if (check_alnum_remove(cmd[1]) == 1)
+		if (check_alnum_remove(cmd[i]) == 1)
 		{
 			printf_err("minishell: unset: \'");
-			printf_err(cmd[1]);
+			printf_err(cmd[i]);
 			printf_err("\': not a valid identifier\n");
 			g_exitcode = 1;
 		}

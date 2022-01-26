@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:52 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/26 11:53:04 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 14:00:35 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ int	input_home_in_cd(t_var *var, t_ast *ptr)
 	tmp = lookup_value("HOME", 4, var->our_env);
 	if (!tmp)
 	{
-		printf_err("minishell: cd: HOME not set\n");
 		free(tmp);
 		g_exitcode = 1;
-		return (1);
+		return (printf_err("minishell: cd: HOME not set\n"));
 	}
 	ptr->text = ft_addonestring(ptr->text, tmp);
 	free(tmp);

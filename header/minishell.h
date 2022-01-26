@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 20:47:03 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/26 12:56:37 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 14:58:27 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct s_var
 	char		*pwd_now;
 	char		**our_env;
 	int			ast_len;
-	int			exitcode;
 	t_ast		*ast;
 	t_pipeinfo	*pinfo;
 }	t_var;
@@ -126,7 +125,7 @@ void	b_env(t_var *var);
 void	b_cd(t_var *var, t_ast *ptr);
 void	b_pwd(void);
 void	b_echo(char **cmd);
-int		b_exit(t_var *var, int i);
+void	b_exit(t_var *var, int i);
 
 //================b_unset===================//
 int		find_remove_str(char **origin, char *remove, int len);

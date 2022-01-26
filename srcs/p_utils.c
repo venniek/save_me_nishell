@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:29:09 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/26 12:32:41 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 14:47:22 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@ t_ast	*get_last(t_ast	*start)
 	return (start);
 }
 
-// 새 ast를 init하고, 그것을 반환
-// result->next = NULL;초기화 안해줘서 한참 해맸음.
-// 다음에 해당 주소를 다시 사용할수 있기 때문에, 한상 NULL로 초기화해주는 습관을 가지자...
 t_ast	*init_ast(void)
 {
 	t_ast	*result;
@@ -68,11 +65,7 @@ void	add_ast(t_ast *front)
 void	rev_flg(char *flgs, char flg)
 {
 	if ((*flgs & flg) == flg)
-	{
 		*flgs &= ~flg;
-	}
 	else
-	{
 		*flgs |= flg;
-	}
 }

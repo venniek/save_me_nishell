@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_free.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/26 15:18:39 by gyeon             #+#    #+#             */
+/*   Updated: 2022/01/26 15:18:41 by gyeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 void	free_ast_in_var(t_var *var)
@@ -60,17 +72,17 @@ void	free_pinfo(t_var *var)
 
 	if (!var->pinfo)
 		return ;
-	i = -1;
-	while (++i < var->pinfo->num_fds)
-	{
-		if (var->pinfo->fds[i])
-		{
-			free(var->pinfo->fds[i]);
-			var->pinfo->fds[i] = 0;
-		}
-	}
 	if (var->pinfo->fds)
 	{
+		i = -1;
+		while (++i < var->pinfo->num_fds)
+		{
+			if (var->pinfo->fds[i])
+			{
+				free(var->pinfo->fds[i]);
+				var->pinfo->fds[i] = 0;
+			}
+		}
 		free(var->pinfo->fds);
 		var->pinfo->fds = 0;
 	}

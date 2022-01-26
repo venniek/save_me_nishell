@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_and_process.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/26 15:18:55 by gyeon             #+#    #+#             */
+/*   Updated: 2022/01/26 15:18:56 by gyeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 extern int	g_exitcode;
@@ -13,9 +25,7 @@ void	child_process(t_var *var)
 		dup2(var->pinfo->fds[var->pinfo->cnt][0], STDIN_FILENO);
 	}
 	if (var->pinfo->cnt >= 2)
-	{
 		dup2(var->pinfo->fds[var->pinfo->cnt - 1][1], STDOUT_FILENO);
-	}
 	run_func(var, ft_astindex(var->ast, now_cnt), 0);
 	close(var->pinfo->fds[var->pinfo->cnt - 1][0]);
 	exit(g_exitcode);

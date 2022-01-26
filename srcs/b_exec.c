@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/25 21:36:49 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 14:38:10 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void	b_exec_with_fork(t_var *var, char **cmds)
 		{
 			if (signum == 2)
 				printf("^C\n");
+			else if (signum == 3)
+				printf("^\\Quit: %d\n", signum);
 			g_exitcode = 128 + WTERMSIG(status);
 		}
 	}

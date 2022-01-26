@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/23 21:29:22 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/26 11:53:19 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 15:07:01 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,14 @@ int	setnget_heredoc(t_ast *ast)
 		}
 		ptr = ptr->next;
 	}
-	return (1);
+	return (0);
 }
 
 /*
- *  0 heredoc << l
- *  1 append >> r
- *  2 input < L
- *  3 owrite > R
+ *  0 heredoc	<<	l
+ *  1 append	>>	r
+ *  2 input		<	L
+ *  3 owrite	>	R
  */
 int	open_files(size_t rd, char **file)
 {
@@ -119,35 +119,36 @@ int	open_files(size_t rd, char **file)
 		{
 			printf_err("minishell: ");
 			printf_err(file[idx]);
-			printf_err(": No such file or directory\n");
-			return (0);
+			return (printf_err(": No such file or directory\n"));
 		}
 		close(temp_fd);
 		idx++;
 	}
-	return (1);
+	return (0);
 }
 
 int	redirections(t_ast *ast)
 {
+	int		result;
 	size_t	rd;
 	char	**ptr[4];
 
-	rd = 1;
+	rd = 0;
+	result = 0;
 	ptr[0] = ast->heredoc;
 	ptr[1] = ast->rd_append;
 	ptr[2] = ast->rd_input;
 	ptr[3] = ast->rd_owrite;
-	while (rd++ < 4)
-		if (open_files(rd - 1, ptr[rd - 1]) == 0)
-			return (0);
+	while (++rd < 4)
+		if (open_files(rd, ptr[rd]) == 1)
+			return (1);
 	if (ast->last_in == 'l')
-		open_dup2_close(ptr[0][ft_sstrlen(ptr[0]) - 1], O_RDONLY, STDIN_FILENO);
+		result = open_dup2_close(ptr[0][ft_sstrlen(ptr[0]) - 1], O_RDONLY, 0);
 	else if (ast->last_in == 'L')
-		open_dup2_close(ptr[2][ft_sstrlen(ptr[2]) - 1], O_RDONLY, STDIN_FILENO);
-	if (ast->last_out == 'r')
-		open_dup2_close(ptr[1][ft_sstrlen(ptr[1]) - 1], APPEND, STDOUT_FILENO);
-	else if (ast->last_out == 'R')
-		open_dup2_close(ptr[3][ft_sstrlen(ptr[3]) - 1], OWRITE, STDOUT_FILENO);
-	return (1);
+		result = open_dup2_close(ptr[2][ft_sstrlen(ptr[2]) - 1], O_RDONLY, 0);
+	if (ast->last_out == 'r' && result == 0)
+		result = open_dup2_close(ptr[1][ft_sstrlen(ptr[1]) - 1], APPEND, 1);
+	else if (ast->last_out == 'R' && result == 0)
+		result = open_dup2_close(ptr[3][ft_sstrlen(ptr[3]) - 1], OWRITE, 1);
+	return (result);
 }

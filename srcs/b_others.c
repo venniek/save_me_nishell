@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:28 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/26 12:41:02 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 14:58:20 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	b_pwd(void)
 	g_exitcode = 0;
 }
 
-int	b_exit(t_var *var, int i)
+void	b_exit(t_var *var, int i)
 {
 	if (var->ast)
 		free_ast_in_var(var);

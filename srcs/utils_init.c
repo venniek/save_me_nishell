@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gyeon <gyeon@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:51:24 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/23 21:30:06 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 15:14:55 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,14 @@ void	init_pinfo(t_var *var)
 {
 	int	i;
 
-	var->pinfo = (t_pipeinfo *)malloc(sizeof(t_pipeinfo) * 1);
+	var->pinfo = (t_pipeinfo *)excep_malloc(sizeof(t_pipeinfo) * 1);
 	var->pinfo->cnt = 0;
 	var->pinfo->child_pid = 0;
 	var->pinfo->num_fds = var->ast_len;
-	var->pinfo->fds = (int **)malloc(var->ast_len * sizeof(int *));
+	var->pinfo->fds = (int **)excep_malloc(var->ast_len * sizeof(int *));
 	if (var->pinfo->fds == NULL)
 		exit(1);
-	i = 0;
-	while (i < var->ast_len)
-	{
-		var->pinfo->fds[i] = (int *)malloc(2 * sizeof(int));
-		if (var->pinfo->fds[i++] == NULL)
-			exit(1);
-	}
+	i = -1;
+	while (++i < var->ast_len)
+		var->pinfo->fds[i] = (int *)excep_malloc(2 * sizeof(int));
 }

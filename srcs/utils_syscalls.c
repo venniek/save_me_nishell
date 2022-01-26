@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 09:58:08 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/26 11:51:30 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 15:17:10 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	*excep_malloc(int leng)
 
 	result = malloc(leng);
 	if (result == NULL)
-	{
-		write(2, "fatal : malloc false.\n", 22);
-		exit(1);
-	}
+		exit(printf_err("fatal : malloc false.\n"));
 	return (result);
 }
 
@@ -31,10 +28,7 @@ void	*excep_calloc(size_t count, size_t size)
 
 	result = ft_calloc(count, size);
 	if (result == NULL)
-	{
-		write(2, "fatal : calloc false.\n", 22);
-		exit(1);
-	}
+		exit(printf_err("fatal : calloc false.\n"));
 	return (result);
 }
 
@@ -44,8 +38,12 @@ int	open_dup2_close(char *file, int options, int stream)
 
 	fd = open(file, options, 0666);
 	if (fd < -1)
-		return (0);
+	{
+		printf_err("minishell: ");
+		printf_err(file);
+		return (printf_err(": No such file or directory\n"));
+	}
 	dup2(fd, stream);
 	close(fd);
-	return (1);
+	return (0);
 }

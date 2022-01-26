@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:48:56 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/25 13:17:30 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 15:15:15 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	**ft_addonestring(char **origin, char *newline)
 	idxlen = 0;
 	while (origin[idxlen])
 		idxlen++;
-	new = (char **)malloc(sizeof(char *) * (idxlen + 2));
+	new = (char **)excep_malloc(sizeof(char *) * (idxlen + 2));
 	i = -1;
 	while (++i < idxlen)
 		new[i] = ft_strdup(origin[i]);
@@ -83,7 +83,7 @@ char	**ft_sstrdup(char **origin)
 	if (!origin)
 		return (NULL);
 	env_len = ft_sstrlen(origin);
-	new_env = (char **)malloc(sizeof(char *) * (env_len + 1));
+	new_env = (char **)excep_malloc(sizeof(char *) * (env_len + 1));
 	i = -1;
 	while (++i < env_len)
 		new_env[i] = ft_strdup(origin[i]);

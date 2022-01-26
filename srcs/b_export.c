@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   b_export.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/26 12:18:08 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/26 14:14:05 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ int	check_alnum_newkey(char *new, char **new_key, int *new_len)
 
 	*new_key = ft_substr(new, 0, ft_strchr(new, '=') - new);
 	*new_len = ft_strlen(*new_key);
+	if (*new_len == 0)
+	{
+		free(*new_key);
+		printf_err("minishell: export: \'");
+		printf_err(new);
+		return (printf_err("\': not a valid identifier\n"));
+	}
 	i = -1;
 	while (++i < *new_len)
 	{
@@ -26,8 +33,7 @@ int	check_alnum_newkey(char *new, char **new_key, int *new_len)
 			free(*new_key);
 			printf_err("minishell: export: \'");
 			printf_err(new);
-			printf_err("\': not a valid identifier\n");
-			return (1);
+			return (printf_err("\': not a valid identifier\n"));
 		}
 	}
 	return (0);

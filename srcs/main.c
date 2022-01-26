@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/26 15:19:09 by gyeon             #+#    #+#             */
+/*   Updated: 2022/01/26 15:19:10 by gyeon            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../header/minishell.h"
 
 int	g_exitcode;
@@ -9,10 +21,7 @@ void	sighandler_sigint(int signo)
 	g_exitcode = 1;
 	result = waitpid(-1, NULL, WNOHANG);
 	if (result < 0 && errno != 10)
-	{
-		printf_err("fatal : critical error occured in process.\n");
-		exit(1);
-	}
+		exit(printf_err("fatal: critical error occured in process.\n"));
 	else if (result != 0)
 	{
 		printf("\n");
@@ -29,21 +38,13 @@ void	sighandler_sigquit(int signo)
 
 	result = waitpid(-1, NULL, WNOHANG);
 	if (result < 0 && errno != 10)
-	{
-		printf_err("fatal : critical error occured in process.\n");
-		exit(1);
-	}
-	else if (result == 0)
-	{
-		g_exitcode = 131;
-		printf("^\\Quit: %d\n", signo);
-		rl_replace_line("", 0);
-	}
-	else
+		exit(printf_err("fatal: critical error occured in process.\n"));
+	else if (result < 0)
 	{
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	signo = 0;
 }
 
 void	set_stdinout(void)
@@ -55,18 +56,18 @@ void	set_stdinout(void)
 	{
 		in_out[0] = dup(STDIN_FILENO);
 		if (in_out[0] < 0)
-			exit (1);
+			exit(printf_err("fatal: can't dup STDIN\n"));
 		in_out[1] = dup(STDOUT_FILENO);
 		if (in_out[1] < 0)
-			exit (1);
+			exit(printf_err("fatal: can't dup STDOUT\n"));
 		first = 1;
 	}
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	if (dup2(in_out[0], STDIN_FILENO) < 0)
-		exit (1);
+		exit(printf_err("fatal: can't dup from STDIN\n"));
 	if (dup2(in_out[1], STDOUT_FILENO) < 0)
-		exit (1);
+		exit(printf_err("fatal: can't dup from STDOUT\n"));
 }
 
 void	start_main(t_var *var)
@@ -81,7 +82,7 @@ void	start_main(t_var *var)
 			break ;
 		else if (ret == 2)
 			continue ;
-		if (setnget_heredoc(var->ast) == 0)
+		if (setnget_heredoc(var->ast) == 1)
 			continue ;
 		if (var->ast_len == 1)
 		{
@@ -101,10 +102,7 @@ int	main(int ac, char **av, char **env)
 	t_var	var;
 
 	if (ac != 1)
-	{
-		printf_err("No argument required\n");
-		return (1);
-	}
+		return (printf_err("No argument required\n"));
 	av = 0;
 	init_var(&var, env);
 	signal(SIGINT, sighandler_sigint);
