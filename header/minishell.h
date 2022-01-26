@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 20:47:03 by gyeon             #+#    #+#             */
-/*   Updated: 2022/01/26 12:32:30 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 12:56:37 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,10 @@ void	b_exec(t_var *var, char **cmds);
 void	b_exec_with_fork(t_var *var, char **cmds);
 
 //================b_export===================//
+int		check_alnum_newkey(char *new, char **new_key, int *new_len);
 void	b_export(t_var *var, char **cmd);
 void	print_sorted_env(char **sorted_env);
-void	ft_export(t_var *var, char *new);
+int		ft_export(t_var *var, char *new);
 
 //================b_others===================//
 void	b_env(t_var *var);
@@ -130,6 +131,7 @@ int		b_exit(t_var *var, int i);
 //================b_unset===================//
 int		find_remove_str(char **origin, char *remove, int len);
 char	**ft_removeonestring(char **origin, char *remove, int origin_len);
+int		check_alnum_remove(char *remove);
 void	b_unset(t_var *var, char **cmd);
 
 //================main===================//

@@ -6,22 +6,41 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:17 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/25 20:42:29 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/26 12:18:08 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/minishell.h"
 
-void	ft_export(t_var *var, char *new)
+int	check_alnum_newkey(char *new, char **new_key, int *new_len)
+{
+	int	i;
+
+	*new_key = ft_substr(new, 0, ft_strchr(new, '=') - new);
+	*new_len = ft_strlen(*new_key);
+	i = -1;
+	while (++i < *new_len)
+	{
+		if (!(ft_isalnum((*new_key)[i]) || (*new_key)[i] == '_'))
+		{
+			free(*new_key);
+			printf_err("minishell: export: \'");
+			printf_err(new);
+			printf_err("\': not a valid identifier\n");
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int	ft_export(t_var *var, char *new)
 {
 	int		i;
 	int		new_len;
 	char	*new_key;
 
-	if (!var->our_env || !new)
-		return ;
-	new_key = ft_substr(new, 0, ft_strchr(new, '=') - new);
-	new_len = ft_strlen(new_key);
+	if (check_alnum_newkey(new, &new_key, &new_len) == 1)
+		return (1);
 	i = -1;
 	while (++i < (int)ft_sstrlen(var->our_env))
 	{
@@ -34,11 +53,12 @@ void	ft_export(t_var *var, char *new)
 				var->our_env[i] = ft_strdup(new);
 			}
 			free(new_key);
-			return ;
+			return (0);
 		}
 	}
 	free(new_key);
 	var->our_env = ft_addonestring(var->our_env, new);
+	return (0);
 }
 
 void	print_sorted_env(char **sorted_env)
@@ -93,14 +113,15 @@ void	b_export(t_var *var, char **cmd)
 {
 	int		i;
 
-	if (!(var->our_env) || !cmd)
+	if (!var || !(var->our_env) || !cmd)
 		return ;
 	if (cmd[1] == NULL)
 		b_export_noarg(var);
 	i = 1;
-	while (i < (int)ft_sstrlen(cmd))
+	while (cmd[i])
 	{
-		ft_export(var, cmd[i]);
+		if (ft_export(var, cmd[i]) == 1)
+			break ;
 		i++;
 	}
 }

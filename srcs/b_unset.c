@@ -6,7 +6,7 @@
 /*   By: naykim <naykim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:34:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/25 20:29:28 by naykim           ###   ########.fr       */
+/*   Updated: 2022/01/26 12:05:30 by naykim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,19 @@ char	**ft_removeonestring(char **origin, char *remove, int origin_len)
 	return (new);
 }
 
+int	check_alnum_remove(char *remove)
+{
+	int	i;
+
+	i = -1;
+	while (++i < (int)ft_strlen(remove))
+	{
+		if (!(ft_isalnum(remove[i]) || remove[i] == '_'))
+			return (1);
+	}
+	return (0);
+}
+
 void	b_unset(t_var *var, char **cmd)
 {
 	size_t	i;
@@ -66,11 +79,11 @@ void	b_unset(t_var *var, char **cmd)
 	i = 1;
 	while (i < ft_sstrlen(cmd))
 	{
-		if (ft_strrchr(cmd[i], '='))
+		if (check_alnum_remove(cmd[1]) == 1)
 		{
-			printf_err("unset: ");
+			printf_err("minishell: unset: \'");
 			printf_err(cmd[1]);
-			printf_err(": invalid parameter name\n");
+			printf_err("\': not a valid identifier\n");
 			g_exitcode = 1;
 		}
 		else
