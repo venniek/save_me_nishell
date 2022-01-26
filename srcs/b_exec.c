@@ -6,7 +6,7 @@
 /*   By: gyeon <gyeon@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/20 13:49:22 by naykim            #+#    #+#             */
-/*   Updated: 2022/01/26 14:38:10 by gyeon            ###   ########.fr       */
+/*   Updated: 2022/01/26 17:15:58 by gyeon            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ void	b_exec(t_var *var, char **cmds)
 		printf_err("minishell: ");
 		printf_err(cmds[0]);
 		printf_err(": command not found\n");
+		g_exitcode = 127;
 	}
-	g_exitcode = 127;
-	b_exit(var, 127);
+	b_exit(var, g_exitcode);
 }
 
 void	b_exec_with_fork(t_var *var, char **cmds)
